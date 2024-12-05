@@ -1,0 +1,6 @@
+@vsa_journey_HostAddress = http://localhost:5288
+
+GET {{vsa_journey_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
