@@ -11,4 +11,22 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Responses\" />
+    <Folder Include="Domain\Entities\" />
+    <Folder Include="Domain\Repositories\" />
+    <Folder Include="Features\Authentication\" />
+    <Folder Include="Features\Orders\Commands\" />
+    <Folder Include="Features\Orders\Controller\" />
+    <Folder Include="Features\Orders\Model\" />
+    <Folder Include="Features\Orders\Queries\" />
+    <Folder Include="Features\Orders\Repository\" />
+    <Folder Include="Features\Users\" />
+    <Folder Include="Infrastructure\Persistence\" />
+    <Folder Include="Infrastructure\Repositories\" />
+    <Folder Include="Infrastructure\Services\" />
+    <Folder Include="Tests\IETests\" />
+    <Folder Include="Tests\UnitTests\" />
+  </ItemGroup>
+
 </Project>
