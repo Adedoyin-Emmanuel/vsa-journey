@@ -18,4 +18,4 @@ I plan to explore and cut through several parts of building robust APIs In ASP.N
 10. If I reach this point, I will do my best to deploy on Azure. I tried it before, I was a noob then, it should be easier now.
 
 
-I know it wouldn't be easy but I will achieve this. Once I can get this, I will continue to focusing on architectural patterns, DSA and best practises i building enterprise softwares.
+I know it wouldn't be easy but I will achieve this. Once I can get this, I will continue to focusing on architectural patterns, DSA and best practises in building enterprise softwares.
