@@ -2,7 +2,7 @@ using FluentResults;
 using MediatR;
 
 
-namespace vsa_journey.Infrastructure.Behaviours;
+namespace vsa_journey.Application.Behaviours;
 
 public class LoggingPipelineBehaviour<TRequest, TResponse>: IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
@@ -15,8 +15,17 @@ public class LoggingPipelineBehaviour<TRequest, TResponse>: IPipelineBehavior<TR
     {
         _logger = logger;
     }
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation("Starting request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
+
+        var result = await next();
+
+        if (result.IsFailed)
+        {
+            _logger.LogError("Request failure {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
+        }
+        _logger.LogInformation("Completed request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
+        return result;
     }
 }
