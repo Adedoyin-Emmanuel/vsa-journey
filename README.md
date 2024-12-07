@@ -53,7 +53,7 @@ It’s all about saving you time and making life easier—no more frustration, n
 
 ## Resouces 🛠️
 
-1. **Structured Logging**: This is a logging practice where you apply the same log format for all logs. This can help us aalyze our logs and treat them like dataset
+1. **Structured Logging**: This is a logging practice where you apply the same log format for all logs. This can help us analyze our logs and treat them like dataset
     Milan did a good job explaining how to integrate **Serilog** into our **ASP.NET** web APIS using **MediatR** behaviour pipeline. <https://www.youtube.com/watch?v=nVAkSBpsuTk>, <https://www.youtube.com/watch?v=JVX9MMpO6pE>,
     <https://www.milanjovanovic.tech/blog/structured-logging-in-asp-net-core-with-serilog>
     
