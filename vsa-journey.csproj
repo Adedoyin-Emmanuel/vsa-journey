@@ -22,6 +22,7 @@
     <Folder Include="Features\Orders\Queries\" />
     <Folder Include="Features\Orders\Repository\" />
     <Folder Include="Features\Users\" />
+    <Folder Include="Infrastructure\Middlewares\" />
     <Folder Include="Infrastructure\Persistence\" />
     <Folder Include="Infrastructure\Repositories\" />
     <Folder Include="Infrastructure\Services\" />
