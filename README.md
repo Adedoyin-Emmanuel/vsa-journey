@@ -18,6 +18,8 @@ I plan to explore and cut through several parts of building robust APIs In ASP.N
 10. If I reach this point, I will do my best to deploy on Azure. I tried it before, I was a noob then, it should be easier now.
 
 I know it wouldn't be easy but I will achieve this. Once I can get this, I will continue to focusing on architectural patterns, DSA and best practises in building enterprise softwares.
+I will also attach links to videos, articles etc that will help me build this. I know 90% will come from Milan Jovanović's articles or videos, he is a great instructor. I'm learning C# / ASP.NET Core best practises as 
+well as Architectural and Design Patterns from him. You can check him out here. <https://www.milanjovanovic.tech> <https://youtube.com/@MilanJovanovicTech>
 
 
 ## The Problem ⚠️
@@ -35,7 +37,7 @@ I'm building **FolyCare** to address this issue. **FolyCare** makes shopping at 
 Once your order is ready, you’ll get a ticket to pick it up at a specific time, skipping the wait entirely. If you prefer, FolyCare can also deliver your items straight to your doorstep.
 It’s all about saving you time and making life easier—no more frustration, no more delays. Whether you’re buying a small item or stocking up for the week, FolyCare is here to ensure you shop smarter and more conveniently.
 
-## Key Features of FolyCare 
+## Key Features of FolyCare 🧰
 1. User Management
 2. Product Catalog
 3. Order Placement
