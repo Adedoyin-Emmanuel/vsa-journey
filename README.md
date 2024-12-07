@@ -1,4 +1,4 @@
-# VSA Journey
+# VSA Journey 🎖️
 
 In this repository, I will be building a simple project to master VSA (Vertical Slice Architecture) as well as CQRS pattern together witth Mediator Pattern using MediatR.
 
@@ -17,5 +17,32 @@ I plan to explore and cut through several parts of building robust APIs In ASP.N
 9. Docker for containarization and deployment. Might also explore Github actions.
 10. If I reach this point, I will do my best to deploy on Azure. I tried it before, I was a noob then, it should be easier now.
 
-
 I know it wouldn't be easy but I will achieve this. Once I can get this, I will continue to focusing on architectural patterns, DSA and best practises in building enterprise softwares.
+
+
+## The Problem ⚠️
+
+That was interesting and I'm sure you've asked yourself what is this guy building? I'm going to **FolyCare**. I am building this project out of pain to address the major issue I face whe I visit a superstore
+around my place called **Folyma**. **Folyma** is a pretty big superstore that sells almost any kind of groceries and pharmaceuticals. They have market-friendly prices and it is located on a major road. 
+Due to these factors, they have several customers. While that is good, it also introduces delays and long queue which can sometimes be annoying especially if you're getting something of about `500 Naria`, 
+you've to queue. Sometimes, customers get frustrated and leave. Now, imagine you're able to order what you want and all you do is to issue a ticket to pick your product or better still, it gets delivered to 
+your place if you live around the area. This is what **FolyCare** is going to solve. 
+
+
+## The Solution 🔧
+
+I'm building **FolyCare** to address this issue. **FolyCare** makes shopping at **Folyma** superstore faster and stress-free! Instead of standing in long queues, you can order your groceries and medications online ahead of time. 
+Once your order is ready, you’ll get a ticket to pick it up at a specific time, skipping the wait entirely. If you prefer, FolyCare can also deliver your items straight to your doorstep.
+It’s all about saving you time and making life easier—no more frustration, no more delays. Whether you’re buying a small item or stocking up for the week, FolyCare is here to ensure you shop smarter and more conveniently.
+
+## Key Features of FolyCare 
+1. User Management
+2. Product Catalog
+3. Order Placement
+4. Payment System 
+5. Pickup Management 
+6. Delivery System 
+7. Reliable delivery with live tracking and status updates. 
+8. Notifications 
+9. Reviews & Feedback 
+10. Reports & Analytics
