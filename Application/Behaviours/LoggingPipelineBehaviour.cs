@@ -15,6 +15,7 @@ public class LoggingPipelineBehaviour<TRequest, TResponse>: IPipelineBehavior<TR
     {
         _logger = logger;
     }
+    
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Starting request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
@@ -25,7 +26,9 @@ public class LoggingPipelineBehaviour<TRequest, TResponse>: IPipelineBehavior<TR
         {
             _logger.LogError("Request failure {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
         }
+        
         _logger.LogInformation("Completed request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
+        
         return result;
     }
 }
