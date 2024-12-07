@@ -25,7 +25,7 @@ well as Architectural and Design Patterns from him. You can check him out here. 
 
 ## The Problem ⚠️
 
-That was interesting and I'm sure you've asked yourself what is this guy building? I'm going to **FolyCare**. I am building this project out of pain to address the major issue I face whe I visit a superstore
+That was interesting and I'm sure you've asked yourself what is this guy building? I'm going to **FolyCare**. I am building this project out of pain to address the major issue I face when I visit a superstore
 around my place called **Folyma**. **Folyma** is a pretty big superstore that sells almost any kind of groceries and pharmaceuticals. They have market-friendly prices and it is located on a major road. 
 Due to these factors, they have several customers. While that is good, it also introduces delays and long queue which can sometimes be annoying especially if you're getting something of about `500 Naria`, 
 you've to queue. Sometimes, customers get frustrated and leave. Now, imagine you're able to order what you want and all you do is to issue a ticket to pick your product or better still, it gets delivered to 
