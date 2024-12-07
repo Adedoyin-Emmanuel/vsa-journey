@@ -17,7 +17,7 @@ I plan to explore and cut through several parts of building robust APIs In ASP.N
 9. Docker for containarization and deployment. Might also explore Github actions.
 10. If I reach this point, I will do my best to deploy on Azure. I tried it before, I was a noob then, it should be easier now.
 
-I know it wouldn't be easy but I will achieve this. Once I can get this, I will continue to focusing on architectural patterns, DSA and best practises in building enterprise softwares.
+I know it wouldn't be easy but I will achieve this. Once I can get this, I will continue to focus on architectural patterns, DSA and best practises in building enterprise softwares.
 I will also attach links to videos, articles etc that will help me build this. I know 90% will come from Milan Jovanović's articles or videos, he is a great instructor. I'm learning C# / ASP.NET Core best practises as 
 well as Architectural and Design Patterns from him. You can check him out here. <https://www.milanjovanovic.tech> <https://youtube.com/@MilanJovanovicTech>
 
