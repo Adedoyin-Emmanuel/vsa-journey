@@ -18,6 +18,7 @@ public class LoggingPipelineBehaviour<TRequest, TResponse>: IPipelineBehavior<TR
     
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
+        
         _logger.LogInformation("Starting request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
 
         var result = await next();
