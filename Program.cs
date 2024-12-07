@@ -21,6 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
         options.SubstituteApiVersionInUrl = true;
     });
 
+    builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 }
 
 {
