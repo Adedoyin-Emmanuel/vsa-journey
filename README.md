@@ -1,6 +1,6 @@
 # VSA Journey
 
-In this repository, I will be building a simple project to master VSA (Vertical Slice Architecture) as well as CQRS pattern with Mediator Pattern with MediatR.
+In this repository, I will be building a simple project to master VSA (Vertical Slice Architecture) as well as CQRS pattern together witth Mediator Pattern using MediatR.
 
 I've read several articles, watched several videos about the vertical slice architecture so I thought why not build a project around it. This will be a simple but elegant projectt.
 
