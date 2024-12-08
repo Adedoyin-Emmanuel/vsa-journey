@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Application\Responses\" />
-    <Folder Include="Domain\Entities\" />
+    <Folder Include="Domain\Entities\User\" />
     <Folder Include="Domain\Repositories\" />
     <Folder Include="Features\Authentication\" />
     <Folder Include="Features\Orders\Commands\" />
@@ -38,7 +38,6 @@
     <Folder Include="Features\Orders\Queries\" />
     <Folder Include="Features\Orders\Repository\" />
     <Folder Include="Infrastructure\Middlewares\" />
-    <Folder Include="Infrastructure\Persistence\" />
     <Folder Include="Infrastructure\Repositories\" />
     <Folder Include="Infrastructure\Services\" />
     <Folder Include="Tests\IETests\" />
