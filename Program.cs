@@ -22,7 +22,12 @@ var builder = WebApplication.CreateBuilder(args);
     });
 
     builder.Services.AddAutoMapper(typeof(Program).Assembly);
+    builder.Services.AddMediatR(configuration =>
+    {
+        configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    });
 }
+
 
 {
     var app = builder.Build();      
