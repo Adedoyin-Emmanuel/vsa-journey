@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Application\Responses\" />
-    <Folder Include="Domain\Entities\User\" />
     <Folder Include="Domain\Repositories\" />
     <Folder Include="Features\Authentication\" />
     <Folder Include="Features\Orders\Commands\" />
