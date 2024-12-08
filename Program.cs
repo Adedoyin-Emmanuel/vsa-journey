@@ -1,4 +1,7 @@
+using MediatR;
+using Serilog;
 using Asp.Versioning;
+using vsa_journey.Application.Behaviours;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,12 @@ var builder = WebApplication.CreateBuilder(args);
     {
         configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
     });
+
+    builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
+    builder.Host.UseSerilog((context, configuration) =>
+    {
+        configuration.ReadFrom.Configuration(context.Configuration);
+    });
 }
 
 
@@ -36,6 +45,8 @@ var builder = WebApplication.CreateBuilder(args);
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseSerilogRequestLogging();
 
     app.UseHttpsRedirection();
 
