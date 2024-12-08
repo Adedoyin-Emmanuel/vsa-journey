@@ -49,7 +49,7 @@ var builder = WebApplication.CreateBuilder(args);
     app.UseSerilogRequestLogging();
 
     app.UseHttpsRedirection();
-
+    
     app.UseAuthorization();
 
     app.MapControllers();

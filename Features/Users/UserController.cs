@@ -1,6 +1,7 @@
 using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 
 namespace vsa_journey.Features.Users;
 
@@ -34,6 +35,7 @@ public class UserController: ControllerBase
         _logger = logger;
     }
 
+    [Authorize]
     [HttpGet]
     public  IActionResult Get()
     {
