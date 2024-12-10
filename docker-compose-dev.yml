@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: mysql/mysql-server
+    container_name: vsa_journey-mysql
+    environment:
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORRD=admin@vsa_journey
+      - MYSQL_DATABASE=vsa_journey-db
+      - MYSQL_ROOT_PASSWORD=admin@vsa_journey
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+    driver: local
