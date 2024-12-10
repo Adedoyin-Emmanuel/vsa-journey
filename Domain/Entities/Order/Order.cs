@@ -5,7 +5,6 @@ public class Order
     public Guid Id { get; private init; }
     
     public Guid UserId { get; private init; }
-    
     public User.User User { get; private init; }
     
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
