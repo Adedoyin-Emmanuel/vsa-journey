@@ -1,6 +1,7 @@
 services:
   mysql:
-    image: mysql/mysql-server
+    build:
+        dockerfile: Dockerfile.dev
     container_name: vsa_journey-mysql
     environment:
       - MYSQL_USER=admin
