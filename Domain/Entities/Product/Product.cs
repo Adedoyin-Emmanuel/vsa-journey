@@ -20,7 +20,9 @@ public class Product
     
     public ICollection<string> Tags { get; set; }
     
-    public ICollection<Guid> CategoryIds { get; set; }
+    public Category.Category Category { get; set; }
+    
+    public Guid CategoryId { get; set; }
     
     public int Quantity { get; set; }
     
