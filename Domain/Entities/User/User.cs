@@ -6,6 +6,8 @@ public class User : IdentityUser<Guid>
 {
     string FirstName { get; set; }
     
+    string LastName { get; set; }
+    
     DateTime CreatedAt { get; set; }
     
     DateTime UpdatedAt { get; set; }
