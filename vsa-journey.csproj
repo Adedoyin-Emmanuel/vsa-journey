@@ -31,14 +31,15 @@
   <ItemGroup>
     <Folder Include="Application\Responses\" />
     <Folder Include="Domain\Repositories\" />
-    <Folder Include="Features\Authentication\" />
+    <Folder Include="Features\Authentication\Commands\" />
+    <Folder Include="Features\Authentication\Controller\" />
+    <Folder Include="Features\Authentication\Queries\" />
+    <Folder Include="Features\Authentication\Repository\" />
     <Folder Include="Features\Orders\Commands\" />
     <Folder Include="Features\Orders\Controller\" />
-    <Folder Include="Features\Orders\Model\" />
     <Folder Include="Features\Orders\Queries\" />
     <Folder Include="Features\Orders\Repository\" />
     <Folder Include="Infrastructure\Middlewares\" />
-    <Folder Include="Infrastructure\Repositories\" />
     <Folder Include="Infrastructure\Services\" />
     <Folder Include="Tests\IETests\" />
     <Folder Include="Tests\UnitTests\" />
