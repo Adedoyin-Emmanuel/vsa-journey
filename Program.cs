@@ -1,15 +1,23 @@
 using MediatR;
 using Serilog;
 using Asp.Versioning;
+using vsa_journey.Utils;
+using Microsoft.EntityFrameworkCore;
 using vsa_journey.Application.Behaviours;
+using vsa_journey.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
 {
     
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(EnvConfig.DatabaseUrl, mySqlServerVersion));
 
     builder.Services.AddApiVersioning(options =>
     {

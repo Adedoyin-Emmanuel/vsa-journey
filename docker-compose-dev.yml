@@ -5,7 +5,7 @@ services:
     container_name: vsa_journey-mysql
     environment:
       - MYSQL_USER=admin
-      - MYSQL_PASSWORRD=admin@vsa_journey
+      - MYSQL_PASSWORD=admin@vsa_journey
       - MYSQL_DATABASE=vsa_journey-db
       - MYSQL_ROOT_PASSWORD=admin@vsa_journey
     ports:
