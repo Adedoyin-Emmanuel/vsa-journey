@@ -5,9 +5,10 @@ using vsa_journey.Utils;
 using Microsoft.EntityFrameworkCore;
 using vsa_journey.Application.Behaviours;
 using vsa_journey.Infrastructure.Persistence;
+using dotenv.net;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
 {
@@ -17,7 +18,7 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
     builder.Services.AddSwaggerGen();
 
 
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(EnvConfig.DatabaseUrl, mySqlServerVersion));
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(databaseUrl, mySqlServerVersion));
 
     builder.Services.AddApiVersioning(options =>
     {
