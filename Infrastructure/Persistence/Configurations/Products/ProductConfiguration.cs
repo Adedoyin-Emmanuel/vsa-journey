@@ -32,15 +32,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .WithMany()
             .HasForeignKey(product => product.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
-                
+
         builder.Property(product => product.CreatedAt)
-            .IsRequired()
-            .ValueGeneratedOnAdd()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-        
+            .ValueGeneratedOnAdd();
+
         builder.Property(product => product.UpdatedAt)
-            .IsRequired()
-            .ValueGeneratedOnAddOrUpdate()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            .ValueGeneratedOnAddOrUpdate();
     }
 }

@@ -26,7 +26,7 @@ public class Product
     
     public int Quantity { get; set; }
     
-    public DateTime CreatedAt { get; private init; }
+    public DateTime CreatedAt { get; set; }
     
     public DateTime UpdatedAt { get; set; }
 }

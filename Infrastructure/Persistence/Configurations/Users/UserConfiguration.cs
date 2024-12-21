@@ -17,11 +17,9 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
 
         builder.HasIndex(user => user.Email).IsUnique();
 
-        builder.Property(user => user.CreatedAt).IsRequired().ValueGeneratedOnAdd()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+        builder.Property(user => user.CreatedAt).ValueGeneratedOnAdd();
 
-        builder.Property(user => user.UpdatedAt).IsRequired().ValueGeneratedOnAddOrUpdate()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+        builder.Property(user => user.UpdatedAt).ValueGeneratedOnAddOrUpdate();
 
     }
 }

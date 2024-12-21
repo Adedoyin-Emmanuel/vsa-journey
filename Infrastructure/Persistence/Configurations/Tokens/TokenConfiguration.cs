@@ -24,15 +24,11 @@ public class TokenConfiguration : IEntityTypeConfiguration<Token>
         
         builder.HasOne(token => token.User).WithMany().HasForeignKey(token => token.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.Property(product => product.CreatedAt)
-            .IsRequired()
-            .ValueGeneratedOnAdd()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-        
+            .ValueGeneratedOnAdd();
+
         builder.Property(product => product.UpdatedAt)
-            .IsRequired()
-            .ValueGeneratedOnAddOrUpdate()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            .ValueGeneratedOnAddOrUpdate();
     }
 }

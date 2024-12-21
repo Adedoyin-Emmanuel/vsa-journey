@@ -23,9 +23,9 @@ public class Order
     
     public ICollection<Guid> ProductIds { get; set; }
     
-    public DateTime CreatedAt { get; private init; }
+    public DateTime CreatedAt { get; set; }
     
-    public DateTime UpdatedAt { get; private init; }
+    public DateTime UpdatedAt { get; set; }
     
 
 }

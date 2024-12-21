@@ -6,7 +6,7 @@ public class Category
     
     public string Name { get; set; }
     
-    public DateTime CreatedAt { get; private init; }
+    public DateTime CreatedAt { get; set; }
     
-    public DateTime UpdatedAt { get; private init; }
+    public DateTime UpdatedAt { get; set; }
 }

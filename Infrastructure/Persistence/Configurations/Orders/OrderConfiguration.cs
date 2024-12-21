@@ -21,9 +21,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(order => order.TotalAmount).IsRequired();
         
         builder.Property(order => order.PaymentStatus).HasDefaultValue(PaymentStatus.Pending);
-        
-        builder.Property(order => order.CreatedAt).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("CURRENT_TIMESTAMP");
-        
-        builder.Property(order => order.UpdatedAt).IsRequired().ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        builder.Property(order => order.CreatedAt).ValueGeneratedOnAdd();
+
+        builder.Property(order => order.UpdatedAt).ValueGeneratedOnAddOrUpdate();
     }
 }

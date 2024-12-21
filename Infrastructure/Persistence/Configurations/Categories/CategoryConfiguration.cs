@@ -12,8 +12,8 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         builder.Property(category => category.Name).IsRequired().HasMaxLength(25);
         
-        builder.Property(category => category.CreatedAt).IsRequired().ValueGeneratedOnAdd().HasDefaultValueSql("CURRENT_TIMESTAMP");
+        builder.Property(category => category.CreatedAt).ValueGeneratedOnAdd();
         
-        builder.Property(category => category.UpdatedAt).IsRequired().ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("CURRENT_TIMESTAMP");
+        builder.Property(category => category.UpdatedAt).ValueGeneratedOnAddOrUpdate();
     }
 }
