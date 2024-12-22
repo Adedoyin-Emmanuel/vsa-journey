@@ -18,12 +18,16 @@ public class Repository<T> : IRepository<T> where T : class
     
     public async Task<T> AddAsync(T entity)
     {
+       var createdEntity = await _dbSet.AddAsync(entity);
        
+       return createdEntity.Entity;
     }
 
     public async Task<T?> GetByIdAsync(Guid Id)
     {
-        throw new NotImplementedException();
+        var entity = await _dbSet.FindAsync(Id);
+
+        return entity;
     }
 
     public async Task<IEnumerable<T>> GetAllAsync(int skip, int take)
