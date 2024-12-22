@@ -5,6 +5,7 @@ using vsa_journey.Utils;
 using Microsoft.EntityFrameworkCore;
 using vsa_journey.Application.Behaviours;
 using vsa_journey.Infrastructure.Persistence;
+using vsa_journey.Infrastructure.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ var databaseUrl = EnvConfig.DatabaseUrl;
 var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
 {
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
