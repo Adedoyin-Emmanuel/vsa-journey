@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using vsa_journey.Infrastructure.Persistence;
+using vsa_journey.Infrastructure.Extensions.PaginatedResult;
 
 namespace vsa_journey.Infrastructure.Repositories;
 
@@ -30,9 +31,14 @@ public class Repository<T> : IRepository<T> where T : class
         return entity;
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(int skip, int take)
+    public async Task<PaginatedResult<T>> GetAllAsync(int skip, int take)
     {
-        throw new NotImplementedException();
+        var entityQuery = _dbSet.AsQueryable();
+
+        int totalEntities = await entityQuery.CountAsync();
+
+        var filteredEntityQuery = entityQuery.OrderBy(e => e.CreatedAt).Skip(skip).Take(take);
+        
     }
 
     public async Task UpdateAsync(T entity)

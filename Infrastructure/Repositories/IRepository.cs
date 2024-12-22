@@ -1,3 +1,5 @@
+using vsa_journey.Infrastructure.Extensions.PaginatedResult;
+
 namespace vsa_journey.Infrastructure.Repositories;
 
 public interface IRepository<T> where T : class
@@ -6,7 +8,7 @@ public interface IRepository<T> where T : class
 
     public Task<T?> GetByIdAsync(Guid Id);
 
-    public Task<IEnumerable<T>> GetAllAsync(int skip, int take);
+    public Task<PaginatedResult<T>> GetAllAsync(int skip, int take);
 
     public Task UpdateAsync(T entity);
     
