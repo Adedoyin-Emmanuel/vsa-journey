@@ -1,9 +1,12 @@
+using System.Text;
 using MediatR;
 using Serilog;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using vsa_journey.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Application.Behaviours;
 using vsa_journey.Features.Authentication.Policies;
@@ -33,6 +36,20 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
         .AddDefaultTokenProviders();
 
     builder.Services.AddAuthorization(options => options.AddCustomPolicies());
+
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = EnvConfig.IsProduction;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = "",
+            ValidAudience = "",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("")),
+        };
+    });
 
     builder.Services.AddApiVersioning(options =>
     {

@@ -9,5 +9,6 @@ namespace vsa_journey.Utils;
          DotEnv.Load();
      }
      public static string DatabaseUrl =>  Environment.GetEnvironmentVariable("DATABASE_URL");
+     public static bool IsProduction => string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), "Production", StringComparison.OrdinalIgnoreCase);
 
  }
