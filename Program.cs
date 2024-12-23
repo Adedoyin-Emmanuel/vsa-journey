@@ -45,8 +45,8 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
         {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidIssuer = "",
-            ValidAudience = "",
+            ValidIssuer = EnvConfig.ValidIssuer,
+            ValidAudience = EnvConfig.ValidAudience,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("")),
         };
     });
