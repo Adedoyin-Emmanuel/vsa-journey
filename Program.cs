@@ -1,17 +1,17 @@
-using System.Text;
 using MediatR;
 using Serilog;
+using System.Text;
 using Asp.Versioning;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using vsa_journey.Utils;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Application.Behaviours;
-using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
+using vsa_journey.Features.Authentication.Policies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 
 
@@ -34,6 +34,40 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
     builder.Services.AddIdentity<User, IdentityRole<Guid>>()
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
+
+    builder.Services.ConfigureApplicationCookie(options =>
+    {
+        options.Events.OnRedirectToLogin = context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.ContentType = "application/json";
+
+            var response = new
+            {
+                code = (int)StatusCodes.Status401Unauthorized,
+                success = false,
+                message = "Unauthorized. Please login"
+            };
+
+            return context.Response.WriteAsJsonAsync(response);
+        };
+
+        options.Events.OnRedirectToAccessDenied = context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            context.Response.ContentType = "application/json";
+
+            var response = new
+            {
+                code = (int)StatusCodes.Status403Forbidden,
+                success = false,
+                message = "Forbidden. Insufficient rights"
+            };
+
+            return context.Response.WriteAsJsonAsync(response);
+        };
+
+    });
 
     builder.Services.AddAuthorization(options => options.AddCustomPolicies());
 
@@ -90,6 +124,8 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
     app.UseSerilogRequestLogging();
 
     app.UseHttpsRedirection();
+
+    app.UseAuthentication();
     
     app.UseAuthorization();
 
