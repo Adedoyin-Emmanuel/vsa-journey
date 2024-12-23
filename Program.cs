@@ -4,6 +4,7 @@ using Asp.Versioning;
 using vsa_journey.Utils;
 using Microsoft.EntityFrameworkCore;
 using vsa_journey.Application.Behaviours;
+using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
 
@@ -52,7 +53,10 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
 
 {
-    var app = builder.Build();      
+    var app = builder.Build();
+    
+    await app.UseSeedingAsync();
+    
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
