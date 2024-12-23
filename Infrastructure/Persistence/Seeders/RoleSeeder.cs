@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 using vsa_journey.Domain.Constants;
+using Microsoft.AspNetCore.Identity;
 
 namespace vsa_journey.Infrastructure.Persistence.Seeders;
 
