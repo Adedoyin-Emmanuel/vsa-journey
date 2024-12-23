@@ -3,10 +3,12 @@ using Serilog;
 using Asp.Versioning;
 using vsa_journey.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using vsa_journey.Domain.Entities.User;
 using vsa_journey.Application.Behaviours;
-using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
+using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +26,10 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
 
     builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(databaseUrl, mySqlServerVersion));
+
+    builder.Services.AddIdentity<User, IdentityRole<Guid>>()
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
 
     builder.Services.AddApiVersioning(options =>
     {
@@ -49,6 +55,7 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
     {
         configuration.ReadFrom.Configuration(context.Configuration);
     });
+
 }
 
 

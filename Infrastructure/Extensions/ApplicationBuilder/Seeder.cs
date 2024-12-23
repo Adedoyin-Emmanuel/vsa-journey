@@ -9,7 +9,8 @@ public static class Seeder
     {
         using var scope = app.ApplicationServices.CreateScope();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+        var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+        var logger = loggerFactory.CreateLogger("Seeder");
 
         try
         {
