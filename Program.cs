@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Application.Behaviours;
+using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
@@ -31,6 +32,8 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
 
+    builder.Services.AddAuthorization(options => options.AddCustomPolicies());
+
     builder.Services.AddApiVersioning(options =>
     {
         options.DefaultApiVersion = new ApiVersion(1);
@@ -51,15 +54,12 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
     });
 
     builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
-    builder.Host.UseSerilog((context, configuration) =>
-    {
-        configuration.ReadFrom.Configuration(context.Configuration);
-    });
+    builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 }
 
 
-{
+{   
     var app = builder.Build();
     
     await app.UseSeedingAsync();
