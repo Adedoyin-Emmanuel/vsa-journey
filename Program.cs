@@ -23,6 +23,7 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
 {
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddSingleton<>()
     
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
