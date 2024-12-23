@@ -19,11 +19,9 @@ public static class RoleSeeder
         {
             var roleExist = await roleManager.RoleExistsAsync(role);
 
-            if (!roleExist)
-            {
-                var newRole = new IdentityRole<Guid>(role);
-                await roleManager.CreateAsync(newRole);
-            }
+            if (roleExist) continue;
+            var newRole = new IdentityRole<Guid>(role);
+            await roleManager.CreateAsync(newRole);
         }
     }
 }
