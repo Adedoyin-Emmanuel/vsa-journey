@@ -13,6 +13,7 @@ using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Authentication.Policies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using vsa_journey.Features.Authentication.Extensions;
 using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 
 
@@ -37,41 +38,9 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
 
-    builder.Services.ConfigureApplicationCookie(options =>
-    {
-        options.Events.OnRedirectToLogin = context =>
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            context.Response.ContentType = "application/json";
-
-            var response = new
-            {
-                code = (int)StatusCodes.Status401Unauthorized,
-                success = false,
-                message = "Unauthorized. Please login"
-            };
-
-            return context.Response.WriteAsJsonAsync(response);
-        };
-
-        options.Events.OnRedirectToAccessDenied = context =>
-        {
-            context.Response.StatusCode = StatusCodes.Status403Forbidden;
-            context.Response.ContentType = "application/json";
-
-            var response = new
-            {
-                code = (int)StatusCodes.Status403Forbidden,
-                success = false,
-                message = "Forbidden. Insufficient rights"
-            };
-
-            return context.Response.WriteAsJsonAsync(response);
-        };
-
-    });
-
+    builder.Services.AddCustomCookieAuthentication(builder.Services.BuildServiceProvider());
     builder.Services.AddAuthorization(options => options.AddCustomPolicies());
+    builder.Services.AddJwtBearerAuthentication();
 
     
 
