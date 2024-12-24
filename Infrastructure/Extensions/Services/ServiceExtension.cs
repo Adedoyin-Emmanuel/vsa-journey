@@ -10,6 +10,7 @@ using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
+using vsa_journey.Infrastructure.Middlewares;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -21,6 +22,7 @@ public static class ServiceExtension
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IApiResponse, ApiResponse>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
+        services.AddTransient<GlobalExceptionHandlingMiddleware>();
     }
 
     public static void AddCustomAuthentication(this IServiceCollection services)

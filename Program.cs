@@ -1,6 +1,7 @@
 using Serilog;
 using vsa_journey.Infrastructure.Extensions.Services;
 using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
+using vsa_journey.Infrastructure.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 {   
     var app = builder.Build();
-    
+
+    app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
     await app.UseSeedingAsync();
     
     if (app.Environment.IsDevelopment())
@@ -27,6 +29,7 @@ var builder = WebApplication.CreateBuilder(args);
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+    
     app.UseSerilogRequestLogging();
     app.UseHttpsRedirection();
     app.UseAuthentication();

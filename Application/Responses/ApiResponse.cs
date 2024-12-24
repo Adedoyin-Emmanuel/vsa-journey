@@ -29,7 +29,7 @@ public class ApiResponse : IApiResponse
     
     private object InternalServerErrorResponse(string message, string requestId, object? errors = null)
     {
-        return new
+        return new  
         {
             Code = (int) StatusCodes.Status500InternalServerError,
             Success = false,
@@ -46,5 +46,5 @@ public class ApiResponse : IApiResponse
     public object NotFound(string message = "Resource not found") => BaseResponse((int)StatusCodes.Status404NotFound, message);
     public object Unauthorized(string message = "Unauthorized. Please login") => BaseResponse((int)StatusCodes.Status401Unauthorized, message);
     public object Forbidden(string message = "Forbidden. Insufficient rights") => BaseResponse((int)StatusCodes.Status403Forbidden, message);
-    public object InternalServerError(string requestId, object ? errors, string message = "An unknown error occurred") => InternalServerErrorResponse(requestId, message, errors);
+    public object InternalServerError(string requestId, object ? errors, string message = "An unknown error occurred") => InternalServerErrorResponse(message, requestId, errors);
 }

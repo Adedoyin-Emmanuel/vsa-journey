@@ -31,8 +31,10 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
 
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        context.Response.ContentType = "application/json";
         var requestId = context.TraceIdentifier;
+        context.Response.ContentType = "application/json";
+        context.Response.Headers["X-Request-Id"] = requestId;
+
         switch (exception)
         {
             case ValidationException validationException:
@@ -44,7 +46,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
                         name = e.PropertyName,
                         message = e.ErrorMessage
                     }),
-                    message: "Validation exception has occurred."
+                    message: "Validation failed. Please review and try again."
                     ));
                 break;
             
@@ -60,6 +62,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
 
                 break;
         }
+        
         
     }
 }
