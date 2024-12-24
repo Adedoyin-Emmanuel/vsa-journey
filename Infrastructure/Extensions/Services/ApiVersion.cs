@@ -4,7 +4,7 @@ namespace vsa_journey.Infrastructure.Extensions.Services;
 
 public static class ApiVersion
 {
-    public static IServiceCollection AddApiVersion(this IServiceCollection services)
+    public static IServiceCollection AddCustomApiVersion(this IServiceCollection services)
     {
         services.AddApiVersioning(options =>
         {
