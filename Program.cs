@@ -73,19 +73,7 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
     builder.Services.AddAuthorization(options => options.AddCustomPolicies());
 
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-    {
-        options.SaveToken = true;
-        options.RequireHttpsMetadata = EnvConfig.IsProduction;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidIssuer = EnvConfig.ValidIssuer,
-            ValidAudience = EnvConfig.ValidAudience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("")),
-        };
-    });
+    
 
     builder.Services.AddApiVersioning(options =>
     {
