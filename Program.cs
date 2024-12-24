@@ -1,20 +1,17 @@
 using MediatR;
 using Serilog;
-using System.Text;
-using Asp.Versioning;
 using vsa_journey.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Application.Responses;
 using vsa_journey.Application.Behaviours;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Authentication.Policies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using vsa_journey.Features.Authentication.Extensions;
 using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
+using vsa_journey.Infrastructure.Extensions.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,12 +23,11 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 {
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     builder.Services.AddScoped<IApiResponse, ApiResponse>();
-    
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-
-
+    
     builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(databaseUrl, mySqlServerVersion));
 
     builder.Services.AddIdentity<User, IdentityRole<Guid>>()
@@ -41,28 +37,10 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
     builder.Services.AddCustomCookieAuthentication(builder.Services.BuildServiceProvider());
     builder.Services.AddAuthorization(options => options.AddCustomPolicies());
     builder.Services.AddJwtBearerAuthentication();
-
-    
-
-    builder.Services.AddApiVersioning(options =>
-    {
-        options.DefaultApiVersion = new ApiVersion(1);
-        options.ReportApiVersions = true;
-        options.AssumeDefaultVersionWhenUnspecified = true;
-        options.ApiVersionReader =
-            ApiVersionReader.Combine(new UrlSegmentApiVersionReader(), new HeaderApiVersionReader("X-Api-Version"));
-    }).AddMvc().AddApiExplorer(options =>
-    {
-        options.GroupNameFormat = "'v'V";
-        options.SubstituteApiVersionInUrl = true;
-    });
+    builder.Services.AddApiVersion();
 
     builder.Services.AddAutoMapper(typeof(Program).Assembly);
-    builder.Services.AddMediatR(configuration =>
-    {
-        configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
-    });
-
+    builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(typeof(Program).Assembly));
     builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
     builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
