@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Common\" />
     <Folder Include="Domain\Repositories\" />
     <Folder Include="Features\Authentication\Commands\" />
     <Folder Include="Features\Authentication\Controller\" />
@@ -40,6 +41,7 @@
     <Folder Include="Features\Orders\Controller\" />
     <Folder Include="Features\Orders\Queries\" />
     <Folder Include="Features\Orders\Repository\" />
+    <Folder Include="Infrastructure\Extensions\Services\" />
     <Folder Include="Infrastructure\Middlewares\" />
     <Folder Include="Infrastructure\Services\" />
     <Folder Include="Tests\IETests\" />

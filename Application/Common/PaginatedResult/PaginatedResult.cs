@@ -1,4 +1,4 @@
-namespace vsa_journey.Infrastructure.Extensions.PaginatedResult;
+namespace vsa_journey.Application.Common.PaginatedResult;
 
 public class PaginatedResult<T>
 {

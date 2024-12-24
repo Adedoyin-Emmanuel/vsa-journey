@@ -1,5 +1,5 @@
 using vsa_journey.Domain.Entities.Category;
-using vsa_journey.Infrastructure.Extensions.PaginatedResult;
+using vsa_journey.Application.Common.PaginatedResult;
 
 namespace vsa_journey.Infrastructure.Repositories;
 
