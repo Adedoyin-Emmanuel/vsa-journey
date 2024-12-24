@@ -56,4 +56,10 @@ It’s all about saving you time and making life easier—no more frustration, n
 1. **Structured Logging**: This is a logging practice where you apply the same log format for all logs. This can help us analyze our logs and treat them like dataset
     Milan did a good job explaining how to integrate **Serilog** into our **ASP.NET** web APIS using **MediatR** behaviour pipeline. <https://www.youtube.com/watch?v=nVAkSBpsuTk>, <https://www.youtube.com/watch?v=JVX9MMpO6pE>,
     <https://www.milanjovanovic.tech/blog/structured-logging-in-asp-net-core-with-serilog>
+2. **Using Identity And JWT For Your API Authentication**: I was a bit confused on how to use both Identity and JWT for my Authentication and Authorization. The following videos and articles helped me understand how to.
+    <https://www.youtube.com/watch?v=8J3nuUegtL4> <https://medium.com/@madu.sharadika/authentication-and-authorization-in-net-web-api-with-jwt-b46ef2f54e31>, <https://patelalpeshn.medium.com/jwt-authentication-and-authorization-in-net-6-0-with-identity-framework-3da2ac05e3c5>
+    <https://www.youtube.com/watch?v=qPlqUQdf0fE>, <https://www.youtube.com/watch?v=99-r3Y48SYE>
+3. **Structuring Your Program.cs**: Gui Ferreria did a good job explaining how to achieve this. <https://youtu.be/pj0hqTlxUX0?si=qGNqXb3OtPiRqm8h>,
+   Amichai Mantinband also helped me better understand it. You can watch the video here <https://www.youtube.com/watch?v=0PCFdmb7kxo>. After implementing it in my API, I wrote a twitter thread about it. Check it out <https://x.com/Emmysoft_Tm/status/1871459071569879503>
+4. **Consistent API Response**: I've been doing this for quite sometime now but in this project I decided to make it better. I created an **ApiResponse** class with popular Http Methods. I then registed this class in my Service Extension. From my controllers, I can inject the ApiResponse class and use it in any method that implements the **IActionResult**. You can read how I achieved that here <https://x.com/Emmysoft_Tm/status/1871462562690449884>
     
