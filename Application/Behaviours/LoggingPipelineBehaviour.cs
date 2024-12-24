@@ -4,7 +4,7 @@ using MediatR;
 
 namespace vsa_journey.Application.Behaviours;
 
-public class LoggingPipelineBehaviour<TRequest, TResponse>: IPipelineBehavior<TRequest, TResponse>
+public sealed class LoggingPipelineBehaviour<TRequest, TResponse>: IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     where TResponse: Result
 {
