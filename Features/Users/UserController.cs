@@ -38,14 +38,17 @@ public class UserController: ControllerBase
         _response = response;
     }
 
+    
     [HttpGet]
     public  IActionResult Get()
     {
         _logger.LogInformation("Getting users");
         IEnumerable<User> users = new List<User>
         {
-            new User { Id = Guid.NewGuid(), Name = "John Doe", Age = 32 },
-            new User { Id = Guid.NewGuid(), Name = "Adedoyin Emmanuel", Age = 19 },
+
+            new User { Id = Guid.NewGuid(), Name = "Temmy girl", Age = 26 },
+            new User { Id = Guid.NewGuid(), Name = "Femi Femo", Age = 24 },
+            new User { Id = Guid.NewGuid(), Name = "Adedoyin Emmanuel", Age = 28 },
 
         };
         
