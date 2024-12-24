@@ -32,6 +32,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var requestId = context.TraceIdentifier;
+        var requestPath = context.Request.Path;
         context.Response.ContentType = "application/json";
         context.Response.Headers["X-Request-Id"] = requestId;
 
@@ -46,7 +47,8 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
                         name = e.PropertyName,
                         message = e.ErrorMessage
                     }),
-                    message: "Validation failed. Please review and try again."
+                    requestPath,
+                    message: "One or more validation errors occurred"
                     ));
                 break;
             
@@ -57,6 +59,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
                 await context.Response.WriteAsJsonAsync(_apiResponse.InternalServerError(
                     requestId,
                     errors: null,
+                    requestPath,
                     message: EnvConfig.IsProduction ? "An unknown error occurred" : error
                 ));
 

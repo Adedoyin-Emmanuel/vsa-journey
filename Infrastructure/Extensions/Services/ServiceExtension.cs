@@ -56,7 +56,12 @@ public static class ServiceExtension
     public static void AddAutoMapperAndMediatR(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(Program).Assembly);
-        services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(typeof(Program).Assembly));
+        services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
+            configuration.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+        });
+        
     }
 
     public static void AddCustomLogging(this IHostBuilder hostBuilder)
