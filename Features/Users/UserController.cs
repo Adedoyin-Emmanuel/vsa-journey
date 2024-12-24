@@ -2,6 +2,7 @@ using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using vsa_journey.Application.Responses;
 
 namespace vsa_journey.Features.Users;
 
@@ -28,14 +29,15 @@ public class UserController: ControllerBase
 {
 
     private readonly ILogger<UserController> _logger;
+    private readonly IApiResponse _response;
 
 
-    public UserController(ILogger<UserController> logger)
+    public UserController(ILogger<UserController> logger, IApiResponse response)
     {
         _logger = logger;
+        _response = response;
     }
 
-    [Authorize]
     [HttpGet]
     public  IActionResult Get()
     {
@@ -47,7 +49,7 @@ public class UserController: ControllerBase
 
         };
         
-        return Ok(users);
+        return Ok(_response.Success(users, "Users retrieved successfully"));
     }
     
 }

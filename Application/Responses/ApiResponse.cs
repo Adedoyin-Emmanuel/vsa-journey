@@ -1,6 +1,6 @@
 namespace vsa_journey.Application.Responses;
 
-public class ApiResponse
+public class ApiResponse : IApiResponse
 {
     private object BaseResponse(int code, string message, object? data = null)
     {

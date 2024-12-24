@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using vsa_journey.Domain.Entities.User;
+using vsa_journey.Application.Responses;
 using vsa_journey.Application.Behaviours;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
@@ -23,7 +24,7 @@ var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
 
 {
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-    builder.Services.AddSingleton<>()
+    builder.Services.AddScoped<IApiResponse, ApiResponse>();
     
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
