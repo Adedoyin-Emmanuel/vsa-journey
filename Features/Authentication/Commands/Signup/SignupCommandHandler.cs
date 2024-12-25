@@ -20,11 +20,17 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         _validator = validator;
         _userManager = userManager;
     }
-    public async Task Handle(SignupCommand command, CancellationToken cancellationToken)
+    public async Task<Result> Handle(SignupCommand command, CancellationToken cancellationToken)
     {
         _validator.ValidateAndThrow(command);
-        
-      //var user  = comman
-        
+
+        var existingUser = await _userManager.FindByEmailAsync(command.Email);
+
+        if (existingUser is not null)
+        {
+            return Result.Fail($"Email {command.Email} already exists.");
+        }
+
+        var newUser = new User{FirstName = command.FirstName, }
     }
 }
