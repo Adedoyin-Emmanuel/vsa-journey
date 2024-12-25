@@ -1,6 +1,6 @@
-using FluentValidation;
 using MediatR;
 using Serilog;
+using FluentValidation;
 using vsa_journey.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

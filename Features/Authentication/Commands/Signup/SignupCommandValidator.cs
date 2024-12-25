@@ -1,5 +1,4 @@
 using FluentValidation;
-using vsa_journey.Domain.Constants;
 
 namespace vsa_journey.Features.Authentication.Commands.Signup;
 
@@ -20,7 +19,6 @@ public class SignupCommandValidator : AbstractValidator<SignupCommand>
         RuleFor(command => command.LastName).NotEmpty().MaximumLength(20);
 
         RuleFor(command => command.Role).NotEmpty().IsInEnum();
-
-
+        
     }
 }
