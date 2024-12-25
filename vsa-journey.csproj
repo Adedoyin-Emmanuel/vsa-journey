@@ -33,7 +33,6 @@
   <ItemGroup>
     <Folder Include="Application\Common\" />
     <Folder Include="Domain\Repositories\" />
-    <Folder Include="Features\Authentication\Commands\Login\" />
     <Folder Include="Features\Authentication\Queries\" />
     <Folder Include="Features\Authentication\Repository\" />
     <Folder Include="Features\Orders\Commands\" />
