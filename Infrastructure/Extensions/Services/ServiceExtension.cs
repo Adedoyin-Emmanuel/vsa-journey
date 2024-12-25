@@ -54,8 +54,8 @@ public static class ServiceExtension
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = true;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.AllowedForNewUsers = true;
                 options.Lockout.MaxFailedAccessAttempts = 5;
-                
                 options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
             })
             .AddEntityFrameworkStores<AppDbContext>()
