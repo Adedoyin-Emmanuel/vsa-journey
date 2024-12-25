@@ -8,10 +8,10 @@ using vsa_journey.Domain.Entities.User;
 using vsa_journey.Application.Responses;
 using vsa_journey.Application.Behaviours;
 using vsa_journey.Infrastructure.Persistence;
+using vsa_journey.Infrastructure.Middlewares;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
-using vsa_journey.Infrastructure.Middlewares;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -49,7 +49,15 @@ public static class ServiceExtension
 
     public static void AddIdentityServices(this IServiceCollection services)
     {
-        services.AddIdentity<User, IdentityRole<Guid>>()
+        services.AddIdentity<User, IdentityRole<Guid>>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                
+                options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+            })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
     }
