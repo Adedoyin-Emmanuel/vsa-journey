@@ -9,5 +9,7 @@ public class SignupEventHandler : INotificationHandler<SignupEvent>
     {
         Console.WriteLine("Signup event received");
         Console.WriteLine($"Sending Verification Email to {notification.Email}");
+        
+        return Task.CompletedTask;
     }
 }

@@ -14,7 +14,7 @@ public class ApiResponse : IApiResponse
         };
     }
 
-    private object ValidationResponse(int code, string message, string requestId, string requestPath, object? errors = null)
+    private object ValidationResponse(int code, string message, string? requestId, string? requestPath, object? errors = null)
     {
         return new
         {

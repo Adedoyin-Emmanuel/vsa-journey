@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using vsa_journey.Application.Responses;
 using vsa_journey.Features.Authentication.Commands.Signup;
 
 namespace vsa_journey.Features.Authentication.Controller;
@@ -12,13 +13,15 @@ public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly ILogger<AuthController> _logger;
+    private readonly IApiResponse _apiResponse;
     
 
 
-    public AuthController(IMediator mediator, ILogger<AuthController> logger)
+    public AuthController(IMediator mediator, ILogger<AuthController> logger, IApiResponse apiResponse)
     {
         _mediator = mediator;
         _logger = logger;
+        _apiResponse = apiResponse;
     }
 
 
@@ -28,10 +31,14 @@ public class AuthController : ControllerBase
     {
         var result =  await _mediator.Send(command);
         
+        if (!result.IsFailed) return Ok(_apiResponse.Success(message:result.Successes[0].Message));
         
-        
-      //  if(result.Is)
-        return Ok();
+        var requestId = HttpContext.TraceIdentifier;
+        var errors = result.Errors;
+        var requestPath = HttpContext.Request.Path;
+            
+        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
+
     }
 
     [HttpPost]

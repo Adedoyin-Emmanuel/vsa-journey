@@ -4,7 +4,9 @@ using FluentResults;
 using FluentValidation;
 using vsa_journey.Utils;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Domain.Entities.User;
+using vsa_journey.Features.Authentication.Events.Signup;
 using vsa_journey.Infrastructure.Events;
 
 namespace vsa_journey.Features.Authentication.Commands.Signup;
@@ -35,15 +37,16 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
 
         var existingUser = await _userManager.FindByEmailAsync(command.Email);
 
-        if (existingUser is not null)
+        if (existingUser is  null)
         {
             return Result.Fail($"Email {command.Email} already exists.");
         }
 
         var newUser = _mapper.Map<User>(command);
 
-
-        await _eventPublisher.PublishAsync();
+        var eventBody = new SignupEvent(newUser.FirstName, newUser.LastName, newUser.Email);
+        
+        await _eventPublisher.PublishAsync(eventBody);
 
         return Result.Ok().WithSuccess("User created. Please check your mail for verification code");
     }

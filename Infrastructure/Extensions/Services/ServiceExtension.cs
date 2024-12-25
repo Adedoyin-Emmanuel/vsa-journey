@@ -3,6 +3,7 @@ using Serilog;
 using FluentValidation;
 using vsa_journey.Utils;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Application.Responses;
@@ -27,6 +28,11 @@ public static class ServiceExtension
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddScoped<IEventPublisher, EventPublisher>();
         services.AddScoped<UsernameGenerator>();
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
+      
     }
 
     public static void AddCustomAuthentication(this IServiceCollection services)
@@ -68,12 +74,14 @@ public static class ServiceExtension
     public static void AddAutoMapperAndMediatR(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(Program).Assembly);
-        services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+        
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
             configuration.AddOpenBehavior(typeof(ValidationBehaviour<,>));
         });
+        services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+
         
     }
 
