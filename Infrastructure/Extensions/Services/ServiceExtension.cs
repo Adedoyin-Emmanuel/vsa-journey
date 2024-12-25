@@ -56,6 +56,7 @@ public static class ServiceExtension
     public static void AddAutoMapperAndMediatR(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(Program).Assembly);
+        services.ADdVA
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
