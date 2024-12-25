@@ -26,6 +26,7 @@ public static class ServiceExtension
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddScoped<IEventPublisher, EventPublisher>();
+        services.AddScoped<UsernameGenerator>();
     }
 
     public static void AddCustomAuthentication(this IServiceCollection services)
