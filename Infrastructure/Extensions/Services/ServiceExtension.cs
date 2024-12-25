@@ -1,3 +1,4 @@
+using FluentValidation;
 using MediatR;
 using Serilog;
 using vsa_journey.Utils;
@@ -56,7 +57,7 @@ public static class ServiceExtension
     public static void AddAutoMapperAndMediatR(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(Program).Assembly);
-        services.ADdVA
+        services.AddValidatorsFromAssembly(typeof(Program).Assembly);
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
