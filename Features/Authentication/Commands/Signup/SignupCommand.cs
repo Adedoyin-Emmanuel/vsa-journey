@@ -2,7 +2,7 @@ using MediatR;
 
 namespace vsa_journey.Features.Authentication.Commands.Signup;
 
-public record SignupCommand : IRequest
+public sealed record SignupCommand : IRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }
