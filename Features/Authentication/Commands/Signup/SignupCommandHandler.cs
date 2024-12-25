@@ -24,7 +24,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
     {
         _validator.ValidateAndThrow(command);
         
-      //  var user  = comman
+      //var user  = comman
         
     }
 }
