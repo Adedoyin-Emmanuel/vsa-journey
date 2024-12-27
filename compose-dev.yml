@@ -12,7 +12,14 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-
+  
+  papercut:
+    image: changemakerstudiosus/papercut-smtp:latest
+    container_name: vsa_journey-papercut
+    ports:
+      - "8080:80"
+      - "25:25"
+  
 volumes:
   mysql_data:
     driver: local
