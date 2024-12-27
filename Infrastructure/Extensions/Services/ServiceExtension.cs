@@ -2,10 +2,11 @@ using MediatR;
 using Serilog;
 using FluentValidation;
 using vsa_journey.Utils;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
+using vsa_journey.Infrastructure.Events;
 using vsa_journey.Application.Responses;
 using vsa_journey.Application.Behaviours;
 using vsa_journey.Infrastructure.Persistence;
@@ -13,7 +14,6 @@ using vsa_journey.Infrastructure.Middlewares;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
-using vsa_journey.Infrastructure.Events;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -32,7 +32,6 @@ public static class ServiceExtension
         {
             options.SuppressModelStateInvalidFilter = true;
         });
-      
     }
 
     public static void AddCustomAuthentication(this IServiceCollection services)
@@ -88,7 +87,8 @@ public static class ServiceExtension
 
     public static void AddFluentEmailAndSmtpSender(this IServiceCollection services)
     {
-        services.AddFluentEmail();
+        services.AddFluentEmail(EnvConfig.SenderEmail, EnvConfig.SenderName)
+            .AddSmtpSender(EnvConfig.EmailHost, EnvConfig.EmailPort);
     }
 
     public static void AddCustomLogging(this IHostBuilder hostBuilder)
