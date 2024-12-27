@@ -1,5 +1,5 @@
-using FluentEmail.Core;
 using MediatR;
+using FluentEmail.Core;
 using vsa_journey.Features.Authentication.Events.Signup;
 
 namespace vsa_journey.Features.Authentication.EventHandlers.Signup;
