@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Domain.Constants;
 using vsa_journey.Application.Responses;
 using vsa_journey.Features.Authentication.Commands.Signup;
+using vsa_journey.Features.Authentication.Commands.VerifyAccount;
 
 namespace vsa_journey.Features.Authentication.Controller;
 
@@ -34,7 +35,11 @@ public class AuthController : ControllerBase
     {
         var result =  await _mediator.Send(command);
         
-        if (!result.IsFailed) return Ok(_apiResponse.Success(message:result.Successes[0].Message));
+        if (result.IsSuccess)
+        {
+            var successMessage = result.Successes.First().Message;
+            return Ok(_apiResponse.Success(message: successMessage));
+        }
         
         var requestId = HttpContext.TraceIdentifier;
 
@@ -51,10 +56,17 @@ public class AuthController : ControllerBase
     
     [HttpPost]
     [Route("Verify")]
-    public async Task<IActionResult> Verify()
+    public async Task<IActionResult> Verify(VerifyAccountCommand command)
     {
         
-        return Ok();
+        var result =  await _mediator.Send(command);
+        
+        if (!result.IsFailed) return Ok(_apiResponse.Success(message:"adsgsdgasdg"));
+        
+        var requestId = HttpContext.TraceIdentifier;
+        var requestPath = HttpContext.Request.Path;
+        
+        return BadRequest(_apiResponse.BadRequest(requestId, result.Errors, requestPath));
     }
 
 

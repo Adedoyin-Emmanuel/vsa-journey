@@ -83,8 +83,7 @@ public static class ServiceExtension
 
         
     }
-
-
+    
     public static void AddFluentEmailAndSmtpSender(this IServiceCollection services)
     {
         services.AddFluentEmail(EnvConfig.SenderEmail, EnvConfig.SenderName)

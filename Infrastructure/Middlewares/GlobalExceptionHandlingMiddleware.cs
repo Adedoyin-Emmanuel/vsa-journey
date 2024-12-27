@@ -55,7 +55,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
             
             default:
                 context.Response.StatusCode = (int) StatusCodes.Status500InternalServerError;
-                var error = exception.Message;
+                var error = $"{exception.Message} {exception.StackTrace}";
                 await context.Response.WriteAsJsonAsync(_apiResponse.InternalServerError(
                     requestId,
                     errors: null,
