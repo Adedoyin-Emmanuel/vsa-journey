@@ -7,19 +7,28 @@ namespace vsa_journey.Features.Authentication.EventHandlers.Signup;
 public class SignupEventHandler : INotificationHandler<SignupEvent>
 {
 
-    private readonly IFluentEmail fluentEmail;
+    private readonly IFluentEmail _fluentEmail;
+    private readonly ILogger<SignupEventHandler> _logger;
 
-    public SignupEventHandler(IFluentEmail fluentEmail)
+    public SignupEventHandler(IFluentEmail fluentEmail, ILogger<SignupEventHandler> logger)
     {
-        this.fluentEmail = fluentEmail;
+        fluentEmail = _fluentEmail;
+        logger = _logger;
+
     }
+    
+    
     public async Task Handle(SignupEvent notification, CancellationToken cancellationToken)
     {
-        Console.WriteLine(notification);
-        Console.WriteLine("Signup event received");
-        Console.WriteLine($"Sending Verification Email to {notification.Email}");
-
-        await fluentEmail.To(notification.Email).Subject("Email Verification").Body("Click here to verify your email")
+        
+        _logger.LogInformation($"Sending verification email to {notification.Email}");
+        var message =
+            $"Hi {notification.FirstName} {notification.LastName}. Thank you for signing up. Below is your verification code ${notification.VerificationCode}";
+        
+        await _fluentEmail
+            .To(notification.Email)
+            .Subject("Email Verification")
+            .Body(message)
             .SendAsync();
     }
 }

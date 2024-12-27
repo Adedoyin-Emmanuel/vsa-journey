@@ -52,7 +52,9 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
 
         var newUser = _mapper.Map<User>(command);
         
-        var eventBody = new SignupEvent(newUser.FirstName, newUser.LastName, newUser.Email);
+        var verificationCode = "123456";
+        
+        var eventBody = new SignupEvent(newUser.FirstName, newUser.LastName, newUser.Email!, verificationCode);
         
         await _eventPublisher.PublishAsync(eventBody);
         
