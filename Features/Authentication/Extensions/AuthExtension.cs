@@ -20,7 +20,7 @@ public static class AuthExtension
                 ValidateAudience = true,
                 ValidIssuer = EnvConfig.ValidIssuer,
                 ValidAudience = EnvConfig.ValidAudience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("")),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EnvConfig.JwtSecret)),
             };
         });
 

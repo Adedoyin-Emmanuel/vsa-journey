@@ -3,9 +3,7 @@ using vsa_journey.Infrastructure.Extensions.Services;
 using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 using vsa_journey.Infrastructure.Middlewares;
 
-
 var builder = WebApplication.CreateBuilder(args);
-
 {
     builder.Services.AddCustomServices();
     builder.Services.AddControllers();
@@ -14,9 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddIdentityServices();
     builder.Services.AddCustomAuthentication();
     builder.Services.AddAutoMapperAndMediatR();
+    builder.Services.AddFluentEmailAndSmtpSender();
     builder.Host.AddCustomLogging();
 }
-
 
 {   
     var app = builder.Build();
