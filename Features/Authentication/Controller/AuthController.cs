@@ -48,6 +48,15 @@ public class AuthController : ControllerBase
 
         return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
     }
+    
+    [HttpPost]
+    [Route("Verify")]
+    public async Task<IActionResult> Verify()
+    {
+        
+        return Ok();
+    }
+
 
     [HttpPost]
     [Route("Login")]
@@ -56,12 +65,6 @@ public class AuthController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
-    [Route("Verify")]
-    public async Task<IActionResult> Verify()
-    {
-        return Ok();
-    }
 
     [HttpPost]
     [Route("Logout")]
