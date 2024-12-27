@@ -1,10 +1,13 @@
-using Asp.Versioning;
 using MediatR;
+using FluentResults;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using vsa_journey.Domain.Constants;
 using vsa_journey.Application.Responses;
 using vsa_journey.Features.Authentication.Commands.Signup;
 
 namespace vsa_journey.Features.Authentication.Controller;
+
 
 [ApiVersion(1)]
 [ApiController]
@@ -34,11 +37,16 @@ public class AuthController : ControllerBase
         if (!result.IsFailed) return Ok(_apiResponse.Success(message:result.Successes[0].Message));
         
         var requestId = HttpContext.TraceIdentifier;
-        var errors = result.Errors;
-        var requestPath = HttpContext.Request.Path;
-            
-        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
 
+        var errors = result.Errors.Select(error => new
+        {
+            Name = error.Metadata["Name"],
+            Message = error.Message
+        });
+        
+        var requestPath = HttpContext.Request.Path;
+
+        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
     }
 
     [HttpPost]
