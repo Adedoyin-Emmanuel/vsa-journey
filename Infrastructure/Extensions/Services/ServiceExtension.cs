@@ -85,6 +85,12 @@ public static class ServiceExtension
         
     }
 
+
+    public static void AddFluentEmailAndSmtpSender(this IServiceCollection services)
+    {
+        services.AddFluentEmail();
+    }
+
     public static void AddCustomLogging(this IHostBuilder hostBuilder)
     {
         hostBuilder.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
