@@ -13,12 +13,13 @@ public class SignupEventHandler : INotificationHandler<SignupEvent>
     {
         this.fluentEmail = fluentEmail;
     }
-    public Task Handle(SignupEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(SignupEvent notification, CancellationToken cancellationToken)
     {
         Console.WriteLine(notification);
         Console.WriteLine("Signup event received");
         Console.WriteLine($"Sending Verification Email to {notification.Email}");
-        
-        return Task.CompletedTask;
+
+        await fluentEmail.To(notification.Email).Subject("Email Verification").Body("Click here to verify your email")
+            .SendAsync();
     }
 }
