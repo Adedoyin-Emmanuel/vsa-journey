@@ -30,11 +30,11 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         _eventPublisher = eventPublisher;
         _usernameGenerator = usernameGenerator;
     }
-    public async Task<Result> Handle(SignupCommand command, CancellationToken cancellationToken)
+    public async Task<Result> Handle(SignupCommand request, CancellationToken cancellationToken)
     {
-         await _validator.ValidateAndThrowAsync(command, cancellationToken);
+         await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var existingUser = await _userManager.FindByEmailAsync(command.Email);
+        var existingUser = await _userManager.FindByEmailAsync(request.Email);
 
         if (existingUser is not null)
         {
@@ -47,7 +47,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
             return Result.Fail(errors);
         }
 
-        var newUser = _mapper.Map<User>(command);
+        var newUser = _mapper.Map<User>(request);
 
         newUser.UserName = _usernameGenerator.GenerateUsername(newUser.FirstName, newUser.LastName);
         
@@ -57,6 +57,6 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         
         await _eventPublisher.PublishAsync(eventBody);
         
-        return Result.Ok().WithSuccess("Account created successfully. Please check your email.");
+        return Result.Ok().WithSuccess("Account created successfully. Please check your email");
     }
 }

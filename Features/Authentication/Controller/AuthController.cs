@@ -33,40 +33,14 @@ public class AuthController : ControllerBase
     [Route("Signup")]
     public async Task<IActionResult> Signup(SignupCommand command)
     {
-        var result =  await _mediator.Send(command);
-        
-        if (result.IsSuccess)
-        {
-            var successMessage = result.Successes.First().Message;
-            return Ok(_apiResponse.Success(message: successMessage));
-        }
-        
-        var requestId = HttpContext.TraceIdentifier;
-
-        var errors = result.Errors.Select(error => new
-        {
-            Name = error.Metadata["Name"],
-            Message = error.Message
-        });
-        
-        var requestPath = HttpContext.Request.Path;
-
-        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
+        return await HandleMediatorResult(_mediator.Send(command));
     }
     
     [HttpPost]
     [Route("Verify")]
     public async Task<IActionResult> Verify(VerifyAccountCommand command)
     {
-        
-        var result =  await _mediator.Send(command);
-        
-        if (!result.IsFailed) return Ok(_apiResponse.Success(message:"adsgsdgasdg"));
-        
-        var requestId = HttpContext.TraceIdentifier;
-        var requestPath = HttpContext.Request.Path;
-        
-        return BadRequest(_apiResponse.BadRequest(requestId, result.Errors, requestPath));
+        return await HandleMediatorResult(_mediator.Send(command));
     }
 
 
@@ -105,9 +79,36 @@ public class AuthController : ControllerBase
     {
         return Ok();
     }
-     
+
+
+
+    private async Task<IActionResult> HandleMediatorResult(Task<Result> task)
+    {
+        var result = await task;
     
-    
-    
+        if (result.IsSuccess)
+        {
+            var successMessage = result.Successes.FirstOrDefault()?.Message ?? "Operation successful";
+
+            var data = result.Successes
+                .FirstOrDefault()?
+                .Metadata?.ContainsKey("Data") == true
+                ? result.Successes.FirstOrDefault()?.Metadata["Data"]
+                : null;
+
+            return Ok(_apiResponse.Success(message: successMessage, data: data));
+        }
+
+        var requestId = HttpContext.TraceIdentifier;
+        var errors = result.Errors.Select(error => new
+        {
+            Name = error.Metadata.ContainsKey("Name") ? error.Metadata["Name"] : "Unknown",
+            Message = error.Message
+        });
+        var requestPath = HttpContext.Request.Path;
+
+        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
+    }
+
     
 }

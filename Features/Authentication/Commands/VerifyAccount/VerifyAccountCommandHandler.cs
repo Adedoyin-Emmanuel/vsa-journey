@@ -3,7 +3,6 @@ using FluentResults;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
-using vsa_journey.Features.Authentication.Commands.Signup;
 
 namespace vsa_journey.Features.Authentication.Commands.VerifyAccount;
 
@@ -21,10 +20,22 @@ public class VerifyAccountCommandHandler : IRequestHandler<VerifyAccountCommand,
         _logger = logger;
     }
     
-    public async Task<Result> Handle(VerifyAccountCommand command, CancellationToken cancellationToken)
+    public async Task<Result> Handle(VerifyAccountCommand request, CancellationToken cancellationToken)
     {
-        await _validator.ValidateAndThrowAsync(command, cancellationToken);
-        
-        return Result.Ok();
+        await _validator.ValidateAndThrowAsync(request, cancellationToken);
+
+        var user = await _userManager.FindByEmailAsync(request.Email);
+
+        if (user is not null)
+        {
+            var errors = new List<IError>
+            {
+                new Error("Invalid payload").WithMetadata("Name", "Body")
+            };
+            
+            return Result.Fail(errors);
+        }
+
+        return Result.Ok().WithSuccess("Account verified successfully");
     }
 }
