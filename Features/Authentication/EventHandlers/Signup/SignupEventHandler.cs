@@ -12,18 +12,18 @@ public class SignupEventHandler : INotificationHandler<SignupEvent>
 
     public SignupEventHandler(IFluentEmail fluentEmail, ILogger<SignupEventHandler> logger)
     {
-        fluentEmail = _fluentEmail;
-        logger = _logger;
+        _fluentEmail = fluentEmail;
+        _logger = logger;
 
     }
     
     
     public async Task Handle(SignupEvent notification, CancellationToken cancellationToken)
-    {
+    {   
         
         _logger.LogInformation($"Sending verification email to {notification.Email}");
         var message =
-            $"Hi {notification.FirstName} {notification.LastName}. Thank you for signing up. Below is your verification code ${notification.VerificationCode}";
+            $"Hi {notification.FirstName} {notification.LastName}. Thank you for signing up. Below is your verification code {notification.VerificationCode}";
         
         await _fluentEmail
             .To(notification.Email)
