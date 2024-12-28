@@ -36,14 +36,14 @@ public class AuthController : ControllerBase
         return await HandleMediatorResult(_mediator.Send(command));
     }
     
-    //
-    //
-    // [HttpPost]
-    // [Route("Verify")]
-    // public async Task<IActionResult> Verify(VerifyAccountCommand command)
-    // {
-    //     return await HandleMediatorResult(_mediator.Send(command));
-    // }
+    
+    
+    [HttpPost]
+    [Route("Verify")]
+    public async Task<IActionResult> Verify(VerifyAccountCommand command)
+    {
+        return await HandleMediatorResult(_mediator.Send(command));
+    }
 
 
     [HttpPost]

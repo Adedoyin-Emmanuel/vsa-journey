@@ -6,7 +6,7 @@ using vsa_journey.Domain.Entities.User;
 
 namespace vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
-public class VerifyAccountCommandHandler : IRequestHandler<VerifyAccountCommand, Result>
+public class VerifyAccountCommandHandler : IRequestHandler<VerifyAccountCommand, Result<object>>
 {
     private readonly IValidator<VerifyAccountCommand> _validator;
     private readonly UserManager<User> _userManager;
@@ -20,7 +20,7 @@ public class VerifyAccountCommandHandler : IRequestHandler<VerifyAccountCommand,
         _logger = logger;
     }
     
-    public async Task<Result> Handle(VerifyAccountCommand request, CancellationToken cancellationToken)
+    public async Task<Result<object>> Handle(VerifyAccountCommand request, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
 

@@ -10,7 +10,7 @@ using vsa_journey.Infrastructure.Events;
 
 namespace vsa_journey.Features.Authentication.Signup.Commands;
 
-public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result<User>>
+public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result<object>>
 {
 
     private readonly IValidator<SignupCommand> _validator;
@@ -30,7 +30,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         _eventPublisher = eventPublisher;
         _usernameGenerator = usernameGenerator;
     }
-    public async Task<Result<User>> Handle(SignupCommand request, CancellationToken cancellationToken)
+    public async Task<Result<object>> Handle(SignupCommand request, CancellationToken cancellationToken)
     {
          await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
@@ -43,7 +43,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
                 new Error("Email already exists.")
             };
 
-            return Result.Fail<User>(errors);
+            return Result.Fail(errors);
         }
 
         var newUser = _mapper.Map<User>(request);

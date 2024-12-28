@@ -5,7 +5,7 @@ using vsa_journey.Domain.Entities.User;
 
 namespace vsa_journey.Features.Authentication.Signup.Commands;
 
-public sealed record SignupCommand :  IRequest<Result<User>>
+public sealed record SignupCommand :  IRequest<Result<object>>
 {
     public string Email { get; set; }
     public string Password { get; set; }
