@@ -42,11 +42,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
                 context.Response.StatusCode = (int) StatusCodes.Status400BadRequest;
                 await context.Response.WriteAsJsonAsync(_apiResponse.BadRequest(
                     requestId,
-                    errors: validationException.Errors.Select(e => new
-                    {
-                        name = e.PropertyName,
-                        message = e.ErrorMessage
-                    }),
+                    errors: validationException.Errors.Select(e => e.ErrorMessage),
                     requestPath,
                     message: "One or more validation errors occurred"
                     ));
