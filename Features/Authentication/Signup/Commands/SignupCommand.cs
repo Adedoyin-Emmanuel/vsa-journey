@@ -1,10 +1,11 @@
 using MediatR;
 using FluentResults;
 using vsa_journey.Domain.Constants;
+using vsa_journey.Domain.Entities.User;
 
 namespace vsa_journey.Features.Authentication.Signup.Commands;
 
-public sealed record SignupCommand :  IRequest<Result>
+public sealed record SignupCommand :  IRequest<Result<User>>
 {
     public string Email { get; set; }
     public string Password { get; set; }

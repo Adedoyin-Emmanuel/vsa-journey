@@ -36,12 +36,14 @@ public class AuthController : ControllerBase
         return await HandleMediatorResult(_mediator.Send(command));
     }
     
-    [HttpPost]
-    [Route("Verify")]
-    public async Task<IActionResult> Verify(VerifyAccountCommand command)
-    {
-        return await HandleMediatorResult(_mediator.Send(command));
-    }
+    //
+    //
+    // [HttpPost]
+    // [Route("Verify")]
+    // public async Task<IActionResult> Verify(VerifyAccountCommand command)
+    // {
+    //     return await HandleMediatorResult(_mediator.Send(command));
+    // }
 
 
     [HttpPost]
@@ -82,29 +84,20 @@ public class AuthController : ControllerBase
 
 
 
-    private async Task<IActionResult> HandleMediatorResult(Task<Result> task)
+    private async Task<IActionResult> HandleMediatorResult<T>(Task<Result<T>> task)
     {
         var result = await task;
     
         if (result.IsSuccess)
         {
             var successMessage = result.Successes.FirstOrDefault()?.Message ?? "Operation successful";
-
-            var data = result.Successes
-                .FirstOrDefault()?
-                .Metadata?.ContainsKey("Data") == true
-                ? result.Successes.FirstOrDefault()?.Metadata["Data"]
-                : null;
+            var data = result.ValueOrDefault;
 
             return Ok(_apiResponse.Success(message: successMessage, data: data));
         }
 
         var requestId = HttpContext.TraceIdentifier;
-        var errors = result.Errors.Select(error => new
-        {
-            Name = error.Metadata.ContainsKey("Name") ? error.Metadata["Name"] : "Unknown",
-            Message = error.Message
-        });
+        var errors = result.Errors.Select(error => error.Message);
         var requestPath = HttpContext.Request.Path;
 
         return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));

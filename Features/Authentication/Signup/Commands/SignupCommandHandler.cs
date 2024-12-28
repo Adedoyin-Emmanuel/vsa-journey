@@ -10,7 +10,7 @@ using vsa_journey.Infrastructure.Events;
 
 namespace vsa_journey.Features.Authentication.Signup.Commands;
 
-public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result>
+public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result<User>>
 {
 
     private readonly IValidator<SignupCommand> _validator;
@@ -30,7 +30,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         _eventPublisher = eventPublisher;
         _usernameGenerator = usernameGenerator;
     }
-    public async Task<Result> Handle(SignupCommand request, CancellationToken cancellationToken)
+    public async Task<Result<User>> Handle(SignupCommand request, CancellationToken cancellationToken)
     {
          await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
@@ -41,10 +41,9 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
             var errors = new List<IError>
             {
                 new Error("Email already exists.")
-                    .WithMetadata("Name", "Email") 
             };
 
-            return Result.Fail(errors);
+            return Result.Fail<User>(errors);
         }
 
         var newUser = _mapper.Map<User>(request);
@@ -56,7 +55,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         var eventBody = new SignupEvent(newUser.FirstName, newUser.LastName, newUser.Email, verificationCode);
         
         await _eventPublisher.PublishAsync(eventBody);
-        
-        return Result.Ok().WithSuccess("Account created successfully. Please check your email");
+
+        return Result.Ok().WithSuccess("Account created. Check your email for verification code.");
     }
 }
