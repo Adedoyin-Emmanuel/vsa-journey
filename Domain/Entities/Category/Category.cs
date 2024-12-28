@@ -1,6 +1,6 @@
 namespace vsa_journey.Domain.Entities.Category;
 
-public class Category
+public class Category : IBase
 {
     public Guid Id { get; private set; }
     

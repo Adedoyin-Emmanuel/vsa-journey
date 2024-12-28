@@ -1,6 +1,8 @@
+using vsa_journey.Domain.Entities.Category;
+
 namespace vsa_journey.Domain.Entities.Order;
 
-public class Order
+public class Order : IBase
 {
     public Guid Id { get; private init; }
     

@@ -4,23 +4,9 @@ using Asp.Versioning;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using vsa_journey.Application.Responses;
+using vsa_journey.Domain.Entities.Category;
 
 namespace vsa_journey.Features.Users;
-
-public interface IUser
-{
-    Guid Id { get; set; }
-    string Name { get; set; }
-    int Age { get; set; }
-}
-
-
-public class User : IUser
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; } = String.Empty;
-    public int Age { get; set; }    
-}
 
 
 [ApiVersion(1)]
@@ -43,24 +29,7 @@ public class UserController: ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        _logger.LogInformation("Getting users");
-
-        var validationErrors = new List<FluentValidation.Results.ValidationFailure>
-        {
-            new FluentValidation.Results.ValidationFailure("Name", "Name cannot be empty"),
-            new FluentValidation.Results.ValidationFailure("Age", "Age must be greater than 18"),
-        };
-
-        throw new FluentValidation.ValidationException("Demo validation exception occurred.", validationErrors);
-
-        IEnumerable<User> users = new List<User>
-        {
-            new User { Id = Guid.NewGuid(), Name = "Temmy girl", Age = 26 },
-            new User { Id = Guid.NewGuid(), Name = "Femi Femo", Age = 24 },
-            new User { Id = Guid.NewGuid(), Name = "Adedoyin Emmanuel", Age = 28 },
-        };
-
-        return Ok(_response.Success(users, "Users retrieved successfully"));
+        return Ok();
     }
 
     

@@ -1,6 +1,6 @@
 using FluentValidation;
-using vsa_journey.Application.Responses;
 using vsa_journey.Utils;
+using vsa_journey.Application.Responses;
 
 namespace vsa_journey.Infrastructure.Middlewares;
 

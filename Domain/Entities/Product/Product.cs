@@ -1,6 +1,8 @@
+using vsa_journey.Domain.Entities.Category;
+
 namespace vsa_journey.Domain.Entities.Product;
 
-public class Product
+public class Product : IBase
 {
     public Guid Id { get; private init; }
     
