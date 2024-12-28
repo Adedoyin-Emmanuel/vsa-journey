@@ -75,7 +75,8 @@ public static class ServiceExtension
             .AddEntityFrameworkStores<AppDbContext>()
             .AddTokenProvider<DataProtectorTokenProvider<User>>(nameof(TokenService))
             .AddDefaultTokenProviders();
-            
+        
+        services.Configure<DataProtectionTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromDays(7));
     }
 
     public static void AddAutoMapperAndMediatR(this IServiceCollection services)
