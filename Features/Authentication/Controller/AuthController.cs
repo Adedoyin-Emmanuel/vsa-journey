@@ -2,8 +2,8 @@ using MediatR;
 using FluentResults;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using vsa_journey.Domain.Constants;
 using vsa_journey.Application.Responses;
+using vsa_journey.Features.Authentication.Commands.Login;
 using vsa_journey.Features.Authentication.Signup.Commands;
 using vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
@@ -48,9 +48,9 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("Login")]
-    public async Task<IActionResult> Login()
+    public async Task<IActionResult> Login(LoginCommand command)
     {
-        return Ok();
+        return await HandleMediatorResult(_mediator.Send(command));
     }
 
 
