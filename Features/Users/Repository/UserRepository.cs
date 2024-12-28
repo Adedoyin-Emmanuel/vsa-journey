@@ -12,9 +12,12 @@ public class UserRepository : Repository<User>, IUserRespository
         
     }
 
-    public async Task<User?> GetUserByUsernameAsync(string username)
+    public async Task<bool> GetUserByUsernameAsync(string username)
     {
-        return await _dbSet.FirstOrDefaultAsync(user => user.UserName == username);
+        var result=  await _dbSet.FirstOrDefaultAsync(user => user.UserName == username);
+
+        var flag = (result is not null) ? true :false;
         
+        return flag;
     }
 }
