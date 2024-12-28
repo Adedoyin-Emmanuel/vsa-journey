@@ -26,16 +26,13 @@ public class VerifyAccountCommandHandler : IRequestHandler<VerifyAccountCommand,
 
         var user = await _userManager.FindByEmailAsync(request.Email);
 
-        if (user is not null)
+        if (user is null)
         {
-            var errors = new List<IError>
-            {
-                new Error("Invalid payload").WithMetadata("Name", "Body")
-            };
-            
-            return Result.Fail(errors);
+            return Result.Fail("Invalid payload");
         }
+        
+        var isVerified = await _userManager.ConfirmEmailAsync(user, request.VerificationCode);
 
-        return Result.Ok().WithSuccess("Account verified successfully");
+        return !isVerified.Succeeded ? Result.Fail("Invalid payload") : Result.Ok().WithSuccess("Account verified successfully");
     }
 }

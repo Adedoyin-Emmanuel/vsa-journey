@@ -38,12 +38,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
 
         if (existingUser is not null)
         {
-            var errors = new List<IError>
-            {
-                new Error("Email already exists.")
-            };
-
-            return Result.Fail(errors);
+            return Result.Fail("Email already exists");
         }
 
         var newUser = _mapper.Map<User>(request);
@@ -54,12 +49,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
 
         if (!isCreated.Succeeded)
         {
-            var errors = new List<IError>
-            {
-                new Error("An error occured while signing up")
-            };
-            
-            return Result.Fail(errors);
+            return Result.Fail("An error occured while signing up");
         }
 
         var verificationCode = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
