@@ -25,6 +25,9 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshAccessTokenComm
     {
         var userId = _httpContextAccessor?.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userManager.FindByIdAsync(userId!);
+        
+        Console.WriteLine(userId);
+        Console.WriteLine(user);
 
         if (user == null)
         {

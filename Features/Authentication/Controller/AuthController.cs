@@ -1,10 +1,12 @@
 using MediatR;
 using FluentResults;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
 using vsa_journey.Features.Authentication.Login.Commands;
 using vsa_journey.Features.Authentication.Signup.Commands;
+using vsa_journey.Features.Authentication.RefreshToken.Command;
 using vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
 namespace vsa_journey.Features.Authentication.Controller;
@@ -52,6 +54,14 @@ public class AuthController : ControllerBase
     {
         return await HandleMediatorResult(_mediator.Send(command));
     }
+    
+    
+    [HttpPost]
+    [Route("Refresh")]
+    public async Task<IActionResult> RefreshToken(RefreshAccessTokenCommand command)
+    {
+        return await HandleMediatorResult(_mediator.Send(command));
+    }
 
 
     [HttpPost]
@@ -75,12 +85,7 @@ public class AuthController : ControllerBase
         return Ok();
     }
 
-    [HttpGet]
-    [Route("Refresh-Token")]
-    public async Task<IActionResult> RefreshToken()
-    {
-        return Ok();
-    }
+ 
 
 
 

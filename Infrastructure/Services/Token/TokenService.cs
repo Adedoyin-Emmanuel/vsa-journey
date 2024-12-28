@@ -1,11 +1,11 @@
-using System.Text;
-using vsa_journey.Utils;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using vsa_journey.Domain.Entities.User;
 using vsa_journey.Domain.Constants;
+using vsa_journey.Domain.Entities.User;
+using vsa_journey.Utils;
 
 namespace vsa_journey.Infrastructure.Services.Token;
 

@@ -34,6 +34,8 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<LoginRes
             return Result.Fail("Email has not been confirmed");
         }
 
+        await _tokenService.RevokeRefreshTokenAsync(user);
+        
         var accessToken = await _tokenService.GenerateAccessTokenAsync(user!);
         var refreshToken = await _tokenService.GenerateAndStoreRefreshTokenAsync(user!);
 
