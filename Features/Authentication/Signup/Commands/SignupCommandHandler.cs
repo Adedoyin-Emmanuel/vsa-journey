@@ -32,7 +32,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
     }
     public async Task<Result<object>> Handle(SignupCommand request, CancellationToken cancellationToken)
     {
-         await _validator.ValidateAndThrowAsync(request, cancellationToken);
+        await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
         var existingUser = await _userManager.FindByEmailAsync(request.Email);
 
