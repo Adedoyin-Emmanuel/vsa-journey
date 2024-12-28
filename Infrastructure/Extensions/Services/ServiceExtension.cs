@@ -15,6 +15,8 @@ using vsa_journey.Infrastructure.Middlewares;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
+using vsa_journey.Infrastructure.Repositories.Shared.Token;
+using vsa_journey.Infrastructure.Services.Token;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -27,11 +29,12 @@ public static class ServiceExtension
         services.AddScoped<IApiResponse, ApiResponse>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IUserRespository, UserRepository>();
+        services.AddScoped<ITokenRepository,TokenRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddScoped<IEventPublisher, EventPublisher>();
         services.AddScoped<UsernameGenerator>();
-        services.AddScoped<IAuthTokenService, AuthTokenService>();
+        services.AddScoped<ITokenService, TokenService>();
         services.Configure<ApiBehaviorOptions>(options =>
         {
             options.SuppressModelStateInvalidFilter = true;
@@ -72,7 +75,7 @@ public static class ServiceExtension
                 options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
             })
             .AddEntityFrameworkStores<AppDbContext>()
-            .AddTokenProvider<DataProtectorTokenProvider<User>>(nameof(AuthTokenService))
+            .AddTokenProvider<DataProtectorTokenProvider<User>>(nameof(TokenService))
             .AddDefaultTokenProviders();
         
         services.Configure<DataProtectionTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromDays(7));

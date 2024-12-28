@@ -1,7 +1,9 @@
 using MediatR;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
+using vsa_journey.Domain.Entities.Token;
 using vsa_journey.Domain.Entities.User;
+using vsa_journey.Infrastructure.Repositories.Shared.Token;
 using vsa_journey.Infrastructure.Services.Token;
 
 namespace vsa_journey.Features.Authentication.Login.Commands;
@@ -11,12 +13,14 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<LoginRes
     
     private readonly UserManager<User> _userManager;
     private readonly ITokenService _tokenService;
+    private readonly ITokenRepository _tokenRepository;
 
 
-    public LoginCommandHandler(UserManager<User> userManager, ITokenService tokenService)
+    public LoginCommandHandler(UserManager<User> userManager, ITokenService tokenService, ITokenRepository tokenRepository)
     {
         _userManager = userManager;
         _tokenService = tokenService;
+        _tokenRepository = tokenRepository;
     }
     public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
@@ -34,7 +38,9 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<LoginRes
             return Result.Fail("Email has not been confirmed");
         }
 
-        await _tokenService.RevokeRefreshTokenAsync(user);
+        var validRefreshToken = await _tokenRepository.GetTokenByUserIdAsync(user.Id, TokenType.RefreshToken);
+      
+        await _tokenService.RevokeRefreshTokenAsync(validRefreshToken?.Value!);
         
         var accessToken = await _tokenService.GenerateAccessTokenAsync(user!);
         var refreshToken = await _tokenService.GenerateAndStoreRefreshTokenAsync(user!);

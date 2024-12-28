@@ -12,5 +12,5 @@ public interface ITokenService
     
     public Task<bool> VerifyRefreshTokenAsync(User user, string refreshToken);
     
-    public Task<bool> RevokeRefreshTokenAsync(User user);
+    public Task<bool> RevokeRefreshTokenAsync(string refreshToken);
 }
