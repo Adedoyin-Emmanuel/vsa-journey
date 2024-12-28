@@ -49,8 +49,20 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         var newUser = _mapper.Map<User>(request);
 
         newUser.UserName = _usernameGenerator.GenerateUsername(newUser.FirstName, newUser.LastName);
-        
-        const string verificationCode = "123456";
+
+        var isCreated = await _userManager.CreateAsync(newUser, request.Password);
+
+        if (!isCreated.Succeeded)
+        {
+            var errors = new List<IError>
+            {
+                new Error("An error occured while signing up")
+            };
+            
+            return Result.Fail(errors);
+        }
+
+        var verificationCode = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
         
         var eventBody = new SignupEvent(newUser.FirstName, newUser.LastName, newUser.Email, verificationCode);
         
