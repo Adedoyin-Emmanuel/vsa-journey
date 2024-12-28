@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddCustomAuthentication();
     builder.Services.AddAutoMapperAndMediatR();
     builder.Services.AddFluentEmailAndSmtpSender();
+    builder.Services.AddHttpContextAccessor();
     builder.Host.AddCustomLogging();
 }
 

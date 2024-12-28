@@ -98,6 +98,7 @@ public static class ServiceExtension
         services.AddFluentEmail(EnvConfig.SenderEmail, EnvConfig.SenderName)
             .AddSmtpSender(EnvConfig.EmailHost, EnvConfig.EmailPort);
     }
+    
 
     public static void AddCustomLogging(this IHostBuilder hostBuilder)
     {
