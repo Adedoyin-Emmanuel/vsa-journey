@@ -5,10 +5,10 @@ using FluentValidation;
 using vsa_journey.Utils;
 using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
+using vsa_journey.Features.Authentication.Signup.Events;
 using vsa_journey.Infrastructure.Events;
-using vsa_journey.Features.Authentication.Events.Signup;
 
-namespace vsa_journey.Features.Authentication.Commands.Signup;
+namespace vsa_journey.Features.Authentication.Signup.Commands;
 
 public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result>
 {

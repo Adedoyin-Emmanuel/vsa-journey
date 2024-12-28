@@ -1,7 +1,7 @@
-using MediatR;
 using FluentResults;
+using MediatR;
 
-namespace vsa_journey.Features.Authentication.Commands.VerifyAccount;
+namespace vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
 public sealed record VerifyAccountCommand : IRequest<Result>
 {

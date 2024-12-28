@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace vsa_journey.Features.Authentication.Events.Signup;
+namespace vsa_journey.Features.Authentication.Signup.Events;
 
 public class SignupEvent : INotification
 {

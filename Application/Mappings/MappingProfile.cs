@@ -1,6 +1,6 @@
 using AutoMapper;
 using vsa_journey.Domain.Entities.User;
-using vsa_journey.Features.Authentication.Commands.Signup;
+using vsa_journey.Features.Authentication.Signup.Commands;
 
 namespace vsa_journey.Application.Mappings;
 

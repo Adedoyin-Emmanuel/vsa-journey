@@ -1,7 +1,6 @@
-using System.Data;
 using FluentValidation;
 
-namespace vsa_journey.Features.Authentication.Commands.VerifyAccount;
+namespace vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
 public class VerifyAccountCommandValiator : AbstractValidator<VerifyAccountCommand>
 {

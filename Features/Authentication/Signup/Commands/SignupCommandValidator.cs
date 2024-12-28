@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace vsa_journey.Features.Authentication.Commands.Signup;
+namespace vsa_journey.Features.Authentication.Signup.Commands;
 
 public class SignupCommandValidator : AbstractValidator<SignupCommand>
 {

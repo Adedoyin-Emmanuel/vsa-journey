@@ -1,8 +1,8 @@
-using FluentResults;
 using MediatR;
+using FluentResults;
 using vsa_journey.Domain.Constants;
 
-namespace vsa_journey.Features.Authentication.Commands.Signup;
+namespace vsa_journey.Features.Authentication.Signup.Commands;
 
 public sealed record SignupCommand :  IRequest<Result>
 {

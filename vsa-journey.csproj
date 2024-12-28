@@ -35,8 +35,8 @@
   <ItemGroup>
     <Folder Include="Application\Common\" />
     <Folder Include="Domain\Repositories\" />
-    <Folder Include="Features\Authentication\Queries\" />
-    <Folder Include="Features\Authentication\Repository\" />
+    <Folder Include="Features\Authentication\Login\Queries\" />
+    <Folder Include="Features\Authentication\Signup\Queries\" />
     <Folder Include="Features\Orders\Commands\" />
     <Folder Include="Features\Orders\Controller\" />
     <Folder Include="Features\Orders\Queries\" />

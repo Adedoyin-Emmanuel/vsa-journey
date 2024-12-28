@@ -1,8 +1,8 @@
 using MediatR;
 using FluentEmail.Core;
-using vsa_journey.Features.Authentication.Events.Signup;
+using vsa_journey.Features.Authentication.Signup.Events;
 
-namespace vsa_journey.Features.Authentication.EventHandlers.Signup;
+namespace vsa_journey.Features.Authentication.Signup.EventHandlers;
 
 public class SignupEventHandler : INotificationHandler<SignupEvent>
 {

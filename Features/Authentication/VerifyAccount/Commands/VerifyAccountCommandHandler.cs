@@ -4,7 +4,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
 
-namespace vsa_journey.Features.Authentication.Commands.VerifyAccount;
+namespace vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
 public class VerifyAccountCommandHandler : IRequestHandler<VerifyAccountCommand, Result>
 {
