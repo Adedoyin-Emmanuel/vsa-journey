@@ -5,5 +5,5 @@ namespace vsa_journey.Features.Users.Repository;
 
 public interface IUserRespository : IRepository<User>
 {
-    public Task<User> GetUserByUsernameAsync(string username);
+    public Task<User?> GetUserByUsernameAsync(string username);
 }

@@ -12,8 +12,9 @@ public class UserRepository : Repository<User>, IUserRespository
         
     }
 
-    public async Task<User> GetUserByUsernameAsync(string username)
+    public async Task<User?> GetUserByUsernameAsync(string username)
     {
-        throw new NotImplementedException();
+        return await _dbSet.FirstOrDefaultAsync(user => user.UserName == username);
+        
     }
 }

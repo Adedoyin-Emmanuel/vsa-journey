@@ -9,7 +9,7 @@ public class Repository<T> : IRepository<T> where T : class, IBase
 {
 
     private readonly AppDbContext _context;
-    private readonly DbSet<T> _dbSet;
+    protected readonly DbSet<T> _dbSet;
 
 
     public Repository(AppDbContext context, DbSet<T> dbSet)
