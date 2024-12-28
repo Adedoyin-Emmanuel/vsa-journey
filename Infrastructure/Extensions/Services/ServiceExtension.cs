@@ -73,7 +73,9 @@ public static class ServiceExtension
                 options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
             })
             .AddEntityFrameworkStores<AppDbContext>()
+            .AddTokenProvider<DataProtectorTokenProvider<User>>(nameof(TokenService))
             .AddDefaultTokenProviders();
+            
     }
 
     public static void AddAutoMapperAndMediatR(this IServiceCollection services)

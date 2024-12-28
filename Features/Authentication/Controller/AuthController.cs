@@ -3,7 +3,7 @@ using FluentResults;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
-using vsa_journey.Features.Authentication.Commands.Login;
+using vsa_journey.Features.Authentication.Login.Commands;
 using vsa_journey.Features.Authentication.Signup.Commands;
 using vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
