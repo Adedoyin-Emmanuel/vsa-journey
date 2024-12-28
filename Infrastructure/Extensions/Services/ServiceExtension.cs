@@ -39,8 +39,8 @@ public static class ServiceExtension
 
     public static void AddCustomAuthentication(this IServiceCollection services)
     {
-        services.AddCustomCookieAuthentication(services.BuildServiceProvider());
         services.AddJwtBearerAuthentication();
+        services.AddCustomCookieAuthentication(services.BuildServiceProvider());
         services.AddAuthorization(options => options.AddCustomPolicies());
     }
 
@@ -60,6 +60,7 @@ public static class ServiceExtension
 
     public static void AddIdentityServices(this IServiceCollection services)
     {
+        
         services.AddIdentity<User, IdentityRole<Guid>>(options =>
             {
                 options.User.RequireUniqueEmail = true;

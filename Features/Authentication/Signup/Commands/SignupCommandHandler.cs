@@ -44,7 +44,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         var newUser = _mapper.Map<User>(request);
 
         newUser.UserName = await _usernameGenerator.GenerateUsernameAsync(newUser.FirstName, newUser.LastName);
-
+        
         var isCreated = await _userManager.CreateAsync(newUser, request.Password);
 
         if (!isCreated.Succeeded)
