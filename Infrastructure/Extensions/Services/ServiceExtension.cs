@@ -14,6 +14,7 @@ using vsa_journey.Infrastructure.Middlewares;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
+using vsa_journey.Features.Users.Repository;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -24,6 +25,8 @@ public static class ServiceExtension
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IApiResponse, ApiResponse>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUserRespository, UserRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddScoped<IEventPublisher, EventPublisher>();

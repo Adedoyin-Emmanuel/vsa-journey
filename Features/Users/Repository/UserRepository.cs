@@ -7,9 +7,8 @@ namespace vsa_journey.Features.Users.Repository;
 
 public class UserRepository : Repository<User>, IUserRespository
 {
-    public UserRepository(AppDbContext context, DbSet<User> dbSet) : base(context, dbSet)
+    public UserRepository(AppDbContext context) : base(context)
     {
-        
     }
 
     public async Task<bool> GetUserByUsernameAsync(string username)

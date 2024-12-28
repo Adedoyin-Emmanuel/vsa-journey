@@ -31,6 +31,8 @@ public class VerifyAccountCommandHandler : IRequestHandler<VerifyAccountCommand,
             return Result.Fail("Invalid payload");
         }
         
+        _logger.LogInformation(request.VerificationCode);
+        
         var isVerified = await _userManager.ConfirmEmailAsync(user, request.VerificationCode);
 
         return !isVerified.Succeeded ? Result.Fail("Invalid payload") : Result.Ok().WithSuccess("Account verified successfully");

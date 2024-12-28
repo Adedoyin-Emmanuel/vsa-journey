@@ -7,29 +7,24 @@ namespace vsa_journey.Infrastructure.Repositories;
 
 public class Repository<T> : IRepository<T> where T : class, IBase
 {
-
     private readonly AppDbContext _context;
     protected readonly DbSet<T> _dbSet;
 
-
-    public Repository(AppDbContext context, DbSet<T> dbSet)
+    public Repository(AppDbContext context)
     {
         _context = context; 
-        _dbSet = dbSet; 
+        _dbSet = _context.Set<T>();
     }
     
     public async Task<T> AddAsync(T entity)
     {
-       var createdEntity = await _dbSet.AddAsync(entity);
-       
-       return createdEntity.Entity;
+        var createdEntity = await _dbSet.AddAsync(entity);
+        return createdEntity.Entity;
     }
 
     public async Task<T?> GetByIdAsync(Guid id)
     {
-        var entity = await _dbSet.FindAsync(id);
-
-        return entity;
+        return await _dbSet.FindAsync(id);
     }
 
     public async Task<PaginatedResult<T>> GetAllAsync(int skip, int take)
@@ -53,8 +48,7 @@ public class Repository<T> : IRepository<T> where T : class, IBase
 
     public async Task<T> UpdateAsync(T entity)
     {
-        var updatedEntity =   _dbSet.Update(entity);
-         
+        var updatedEntity = _dbSet.Update(entity);
         return updatedEntity.Entity;
     }
 
