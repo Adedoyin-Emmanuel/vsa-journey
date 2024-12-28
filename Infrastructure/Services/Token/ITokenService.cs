@@ -8,7 +8,7 @@ public interface ITokenService
     
     public Task<string> GenerateAndStoreRefreshTokenAsync(User user);
     
-    public Task<string> GetRefreshTokenAsync(User user);
+    public Task<string?> GetRefreshTokenAsync(User user);
     
     public Task<bool> VerifyRefreshTokenAsync(User user, string refreshToken);
     

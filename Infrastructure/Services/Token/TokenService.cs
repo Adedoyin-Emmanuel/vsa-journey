@@ -60,18 +60,21 @@ public class TokenService : ITokenService
        return refreshToken;
     }
 
-    public async Task<string> GetRefreshTokenAsync(User user)
+    public async Task<string?> GetRefreshTokenAsync(User user)
     {
-        throw new NotImplementedException();
+        return await _userManager.GetAuthenticationTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken);
     }
 
     public async Task<bool> VerifyRefreshTokenAsync(User user, string refreshToken)
     {
-        throw new NotImplementedException();
+        return await _userManager.VerifyUserTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken, refreshToken);
     }
 
     public async Task<bool> RevokeRefreshTokenAsync(User user)
     {
-        throw new NotImplementedException();
+        var result =
+            await _userManager.RemoveAuthenticationTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken);
+        
+        return result.Succeeded;
     }
 }
