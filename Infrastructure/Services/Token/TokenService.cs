@@ -96,16 +96,16 @@ public class TokenService : ITokenService
         if (validCustomToken == null) return false;
 
         var user = await _userManager.FindByIdAsync(validCustomToken.UserId.ToString());
-        
-        if (user == null) return false;
 
+        if (user == null) return false;
       
-        var result =
+        var removeAuthTokenResult =
             await _userManager.RemoveAuthenticationTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken);
 
-        if (!result.Succeeded) return false;
+        if (!removeAuthTokenResult.Succeeded) return false;
         
         validCustomToken.IsRevoked = true;
+        
         await _unitOfWork.SaveChangesAsync();
             
         return true;

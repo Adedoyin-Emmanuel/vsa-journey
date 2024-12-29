@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
 using vsa_journey.Features.Authentication.Login.Commands;
+using vsa_journey.Features.Authentication.Logout.Command;
 using vsa_journey.Features.Authentication.Signup.Commands;
 using vsa_journey.Features.Authentication.RefreshToken.Command;
 using vsa_journey.Features.Authentication.VerifyAccount.Commands;
@@ -66,9 +67,10 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("Logout")]
-    public async Task<IActionResult> Logout()
+    [Authorize]
+    public async Task<IActionResult> Logout(LogoutCommand command)
     {
-        return Ok();
+        return await HandleMediatorResult(_mediator.Send(command));
     }
 
     [HttpPost]
