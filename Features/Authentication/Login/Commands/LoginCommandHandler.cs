@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.Token;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
-using vsa_journey.Infrastructure.Services.Token;
+using vsa_journey.Infrastructure.Services.Jwt;
 
 namespace vsa_journey.Features.Authentication.Login.Commands;
 
@@ -12,14 +12,14 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<LoginRes
 {
     
     private readonly UserManager<User> _userManager;
-    private readonly ITokenService _tokenService;
+    private readonly IJwtService _jwtService;
     private readonly ITokenRepository _tokenRepository;
 
 
-    public LoginCommandHandler(UserManager<User> userManager, ITokenService tokenService, ITokenRepository tokenRepository)
+    public LoginCommandHandler(UserManager<User> userManager, IJwtService jwtService, ITokenRepository tokenRepository)
     {
         _userManager = userManager;
-        _tokenService = tokenService;
+        _jwtService = jwtService;
         _tokenRepository = tokenRepository;
     }
     public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -40,10 +40,10 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<LoginRes
 
         var validRefreshToken = await _tokenRepository.GetTokenByUserIdAsync(user.Id, TokenType.RefreshToken);
       
-        await _tokenService.RevokeRefreshTokenAsync(validRefreshToken?.Value!);
+        await _jwtService.RevokeRefreshTokenAsync(validRefreshToken?.Value!);
         
-        var accessToken = await _tokenService.GenerateAccessTokenAsync(user!);
-        var refreshToken = await _tokenService.GenerateAndStoreRefreshTokenAsync(user!);
+        var accessToken = await _jwtService.GenerateAccessTokenAsync(user!);
+        var refreshToken = await _jwtService.GenerateAndStoreRefreshTokenAsync(user!);
 
         var response = new LoginResponse
         {

@@ -3,20 +3,20 @@ using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
-using vsa_journey.Infrastructure.Services.Token;
+using vsa_journey.Infrastructure.Services.Jwt;
 
 namespace vsa_journey.Features.Authentication.RefreshToken.Command;
 
 public class RefreshTokenCommandHandler : IRequestHandler<RefreshAccessTokenCommand, Result<RefreshAccessTokenResponse>>
 {
-    private readonly ITokenService _tokenService;
+    private readonly IJwtService _jwtService;
     private readonly UserManager<User> _userManager;
     private readonly ITokenRepository _tokenRepository;
 
 
-    public RefreshTokenCommandHandler(ITokenService tokenService, UserManager<User> userManager, ITokenRepository tokenRepository)
+    public RefreshTokenCommandHandler(IJwtService jwtService, UserManager<User> userManager, ITokenRepository tokenRepository)
     {
-        _tokenService = tokenService;
+        _jwtService = jwtService;
         _userManager = userManager;
         _tokenRepository = tokenRepository;
     }
@@ -36,14 +36,14 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshAccessTokenComm
         
         var refreshToken = request.RefreshToken;
         
-        var isTokenValid = await _tokenService.VerifyRefreshTokenAsync(user, refreshToken);
+        var isTokenValid = await _jwtService.VerifyRefreshTokenAsync(user, refreshToken);
 
         if (!isTokenValid)
         {
             return Result.Fail("Unauthorized. Please login");
         }
 
-        var newAccessToken = await _tokenService.GenerateAccessTokenAsync(user);
+        var newAccessToken = await _jwtService.GenerateAccessTokenAsync(user);
 
         var response = new RefreshAccessTokenResponse
         {

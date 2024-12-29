@@ -1,18 +1,18 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
+using vsa_journey.Utils;
+using System.Security.Claims;
+using vsa_journey.Domain.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using vsa_journey.Domain.Constants;
-using vsa_journey.Domain.Entities.Token;
+using System.IdentityModel.Tokens.Jwt;
 using vsa_journey.Domain.Entities.User;
+using vsa_journey.Domain.Entities.Token;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
-using vsa_journey.Utils;
 
-namespace vsa_journey.Infrastructure.Services.Token;
+namespace vsa_journey.Infrastructure.Services.Jwt;
 
-public class TokenService : ITokenService
+public class JwtService : IJwtService
 {
 
     private readonly UserManager<User> _userManager;
@@ -20,7 +20,7 @@ public class TokenService : ITokenService
     private readonly IUnitOfWork _unitOfWork;
 
 
-    public TokenService(UserManager<User> userManager, ITokenRepository tokenRepository, IUnitOfWork unitOfWork)
+    public JwtService(UserManager<User> userManager, ITokenRepository tokenRepository, IUnitOfWork unitOfWork)
     {
         _userManager = userManager;
         _tokenRepository = tokenRepository;
@@ -61,10 +61,10 @@ public class TokenService : ITokenService
 
     public async Task<string> GenerateAndStoreRefreshTokenAsync(User user)
     {
-       await _userManager.RemoveAuthenticationTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken);
-       var refreshToken = await _userManager.GenerateUserTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken);
+       await _userManager.RemoveAuthenticationTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken);
+       var refreshToken = await _userManager.GenerateUserTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken);
 
-       var customRefreshToken = new Domain.Entities.Token.Token
+       var customRefreshToken = new Token
        {
             Value = refreshToken,
             UserId = user.Id,
@@ -72,7 +72,7 @@ public class TokenService : ITokenService
             ExpiresAt = DateTime.Now.AddDays(7)
        };
        await _tokenRepository.AddAsync(customRefreshToken);
-       await _userManager.SetAuthenticationTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken, refreshToken);
+       await _userManager.SetAuthenticationTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken, refreshToken);
        
        await _unitOfWork.SaveChangesAsync();
        
@@ -81,12 +81,12 @@ public class TokenService : ITokenService
 
     public async Task<string?> GetRefreshTokenAsync(User user)
     {
-        return await _userManager.GetAuthenticationTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken);
+        return await _userManager.GetAuthenticationTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken);
     }
 
     public async Task<bool> VerifyRefreshTokenAsync(User user, string refreshToken)
     {
-        return await _userManager.VerifyUserTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken, refreshToken);
+        return await _userManager.VerifyUserTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken, refreshToken);
     }
 
     public async Task<bool> RevokeRefreshTokenAsync(string refreshToken)
@@ -101,7 +101,7 @@ public class TokenService : ITokenService
         if (user == null) return false;
       
         var removeAuthTokenResult =
-            await _userManager.RemoveAuthenticationTokenAsync(user, nameof(TokenService), AuthToken.RefreshToken);
+            await _userManager.RemoveAuthenticationTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken);
 
         if (!removeAuthTokenResult.Succeeded) return false;
         

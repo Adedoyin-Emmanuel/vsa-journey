@@ -6,7 +6,7 @@ using vsa_journey.Domain.Entities.Token;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
-using vsa_journey.Infrastructure.Services.Token;
+using vsa_journey.Infrastructure.Services.Jwt;
 
 namespace vsa_journey.Features.Authentication.Logout.Command;
 
@@ -15,17 +15,17 @@ public class LogoutCommandHandler : IRequestHandler<LogoutCommand, Result<object
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<User> _userManager;
     private readonly ITokenRepository _tokenRepository;
-    private readonly ITokenService _tokenService;
+    private readonly IJwtService _jwtService;
     private readonly ILogger<LogoutCommandHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
 
 
-    public LogoutCommandHandler(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager, ITokenRepository tokenRepository, ITokenService tokenService, ILogger<LogoutCommandHandler> logger, IUnitOfWork unitOfWork)
+    public LogoutCommandHandler(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager, ITokenRepository tokenRepository, IJwtService jwtService, ILogger<LogoutCommandHandler> logger, IUnitOfWork unitOfWork)
     {
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
         _tokenRepository = tokenRepository;
-        _tokenService = tokenService;
+        _jwtService = jwtService;
         _logger = logger;
         _unitOfWork = unitOfWork;
     }
@@ -41,7 +41,7 @@ public class LogoutCommandHandler : IRequestHandler<LogoutCommand, Result<object
        
        if(token is null) return Result.Fail("Logout failed");
 
-       var revokeTokenResult = await _tokenService.RevokeRefreshTokenAsync(token.Value);
+       var revokeTokenResult = await _jwtService.RevokeRefreshTokenAsync(token.Value);
        
        return !revokeTokenResult ? Result.Fail("Logout failed") : Result.Ok().WithSuccess("Logout successful");
     }

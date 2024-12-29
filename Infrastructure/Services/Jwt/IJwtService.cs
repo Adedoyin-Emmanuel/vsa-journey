@@ -1,8 +1,8 @@
 using vsa_journey.Domain.Entities.User;
 
-namespace vsa_journey.Infrastructure.Services.Token;
+namespace vsa_journey.Infrastructure.Services.Jwt;
 
-public interface ITokenService 
+public interface IJwtService 
 {
     public Task<string> GenerateAccessTokenAsync(User user);
     

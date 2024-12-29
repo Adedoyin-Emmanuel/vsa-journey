@@ -13,10 +13,10 @@ using vsa_journey.Features.Users.Repository;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Middlewares;
 using vsa_journey.Infrastructure.Repositories;
-using vsa_journey.Infrastructure.Services.Token;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
+using vsa_journey.Infrastructure.Services.Jwt;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -34,7 +34,7 @@ public static class ServiceExtension
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddScoped<IEventPublisher, EventPublisher>();
         services.AddScoped<UsernameGenerator>();
-        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IJwtService, JwtService>();
         services.Configure<ApiBehaviorOptions>(options =>
         {
             options.SuppressModelStateInvalidFilter = true;
@@ -75,7 +75,7 @@ public static class ServiceExtension
                 options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
             })
             .AddEntityFrameworkStores<AppDbContext>()
-            .AddTokenProvider<DataProtectorTokenProvider<User>>(nameof(TokenService))
+            .AddTokenProvider<DataProtectorTokenProvider<User>>(nameof(JwtService))
             .AddDefaultTokenProviders();
         
         services.Configure<DataProtectionTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromDays(7));
