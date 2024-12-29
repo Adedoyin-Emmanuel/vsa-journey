@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddCustomServices();
     builder.Services.AddControllers();
-    builder.Services.AddSwaggerrAndApiVersioning();
+    builder.Services.AddSwaggerAndApiVersioning();
     builder.Services.AddPersistence();
     builder.Services.AddIdentityServices();
     builder.Services.AddCustomAuthentication();

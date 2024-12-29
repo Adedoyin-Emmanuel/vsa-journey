@@ -27,9 +27,15 @@ public class UserController: ControllerBase
 
     
     [HttpGet]
+    [Authorize]
     public IActionResult Get()
     {
-        return Ok();
+        var data = new List<string>
+        {
+            "temi",
+            "emma"
+        };
+        return Ok(_response.Success(data));
     }
 
     

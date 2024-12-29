@@ -13,10 +13,10 @@ using vsa_journey.Features.Users.Repository;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Middlewares;
 using vsa_journey.Infrastructure.Repositories;
+using vsa_journey.Infrastructure.Services.Token;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
-using vsa_journey.Infrastructure.Services.Token;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -43,13 +43,13 @@ public static class ServiceExtension
 
     public static void AddCustomAuthentication(this IServiceCollection services)
     {
-        services.AddJwtBearerAuthentication();
-        services.AddCustomCookieAuthentication(services.BuildServiceProvider());
+        services.AddJwtBearerAuthentication(services.BuildServiceProvider());
         services.AddAuthorization(options => options.AddCustomPolicies());
+        services.AddCustomCookieAuthentication(services.BuildServiceProvider());
     }
 
 
-    public static void AddSwaggerrAndApiVersioning(this IServiceCollection services)
+    public static void AddSwaggerAndApiVersioning(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
