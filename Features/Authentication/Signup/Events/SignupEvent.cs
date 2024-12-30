@@ -7,7 +7,6 @@ public class SignupEvent : INotification
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
-    
     public string VerificationCode { get; set; } 
 
     public SignupEvent(string firstName, string lastName, string email, string verificationCode)

@@ -12,9 +12,27 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
     private readonly UserManager<User> _userManager;
     private readonly IEventPublisher _eventPublisher;
     private readonly IValidator<ForgotPasswordCommand> _validator;
+    private readonly ILogger<ForgotPasswordCommandHandler> _logger;
+
+    public ForgotPasswordCommandHandler(UserManager<User> userManager, IEventPublisher eventPublisher, IValidator<ForgotPasswordCommand> validator, ILogger<ForgotPasswordCommandHandler> logger)
+    {
+        _userManager = userManager;
+        _eventPublisher = eventPublisher;
+        _validator = validator;
+        _logger = logger;
+    }
     
     public async Task<Result<object>> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+       await _validator.ValidateAsync(request, cancellationToken);
+
+       var user = await _userManager.FindByEmailAsync(request.Email);
+
+       if (user is null) return Result.Fail("Invalid request");
+
+       var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+       var eventBody = new { };
+       return Result.Ok().WithSuccess("An OTP has been sent to your email");
     }
 }

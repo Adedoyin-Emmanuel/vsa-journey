@@ -37,7 +37,6 @@
     <Folder Include="Application\Common\" />
     <Folder Include="Domain\Repositories\" />
     <Folder Include="Features\Authentication\ForgotPassword\EventsHandler\" />
-    <Folder Include="Features\Authentication\ForgotPassword\Events\" />
     <Folder Include="Features\Authentication\Login\Queries\" />
     <Folder Include="Features\Authentication\Signup\Queries\" />
     <Folder Include="Features\Orders\Commands\" />
