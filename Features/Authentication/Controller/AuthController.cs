@@ -9,6 +9,7 @@ using vsa_journey.Features.Authentication.Login.Commands;
 using vsa_journey.Features.Authentication.Logout.Command;
 using vsa_journey.Features.Authentication.Signup.Commands;
 using vsa_journey.Features.Authentication.RefreshToken.Command;
+using vsa_journey.Features.Authentication.ResetPassword.Commands;
 using vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
 namespace vsa_journey.Features.Authentication.Controller;
@@ -85,14 +86,10 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("Reset-Password")]
-    public async Task<IActionResult> ResetPassword()
+    public async Task<IActionResult> ResetPassword(ResetPasswordCommand command)
     {
-        return Ok();
+        return await HandleMediatorResult(_mediator.Send(command));
     }
-
- 
-
-
 
     private async Task<IActionResult> HandleMediatorResult<T>(Task<Result<T>> task)
     {
