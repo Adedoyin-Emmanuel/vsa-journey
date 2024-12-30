@@ -17,5 +17,6 @@ namespace vsa_journey.Utils;
      public static string SenderName => Environment.GetEnvironmentVariable("SENDER_NAME");
      public static string EmailHost => Environment.GetEnvironmentVariable("EMAIL_HOST");
      public static int EmailPort => int.Parse(Environment.GetEnvironmentVariable("EMAIL_PORT"));
+     public static string RedisConnectionString => Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING");
      
  }

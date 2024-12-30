@@ -39,6 +39,7 @@ public static class ServiceExtension
         {
             options.SuppressModelStateInvalidFilter = true;
         });
+        services.AddSingleton<JwtTokenCache>(provider => new JwtTokenCache(EnvConfig.RedisConnectionString));
     }
 
     public static void AddCustomAuthentication(this IServiceCollection services)

@@ -9,7 +9,7 @@ public class JwtTokenCache
     
     private readonly IConnectionMultiplexer _redis;
     private readonly IDatabase _db;
-    private const string JWT_PREFIX = "jwt";
+    private const string JwtPrefix = "jwt";
 
     public JwtTokenCache(string connectionString)
     {
@@ -19,7 +19,7 @@ public class JwtTokenCache
 
     public async Task StoreTokenAsync(string jti, string userId, TimeSpan expiresIn)
     {
-        var key = $"{JWT_PREFIX}{jti}";
+        var key = $"{JwtPrefix}{jti}";
         var hashFields = new HashEntry[]
         {
             new HashEntry("userId", userId),
@@ -33,13 +33,13 @@ public class JwtTokenCache
 
     public async Task<bool> IsValidToken(string jti)
     {
-        var key = $"{JWT_PREFIX}{jti}";
+        var key = $"{JwtPrefix}{jti}";
         return await _db.KeyExistsAsync(key);
     }
     
     public async Task<Dictionary<string, string>> GetTokenInfo(string jti)
     {
-        var key = $"{JWT_PREFIX}{jti}";
+        var key = $"{JwtPrefix}{jti}";
         var hashFields = await _db.HashGetAllAsync(key);
         
         return hashFields.ToDictionary(
@@ -50,14 +50,14 @@ public class JwtTokenCache
 
     public async Task InvalidateToken(string jti)
     {
-        var key = $"{JWT_PREFIX}{jti}";
+        var key = $"{JwtPrefix}{jti}";
         await _db.KeyDeleteAsync(key);
     }
 
     public async Task CleanExpiredTokens()
     {
         var server = _redis.GetServer(_redis.GetEndPoints().First());
-        var pattern = $"{JWT_PREFIX}*";
+        var pattern = $"{JwtPrefix}*";
         
         await foreach (var key in server.KeysAsync(pattern: pattern))
         {
