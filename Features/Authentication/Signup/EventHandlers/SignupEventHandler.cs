@@ -29,6 +29,6 @@ public class SignupEventHandler : INotificationHandler<SignupEvent>
             .To(notification.Email)
             .Subject("Email Verification")
             .Body(message)
-            .SendAsync();
+            .SendAsync(cancellationToken);
     }
 }
