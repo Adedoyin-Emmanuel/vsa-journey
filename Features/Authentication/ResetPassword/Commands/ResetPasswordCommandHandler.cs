@@ -26,9 +26,13 @@ public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand,
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user is null) return Result.Fail("Invalid payload");
+
+        var resetPasswordResult =
+            await _userManager.ResetPasswordAsync(user, request.PasswordResetCode, request.NewPassword);
+
+        if (resetPasswordResult.Succeeded) return Result.Ok().WithSuccess("Password reset successfully");
         
-        var resetPasswordResult = await _userManager.ResetPasswordAsync(user, request.PasswordResetCode, )
-
-
+        _logger.LogError($"Failed to reset password {resetPasswordResult.Errors.Select(e=> e.Description)}");
+        return Result.Fail("Failed to reset password");
     }
 }
