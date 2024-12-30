@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
+using vsa_journey.Features.Authentication.ForgotPassword.Events;
 using vsa_journey.Infrastructure.Events;
 
 namespace vsa_journey.Features.Authentication.ForgotPassword.Commads;
@@ -28,11 +29,14 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
 
        var user = await _userManager.FindByEmailAsync(request.Email);
 
-       if (user is null) return Result.Fail("Invalid request");
-
+       if (user is null || !user.EmailConfirmed) return Result.Fail("Invalid request");
+       
        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-       var eventBody = new { };
+       var eventBody = new ForgotPasswordEvent(user.FirstName, user.LastName, user.Email!, token);
+
+       await _eventPublisher.PublishAsync(eventBody);
+       
        return Result.Ok().WithSuccess("An OTP has been sent to your email");
     }
 }
