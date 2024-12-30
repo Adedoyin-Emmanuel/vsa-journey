@@ -18,13 +18,15 @@ public class JwtService : IJwtService
     private readonly UserManager<User> _userManager;
     private readonly ITokenRepository _tokenRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly JwtTokenCache _tokenCache;
 
 
-    public JwtService(UserManager<User> userManager, ITokenRepository tokenRepository, IUnitOfWork unitOfWork)
+    public JwtService(UserManager<User> userManager, ITokenRepository tokenRepository, IUnitOfWork unitOfWork, JwtTokenCache tokenCache)
     {
         _userManager = userManager;
         _tokenRepository = tokenRepository;
         _unitOfWork = unitOfWork;
+        _tokenCache = tokenCache;
     }
     
     
@@ -33,13 +35,14 @@ public class JwtService : IJwtService
         var key = EnvConfig.JwtSecret;
         var issuer = EnvConfig.ValidIssuer;
         var audience = EnvConfig.ValidAudience;
+        var jti = Guid.NewGuid().ToString();
 
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.UserName!),
             new Claim(ClaimTypes.Email, user.Email!),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Jti, jti)
         };
 
         var roles = await _userManager.GetRolesAsync(user);
@@ -47,18 +50,22 @@ public class JwtService : IJwtService
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+        var minuteConstant = 10;
+        var expiresIn = TimeSpan.FromMinutes(minuteConstant);
+        
         var tokenDescriptor = new JwtSecurityToken(
             issuer: issuer,
             audience: audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(15),
+            expires: DateTime.UtcNow.AddMinutes(minuteConstant),
             signingCredentials: credentials
         );
+
+        await _tokenCache.StoreTokenAsync(jti, user.Id.ToString(), expiresIn);
         
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
     }
-
+    
     public async Task<string> GenerateAndStoreRefreshTokenAsync(User user)
     {
        await _userManager.RemoveAuthenticationTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken);
@@ -71,6 +78,7 @@ public class JwtService : IJwtService
             Type = TokenType.RefreshToken,
             ExpiresAt = DateTime.Now.AddDays(7)
        };
+       
        await _tokenRepository.AddAsync(customRefreshToken);
        await _userManager.SetAuthenticationTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken, refreshToken);
        

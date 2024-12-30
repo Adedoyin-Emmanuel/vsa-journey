@@ -61,6 +61,7 @@ public class AuthController : ControllerBase
     [Route("Refresh")]
     public async Task<IActionResult> RefreshToken(RefreshAccessTokenCommand command)
     {
+        
         return await HandleMediatorResult(_mediator.Send(command));
     }
 

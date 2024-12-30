@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using vsa_journey.Utils;
 using Microsoft.IdentityModel.Tokens;
@@ -44,15 +45,19 @@ public static class AuthExtension
                     await context.Response.CompleteAsync();
                 },
                 
-                OnTokenValidated = context =>
+                OnTokenValidated = async context =>
                 {
-                    Console.WriteLine($"IsProduction: {EnvConfig.IsProduction}");
-                    Console.WriteLine($"ValidIssuer: {EnvConfig.ValidIssuer}");
-                    Console.WriteLine($"ValidAudience: {EnvConfig.ValidAudience}");
-                    Console.WriteLine($"JwtSecret: {EnvConfig.JwtSecret}");
+                    var jwtCache = context.HttpContext.RequestServices.GetRequiredService<JwtTokenCache>();
 
-                    Console.WriteLine("Token validated successfully.");
-                    return Task.CompletedTask;
+                    var jti = context?.Principal?.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)
+                        ?.Value;
+
+                    if (!await jwtCache.IsValidToken(jti))
+                    {
+                        context!.Fail("Invalid or expired token");
+                    }
+                    
+
                 },
                 OnAuthenticationFailed = context =>
                 {
