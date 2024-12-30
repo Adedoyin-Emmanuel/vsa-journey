@@ -1,27 +1,29 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using MediatR;
 using FluentResults;
+using FluentValidation;
+using vsa_journey.Utils;
 using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
-using vsa_journey.Infrastructure.Repositories.Shared.Token;
 using vsa_journey.Infrastructure.Services.Jwt;
-using vsa_journey.Utils;
+using vsa_journey.Infrastructure.Repositories.Shared.Token;
 
 namespace vsa_journey.Features.Authentication.RefreshToken.Command;
 
 public class RefreshTokenCommandHandler : IRequestHandler<RefreshAccessTokenCommand, Result<RefreshAccessTokenResponse>>
 {
     private readonly IJwtService _jwtService;
+    private readonly IValidator<RefreshAccessTokenCommand> _refreshTokenValidator;
     private readonly UserManager<User> _userManager;
     private readonly ITokenRepository _tokenRepository;
     private readonly JwtTokenCache _tokenCache;
     private readonly ILogger<RefreshTokenCommandHandler> _logger;
+    
 
 
-    public RefreshTokenCommandHandler(IJwtService jwtService, UserManager<User> userManager, ITokenRepository tokenRepository, ILogger<RefreshTokenCommandHandler> logger, JwtTokenCache tokenCache)
+    public RefreshTokenCommandHandler(IJwtService jwtService, UserManager<User> userManager, IValidator<RefreshAccessTokenCommand> validator, ITokenRepository tokenRepository, ILogger<RefreshTokenCommandHandler> logger, JwtTokenCache tokenCache)
     {
         _jwtService = jwtService;
+        _refreshTokenValidator = validator;
         _userManager = userManager;
         _tokenRepository = tokenRepository;
         _tokenCache = tokenCache;
@@ -30,6 +32,8 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshAccessTokenComm
 
     public async Task<Result<RefreshAccessTokenResponse>> Handle(RefreshAccessTokenCommand request, CancellationToken cancellationToken)
     {
+        
+        await _refreshTokenValidator.ValidateAndThrowAsync(request, cancellationToken);
         
         var refreshToken = request.RefreshToken;
         
