@@ -4,6 +4,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
+using vsa_journey.Features.Authentication.ForgotPassword.Commads;
 using vsa_journey.Features.Authentication.Login.Commands;
 using vsa_journey.Features.Authentication.Logout.Command;
 using vsa_journey.Features.Authentication.Signup.Commands;
@@ -77,9 +78,9 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("Forgot-Password")]
-    public async Task<IActionResult> ForgotPassword()
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordCommand command)
     {
-        return Ok();
+        return await HandleMediatorResult(_mediator.Send(command));
     }
 
     [HttpPost]
