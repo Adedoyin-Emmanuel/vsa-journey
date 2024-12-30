@@ -1,6 +1,4 @@
 using StackExchange.Redis;
-using NRedisStack;
-using NRedisStack.RedisStackCommands;
 
 namespace vsa_journey.Utils;
 
@@ -26,16 +24,45 @@ public class JwtTokenCache
             new HashEntry("createdAt", DateTime.UtcNow.ToString("O")),
             new HashEntry("expiresAt", DateTime.UtcNow.Add(expiresIn).ToString("O"))
         };
-        
+
         await _db.HashSetAsync(key, hashFields);
         await _db.KeyExpireAsync(key, expiresIn);
+
+        var userTokensKey = $"user:{userId}:tokens";
+        await _db.SetAddAsync(userTokensKey, key);
+        await _db.KeyExpireAsync(userTokensKey, expiresIn);
     }
 
-    public async Task<bool> IsValidToken(string jti)
+
+    private async Task<List<string>> GetTokensByUserIdAsync(string userId)
     {
-        var key = $"{JwtPrefix}{jti}";
-        return await _db.KeyExistsAsync(key);
+        var userTokensKey = $"user:{userId}:tokens";
+        var tokens = await _db.SetMembersAsync(userTokensKey);
+        return tokens.Select(x => x.ToString()).ToList();
     }
+
+    
+    public async Task RevokeAllTokensByUserIdAsync(string userId)
+    {
+        var userTokensKey = $"user:{userId}:tokens";
+        var tokens = await _db.SetMembersAsync(userTokensKey);
+
+        foreach (var tokenKey in tokens)
+        {
+            await _db.KeyDeleteAsync(new RedisKey(tokenKey));  
+        }
+
+        await _db.KeyDeleteAsync(userTokensKey);
+    }
+    
+
+    public async Task<bool> IsValidToken(string jti, string userId)
+    {
+        var userTokensKey = $"user:{userId}:tokens";
+        
+        return await _db.SetContainsAsync(userTokensKey, $"{JwtPrefix}{jti}");
+    }
+
     
     public async Task<Dictionary<string, string>> GetTokenInfo(string jti)
     {
@@ -54,6 +81,7 @@ public class JwtTokenCache
         await _db.KeyDeleteAsync(key);
     }
 
+   
     public async Task CleanExpiredTokens()
     {
         var server = _redis.GetServer(_redis.GetEndPoints().First());

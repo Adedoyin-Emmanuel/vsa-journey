@@ -5,6 +5,7 @@ using vsa_journey.Domain.Entities.Token;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
 using vsa_journey.Infrastructure.Services.Jwt;
+using vsa_journey.Utils;
 
 namespace vsa_journey.Features.Authentication.Login.Commands;
 
@@ -14,13 +15,15 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<LoginRes
     private readonly UserManager<User> _userManager;
     private readonly IJwtService _jwtService;
     private readonly ITokenRepository _tokenRepository;
+    private readonly JwtTokenCache _tokenCache;
+    private readonly ILogger<LoginCommandHandler> _logger;
 
-
-    public LoginCommandHandler(UserManager<User> userManager, IJwtService jwtService, ITokenRepository tokenRepository)
+    public LoginCommandHandler(UserManager<User> userManager, IJwtService jwtService, ITokenRepository tokenRepository, JwtTokenCache tokenCache, ILogger<LoginCommandHandler> logger)
     {
         _userManager = userManager;
         _jwtService = jwtService;
         _tokenRepository = tokenRepository;
+        _logger = logger;
     }
     public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {

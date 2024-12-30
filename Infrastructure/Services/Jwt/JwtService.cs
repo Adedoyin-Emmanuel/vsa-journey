@@ -61,6 +61,7 @@ public class JwtService : IJwtService
             signingCredentials: credentials
         );
 
+        await _tokenCache.RevokeAllTokensByUserIdAsync(user.Id.ToString());
         await _tokenCache.StoreTokenAsync(jti, user.Id.ToString(), expiresIn);
         
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
@@ -69,6 +70,7 @@ public class JwtService : IJwtService
     public async Task<string> GenerateAndStoreRefreshTokenAsync(User user)
     {
        await _userManager.RemoveAuthenticationTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken);
+       
        var refreshToken = await _userManager.GenerateUserTokenAsync(user, nameof(JwtService), AuthToken.RefreshToken);
 
        var customRefreshToken = new Token

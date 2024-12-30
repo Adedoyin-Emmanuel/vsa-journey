@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using vsa_journey.Utils;
 using Microsoft.IdentityModel.Tokens;
@@ -49,18 +50,23 @@ public static class AuthExtension
                 {
                     var jwtCache = context.HttpContext.RequestServices.GetRequiredService<JwtTokenCache>();
 
-                    var jti = context?.Principal?.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)
-                        ?.Value;
+                    var jti = context?.Principal?.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)?.Value;
+                    var userId = context?.Principal?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-                    Console.WriteLine($"JTI {jti}");
+                    Console.WriteLine($"JTI: {jti}, UserId: {userId}");
 
-                    if (!await jwtCache.IsValidToken(jti))
+                    if (string.IsNullOrEmpty(jti) || string.IsNullOrEmpty(userId))
                     {
-                        context!.Fail("Invalid or expired token");
+                        context.Fail("Invalid token: Missing required claims");
+                        return;
                     }
-                    
 
+                    if (!await jwtCache.IsValidToken(jti, userId))
+                    {
+                        context.Fail("Invalid or expired token");
+                    }
                 },
+
                 OnAuthenticationFailed = context =>
                 {
                     Console.WriteLine($"Authentication failed: {context.Exception.Message}");
