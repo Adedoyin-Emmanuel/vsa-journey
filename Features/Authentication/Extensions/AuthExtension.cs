@@ -52,6 +52,8 @@ public static class AuthExtension
                     var jti = context?.Principal?.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)
                         ?.Value;
 
+                    Console.WriteLine($"JTI {jti}");
+
                     if (!await jwtCache.IsValidToken(jti))
                     {
                         context!.Fail("Invalid or expired token");

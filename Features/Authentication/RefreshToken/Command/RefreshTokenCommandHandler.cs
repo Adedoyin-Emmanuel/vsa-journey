@@ -15,25 +15,47 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshAccessTokenComm
     private readonly IJwtService _jwtService;
     private readonly UserManager<User> _userManager;
     private readonly ITokenRepository _tokenRepository;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly JwtTokenCache _tokenCache;
+    private readonly ILogger<RefreshTokenCommandHandler> _logger;
 
 
-    public RefreshTokenCommandHandler(IJwtService jwtService, UserManager<User> userManager, ITokenRepository tokenRepository, IHttpContextAccessor httpContextAccessor, JwtTokenCache tokenCache)
+    public RefreshTokenCommandHandler(IJwtService jwtService, UserManager<User> userManager, ITokenRepository tokenRepository, ILogger<RefreshTokenCommandHandler> logger, JwtTokenCache tokenCache)
     {
         _jwtService = jwtService;
         _userManager = userManager;
         _tokenRepository = tokenRepository;
-        _httpContextAccessor = httpContextAccessor;
         _tokenCache = tokenCache;
+        _logger = logger;
     }
 
     public async Task<Result<RefreshAccessTokenResponse>> Handle(RefreshAccessTokenCommand request, CancellationToken cancellationToken)
     {
-        var validToken = await _tokenRepository.GetTokenByValueAsync(request.RefreshToken);
-        var jti = _httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Jti);
-        var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
         
+        var refreshToken = request.RefreshToken;
+        var accessToken = request.AccessToken;
+        
+        var tokenHandler = new JwtSecurityTokenHandler();
+        JwtSecurityToken? jwtToken = null;
+
+        try
+        {
+            jwtToken = tokenHandler.ReadJwtToken(accessToken);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return Result.Fail("Unauthorized. Please login");
+        }
+
+        var jti = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)?.Value;
+
+        if (string.IsNullOrEmpty(jti))
+        {
+            _logger.LogWarning("JIT claim was not found in JWT token");
+            return Result.Fail("Unauthorized. Please login");
+        }
+        
+        var validToken = await _tokenRepository.GetTokenByValueAsync(refreshToken);
         
         if (validToken is null) return Result.Fail("Invalid request. Please try again.");
         
@@ -41,10 +63,10 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshAccessTokenComm
 
         if (user == null)
         {
+            _logger.LogWarning("User was not found");
             return Result.Fail("Invalid request. Please try again");
         }
         
-        var refreshToken = request.RefreshToken;
         
         var isTokenValid = await _jwtService.VerifyRefreshTokenAsync(user, refreshToken);
 
@@ -52,6 +74,8 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshAccessTokenComm
         {
             return Result.Fail("Unauthorized. Please login");
         }
+        
+      
 
         await _jwtService.RevokeRefreshTokenAsync(refreshToken);
         await _tokenCache.InvalidateToken(jti!);

@@ -59,6 +59,7 @@ public class AuthController : ControllerBase
     
     [HttpPost]
     [Route("Refresh")]
+    
     public async Task<IActionResult> RefreshToken(RefreshAccessTokenCommand command)
     {
         
