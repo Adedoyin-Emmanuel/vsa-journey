@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Asp.Versioning;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
+using StackExchange.Redis;
 using vsa_journey.Application.Responses;
+using vsa_journey.Domain.Constants;
 using vsa_journey.Domain.Entities.Category;
 
 namespace vsa_journey.Features.Users;
@@ -27,7 +29,7 @@ public class UserController: ControllerBase
 
     
     [HttpGet]
-    [Authorize]
+    [Authorize(Roles=Roles.User)]
     public IActionResult Get()
     {
         var data = new List<string>

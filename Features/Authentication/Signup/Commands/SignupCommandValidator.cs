@@ -18,7 +18,10 @@ public class SignupCommandValidator : AbstractValidator<SignupCommand>
 
         RuleFor(command => command.LastName).NotEmpty().MaximumLength(20);
 
-        RuleFor(command => command.Role).NotEmpty().IsInEnum();
-        
+        RuleFor(command => command.Role)
+            .NotEmpty()
+            .IsInEnum()
+            .WithMessage("Role must be a valid value from auth role.");
+
     }
 }

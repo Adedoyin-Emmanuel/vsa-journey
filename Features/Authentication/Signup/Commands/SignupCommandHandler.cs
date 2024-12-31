@@ -40,6 +40,8 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         {
             return Result.Fail("Email already exists");
         }
+        
+        
 
         var newUser = _mapper.Map<User>(request);
 
@@ -49,6 +51,18 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
 
         if (!isCreated.Succeeded)
         {
+            return Result.Fail("An error occured while signing up");
+        }
+
+        var role = request.Role.ToString();
+        
+        _logger.LogInformation($"User role is {role}");
+        
+        var assignRoleResult = await _userManager.AddToRoleAsync(newUser, role);
+
+        if (!assignRoleResult.Succeeded)
+        {
+            _logger.LogInformation("An error occured while assigning role to user");
             return Result.Fail("An error occured while signing up");
         }
 
