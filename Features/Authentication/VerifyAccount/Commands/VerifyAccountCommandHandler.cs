@@ -31,7 +31,10 @@ public class VerifyAccountCommandHandler : IRequestHandler<VerifyAccountCommand,
             return Result.Fail("Invalid payload");
         }
         
-        _logger.LogInformation(request.VerificationCode);
+        if (user.EmailConfirmed)
+        {
+            return Result.Fail("Email is already confirmed");
+        }
         
         var isVerified = await _userManager.ConfirmEmailAsync(user, request.VerificationCode);
 
