@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace vsa_journey.Features.Authentication.Tokens;
 
