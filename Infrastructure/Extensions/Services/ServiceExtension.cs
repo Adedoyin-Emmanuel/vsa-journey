@@ -15,6 +15,7 @@ using vsa_journey.Infrastructure.Middlewares;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
+using vsa_journey.Features.Authentication.Tokens;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
 using vsa_journey.Infrastructure.Services.Jwt;
 
@@ -77,6 +78,8 @@ public static class ServiceExtension
                 options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
             })
             .AddEntityFrameworkStores<AppDbContext>()
+            .AddTokenProvider<CustomEmailConfirmationTokenProvider<User>>(nameof(CustomEmailConfirmationTokenProviderOptions))
+            .AddTokenProvider<CustomForgotPasswordTokenProvider<User>>(nameof(CustomForgotPasswordTokenProviderOptions))
             .AddTokenProvider<DataProtectorTokenProvider<User>>(nameof(JwtService))
             .AddDefaultTokenProviders();
         
