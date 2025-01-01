@@ -4,6 +4,7 @@ using FluentResults;
 using FluentValidation;
 using vsa_journey.Utils;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Infrastructure.Events;
 using vsa_journey.Features.Authentication.Signup.Events;
@@ -42,7 +43,6 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         }
         
         
-
         var newUser = _mapper.Map<User>(request);
 
         newUser.UserName = await _usernameGenerator.GenerateUsernameAsync(newUser.FirstName, newUser.LastName);
