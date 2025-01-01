@@ -8,6 +8,5 @@ public class CustomEmailConfirmationTokenProviderOptions : DataProtectionTokenPr
     {
         Name = nameof(CustomEmailConfirmationTokenProviderOptions);
         TokenLifespan = TimeSpan.FromDays(3);
-
     }   
 }
