@@ -29,7 +29,7 @@ public class UserController: ControllerBase
 
     
     [HttpGet]
-    [Authorize(Roles=Roles.User)]
+    [Authorize(Roles=Roles.Admin)]
     public IActionResult Get()
     {
         var data = new List<string>

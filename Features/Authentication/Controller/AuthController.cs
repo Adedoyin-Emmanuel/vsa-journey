@@ -1,14 +1,14 @@
 using MediatR;
 using FluentResults;
 using Asp.Versioning;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
-using vsa_journey.Features.Authentication.ForgotPassword.Commads;
+using Microsoft.AspNetCore.Authorization;
 using vsa_journey.Features.Authentication.Login.Commands;
 using vsa_journey.Features.Authentication.Logout.Command;
 using vsa_journey.Features.Authentication.Signup.Commands;
 using vsa_journey.Features.Authentication.RefreshToken.Command;
+using vsa_journey.Features.Authentication.ForgotPassword.Commads;
 using vsa_journey.Features.Authentication.ResetPassword.Commands;
 using vsa_journey.Features.Authentication.VerifyAccount.Commands;
 
