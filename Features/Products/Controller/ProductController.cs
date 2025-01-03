@@ -13,27 +13,23 @@ public class ProductController : ControllerBase
     private readonly IMediator _mediator;
     private readonly ILogger<ProductController> _logger;
     private readonly IApiResponse _apiResponse;
-    private readonly HttpContext _httpContext;
 
 
-    public ProductController(IMediator mediator, ILogger<ProductController> logger, IApiResponse apiResponse, HttpContext httpContext)
+    public ProductController(IMediator mediator, ILogger<ProductController> logger, IApiResponse apiResponse)
     {
         _mediator = mediator;
         _logger = logger;
         _apiResponse = apiResponse;
-        _httpContext = httpContext;
     }
 
     [HttpPost]
-    [Route("")]
-    public async Task<IActionResult> CreateProduct()
+        public async Task<IActionResult> CreateProduct()
     {
-        var requestPath = _httpContext.Request.Path.Value;
+        var requestPath = HttpContext.Request.Path.Value;
         return Created(requestPath,_apiResponse.Created());
     }
 
     [HttpGet]
-    [Route("")]
     public async Task<IActionResult> GetProducts()
     {
         return Ok(_apiResponse.Success());
