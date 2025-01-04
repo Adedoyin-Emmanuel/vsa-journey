@@ -42,7 +42,6 @@
     <Folder Include="Features\Orders\Controller\" />
     <Folder Include="Features\Orders\Queries\" />
     <Folder Include="Features\Orders\Repository\" />
-    <Folder Include="Features\Products\CreateProduct\" />
     <Folder Include="Tests\IETests\" />
     <Folder Include="Tests\UnitTests\" />
   </ItemGroup>

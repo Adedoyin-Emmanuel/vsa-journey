@@ -23,7 +23,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-        public async Task<IActionResult> CreateProduct()
+    public async Task<IActionResult> CreateProduct()
     {
         var requestPath = HttpContext.Request.Path.Value;
         return Created(requestPath,_apiResponse.Created());
