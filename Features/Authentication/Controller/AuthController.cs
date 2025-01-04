@@ -47,7 +47,7 @@ public class AuthController : ControllerBase
         
         var errors = createUserResult.Errors.Select(error => error.Message);
 
-        return BadRequest(_apiResponse.BadRequest( errors));
+        return BadRequest(_apiResponse.BadRequest(errors));
     }
     
     

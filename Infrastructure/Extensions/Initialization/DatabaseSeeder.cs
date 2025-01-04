@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Persistence.Seeders;
 
 namespace vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
@@ -11,6 +12,11 @@ public static class Seeder
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
         var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
         var logger = loggerFactory.CreateLogger("Seeder");
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        await context.Database.EnsureCreatedAsync();
+        
+        
 
         try
         {
