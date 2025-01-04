@@ -23,6 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
     var app = builder.Build();
 
     app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+    
     await app.UseSeedingAsync();
     
     if (app.Environment.IsDevelopment())

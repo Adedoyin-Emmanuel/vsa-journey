@@ -4,7 +4,7 @@ using vsa_journey.Infrastructure.Persistence.Seeders;
 
 namespace vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 
-public static class Seeder
+public static class DatabaseSeeder
 {
     public static async Task UseSeedingAsync(this IApplicationBuilder app)
     {

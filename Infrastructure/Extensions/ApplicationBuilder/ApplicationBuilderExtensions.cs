@@ -23,7 +23,7 @@ using vsa_journey.Infrastructure.Repositories.Shared.Token;
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
 
-public static class ServiceExtension
+public static class ApplicationBuilderExtensions
 {
     public static IServiceCollection  AddCustomServices(this IServiceCollection services)
     {
