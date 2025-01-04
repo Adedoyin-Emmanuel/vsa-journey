@@ -10,7 +10,7 @@ using vsa_journey.Features.Authentication.Signup.Events;
 
 namespace vsa_journey.Features.Authentication.Signup.Commands;
 
-public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result<object>>
+public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result<SignupResponse>>
 {
 
     private readonly IValidator<SignupCommand> _validator;
@@ -30,7 +30,7 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         _eventPublisher = eventPublisher;
         _usernameGenerator = usernameGenerator;
     }
-    public async Task<Result<object>> Handle(SignupCommand request, CancellationToken cancellationToken)
+    public async Task<Result<SignupResponse>> Handle(SignupCommand request, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
@@ -71,12 +71,11 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
         
         await _eventPublisher.PublishAsync(eventBody);
 
-        var success = new Success("Account created. Check your email for verification code.").WithMetadata(new Dictionary<string, object>
+        var signupResponse = new SignupResponse
         {
-            {"Location", $"/v1/user/{newUser.Id}"},
-            {"Code", StatusCodes.Status201Created}
-        });
+            Location = $"/v1/user/{newUser.Id}"
+        };
         
-        return Result.Ok().WithSuccess(success);
+       return Result.Ok(signupResponse).WithSuccess("Account created. Check your email for verification code.");
     }
 }

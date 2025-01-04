@@ -37,7 +37,7 @@ public class UserController: ControllerBase
             "temi",
             "emma"
         };
-        return Ok(_response.Success(data));
+        return Ok(_response.Ok(data));
     }
 
     

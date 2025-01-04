@@ -39,11 +39,18 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Signup(SignupCommand command)
     {
         var createUserResult = await _mediator.Send(command);
-
+        
         if (createUserResult.IsSuccess)
         {
-            
+            return Created(createUserResult.Value.Location,
+                _apiResponse.Created(message: createUserResult.Successes!.FirstOrDefault()?.Message));
         }
+        
+        var requestId = HttpContext.TraceIdentifier;
+        var errors = createUserResult.Errors.Select(error => error.Message);
+        var requestPath = HttpContext.Request.Path;
+
+        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
     }
     
     

@@ -33,7 +33,7 @@ public class ProductController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetProducts()
     {
-        return Ok(_apiResponse.Success());
+        return Ok(_apiResponse.Ok());
     }
 
 
@@ -41,21 +41,21 @@ public class ProductController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> GetProductById(Guid id)
     {
-        return Ok(_apiResponse.Success());
+        return Ok(_apiResponse.Ok());
     }
 
     [HttpPut]
     [Route("{id}")]
     public async Task<IActionResult> UpdateProduct(Guid id)
     {
-        return Ok(_apiResponse.Success());
+        return Ok(_apiResponse.Ok());
     }
 
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
-        return Ok(_apiResponse.Success());
+        return Ok(_apiResponse.Ok());
     }
 
     private async Task<IActionResult> HandleMediatorResult<T>(Task<Result<T>> task)
