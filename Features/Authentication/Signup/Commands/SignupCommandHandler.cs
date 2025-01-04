@@ -4,7 +4,6 @@ using FluentResults;
 using FluentValidation;
 using vsa_journey.Utils;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Infrastructure.Events;
 using vsa_journey.Features.Authentication.Signup.Events;
