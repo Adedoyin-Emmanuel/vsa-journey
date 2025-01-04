@@ -2,7 +2,7 @@ using Asp.Versioning;
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
 
-public static class ApiVersion
+public static class ApiVersionServiceExtension
 {
     public static IServiceCollection AddCustomApiVersion(this IServiceCollection services)
     {
