@@ -64,13 +64,17 @@ public class ProductController : ControllerBase
 
         if (result.IsSuccess)
         {
-            var successMessage = result.Successes.FirstOrDefault()?.Message ?? "Operation successful";
             var data = result.ValueOrDefault;
-            
-         //   return Ok(_apiResponse.)
+            var success = result.Successes.FirstOrDefault();
+            var message = success?.Message ?? "Operation successful";
 
+            return Ok(_apiResponse.Ok(data, message));
         }
+        
+        var requestPath = HttpContext.Request.Path.Value;
+        var requestId = HttpContext.TraceIdentifier;
+        var errors = result.Errors.Select(error => error.Message);
 
-        return Ok();
+        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
     }
 }
