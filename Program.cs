@@ -5,15 +5,17 @@ using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services.AddCustomServices();
-    builder.Services.AddControllers();
-    builder.Services.AddSwaggerAndApiVersioning();
-    builder.Services.AddPersistence();
-    builder.Services.AddIdentityServices();
-    builder.Services.AddCustomAuthentication();
-    builder.Services.AddAutoMapperAndMediatR();
-    builder.Services.AddFluentEmailAndSmtpSender();
-    builder.Services.AddHttpContextAccessor();
+    builder.Services
+        .AddCustomServices()
+        .AddSwaggerAndApiVersioning()
+        .AddPersistence()
+        .AddIdentityServices()
+        .AddCustomAuthentication()
+        .AddAutoMapperAndMediatR()
+        .AddFluentEmailAndSmtpSender()
+        .AddHttpContextAccessor()
+        .AddControllers();
+    
     builder.Host.AddCustomLogging();
 }
 

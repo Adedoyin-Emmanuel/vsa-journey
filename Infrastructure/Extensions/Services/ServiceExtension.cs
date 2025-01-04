@@ -25,7 +25,7 @@ namespace vsa_journey.Infrastructure.Extensions.Services;
 
 public static class ServiceExtension
 {
-    public static void AddCustomServices(this IServiceCollection services)
+    public static IServiceCollection  AddCustomServices(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IApiResponse, ApiResponse>();
@@ -43,30 +43,38 @@ public static class ServiceExtension
             options.SuppressModelStateInvalidFilter = true;
         });
         services.AddSingleton<JwtTokenCache>(provider => new JwtTokenCache(EnvConfig.RedisConnectionString));
+
+        return services;
     }
 
-    public static void AddCustomAuthentication(this IServiceCollection services)
+    public static IServiceCollection AddCustomAuthentication(this IServiceCollection services)
     {
         services.AddJwtBearerAuthentication(services.BuildServiceProvider());
         services.AddAuthorization(options => options.AddCustomPolicies());
         services.AddCustomCookieAuthentication(services.BuildServiceProvider());
+        
+        return services;
     }
 
 
-    public static void AddSwaggerAndApiVersioning(this IServiceCollection services)
+    public static IServiceCollection AddSwaggerAndApiVersioning(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddCustomApiVersion();
+        
+        return services;
     }
 
-    public static void AddPersistence(this IServiceCollection services)
+    public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         var mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 36));
         services.AddDbContext<AppDbContext>(options => options.UseMySql(EnvConfig.DatabaseUrl, mySqlServerVersion));
+        
+        return services;
     }
 
-    public static void AddIdentityServices(this IServiceCollection services)
+    public static IServiceCollection AddIdentityServices(this IServiceCollection services)
     {
         
         services.AddIdentity<User, IdentityRole<Guid>>(options =>
@@ -86,9 +94,11 @@ public static class ServiceExtension
             .AddDefaultTokenProviders();
         
         services.Configure<DataProtectionTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromDays(7));
+
+        return services;
     }
 
-    public static void AddAutoMapperAndMediatR(this IServiceCollection services)
+    public static IServiceCollection AddAutoMapperAndMediatR(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(Program).Assembly);
         
@@ -99,13 +109,15 @@ public static class ServiceExtension
         });
         services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
-        
+        return services;
     }
     
-    public static void AddFluentEmailAndSmtpSender(this IServiceCollection services)
+    public static IServiceCollection AddFluentEmailAndSmtpSender(this IServiceCollection services)
     {
         services.AddFluentEmail(EnvConfig.SenderEmail, EnvConfig.SenderName)
             .AddSmtpSender(EnvConfig.EmailHost, EnvConfig.EmailPort);
+
+        return services;
     }
     
 
