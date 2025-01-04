@@ -17,6 +17,7 @@ public static class DatabaseSeeder
         await context.Database.EnsureCreatedAsync();
         
         
+        
 
         try
         {
