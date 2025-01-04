@@ -61,29 +61,40 @@ public  class CategorySeeder
         };
 
 
-        foreach (var categoryName in allCategories)
+        var existingCategoryName = await _context.Categories
+            .Where(category => allCategories.Contains(category.Name))
+            .Select(category => category.Name)
+            .ToListAsync();
+
+
+        var newCategories = allCategories
+            .Where(category => !existingCategoryName.Contains(category))
+            .Select(category => new Category
+            {
+                Name = category,
+                Id = Guid.NewGuid(),
+            })
+            .ToList();
+
+
+        if (newCategories.Any())
         {
             try
             {
-                var existingCategory =
-                    await _context.Categories.FirstOrDefaultAsync(category => category.Name == categoryName);
-
-                if (existingCategory is not null) continue;
-                
-                var newCategory = new Category()
-                {
-                    Name = categoryName,
-                    Id = Guid.NewGuid(),
-                };
-                    
-                await _context.Categories.AddAsync(newCategory);
+                await _context.Categories.AddRangeAsync(newCategories);
                 await _unitOfWork.SaveChangesAsync();
+                
+                _logger.LogInformation($"{newCategories.Count} categories seeded successfully");
             }
             catch (Exception e)
             {
-                _logger.LogError(e, e.Message);
-                throw new Exception($"Could not create category {categoryName}");
+                _logger.LogError(e, "An error occured while seeding categories");
+                throw new Exception("An error occured while seeding categories", e);
             }
+        }
+        else
+        {
+            _logger.LogInformation($"No new categories to seed. All categories are already seeded!");
         }
     }
 }
