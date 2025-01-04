@@ -36,12 +36,8 @@
   <ItemGroup>
     <Folder Include="Application\Common\" />
     <Folder Include="Domain\Repositories\" />
-    <Folder Include="Features\Authentication\Login\Queries\" />
-    <Folder Include="Features\Authentication\Signup\Queries\" />
     <Folder Include="Features\Category\GetAllCategories\Query\" />
-    <Folder Include="Features\Orders\Commands\" />
     <Folder Include="Features\Orders\Controller\" />
-    <Folder Include="Features\Orders\Queries\" />
     <Folder Include="Features\Orders\Repository\" />
     <Folder Include="Tests\IETests\" />
     <Folder Include="Tests\UnitTests\" />
