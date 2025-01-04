@@ -14,11 +14,22 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     private readonly IMapper _mapper;
     private readonly ILogger<CreateProductCommandHandler> _logger;
     private readonly IProductRepository _productRepository;
-    
-    
-    
+
+
+    public CreateProductCommandHandler(IValidator<CreateProductCommand> validator, IEventPublisher eventPublisher, IMapper mapper, ILogger<CreateProductCommandHandler> logger, IProductRepository productRepository)
+    {
+        _validator = validator;
+        _eventPublisher = eventPublisher;
+        _mapper = mapper;
+        _logger = logger;
+        _productRepository = productRepository;
+    }
+
+
     public async Task<Result<object>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _validator.ValidateAndThrowAsync(request, cancellationToken);
+
+        return Result.Ok().WithSuccess("Product created successfully");
     }
 }

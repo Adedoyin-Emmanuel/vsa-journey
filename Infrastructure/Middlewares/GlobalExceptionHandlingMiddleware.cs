@@ -41,9 +41,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
             case ValidationException validationException:
                 context.Response.StatusCode = (int) StatusCodes.Status400BadRequest;
                 await context.Response.WriteAsJsonAsync(_apiResponse.BadRequest(
-                    requestId,
                     errors: validationException.Errors.Select(e => e.ErrorMessage),
-                    requestPath,
                     message: "One or more validation errors occurred"
                     ));
                 break;
@@ -54,9 +52,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
                 var error = exception.Message;
                 
                 await context.Response.WriteAsJsonAsync(_apiResponse.InternalServerError(
-                    requestId,
                     errors: null,
-                    requestPath,
                     message: EnvConfig.IsProduction ? "An unknown error occurred" : error
                 ));
 

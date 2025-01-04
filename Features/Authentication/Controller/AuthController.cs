@@ -39,18 +39,15 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Signup(SignupCommand command)
     {
         var createUserResult = await _mediator.Send(command);
-        
         if (createUserResult.IsSuccess)
         {
             return Created(createUserResult.Value.Location,
                 _apiResponse.Created(message: createUserResult.Successes!.FirstOrDefault()?.Message));
         }
         
-        var requestId = HttpContext.TraceIdentifier;
         var errors = createUserResult.Errors.Select(error => error.Message);
-        var requestPath = HttpContext.Request.Path;
 
-        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
+        return BadRequest(_apiResponse.BadRequest( errors));
     }
     
     
@@ -76,7 +73,6 @@ public class AuthController : ControllerBase
     
     public async Task<IActionResult> RefreshToken(RefreshAccessTokenCommand command)
     {
-        
         return await HandleMediatorResult(_mediator.Send(command));
     }
 
@@ -106,7 +102,6 @@ public class AuthController : ControllerBase
     private async Task<IActionResult> HandleMediatorResult<T>(Task<Result<T>> task)
     {
         var result = await task;
-    
         if (result.IsSuccess)
         {
             var success = result.Successes.FirstOrDefault();
@@ -115,12 +110,10 @@ public class AuthController : ControllerBase
 
             return Ok(_apiResponse.Ok(data, message));
         }
-
-        var requestId = HttpContext.TraceIdentifier;
+        
         var errors = result.Errors.Select(error => error.Message);
-        var requestPath = HttpContext.Request.Path;
 
-        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
+        return BadRequest(_apiResponse.BadRequest(errors));
     }
 
     

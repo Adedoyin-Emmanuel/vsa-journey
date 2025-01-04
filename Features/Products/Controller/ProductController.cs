@@ -3,6 +3,7 @@ using Asp.Versioning;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
+using vsa_journey.Features.Products.CreateProduct;
 
 namespace vsa_journey.Features.Products.Controller;
 
@@ -24,10 +25,18 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateProduct()
+    public async Task<IActionResult> CreateProduct(CreateProductCommand command)
     {
-        var requestPath = HttpContext.Request.Path.Value;
-        return Created(requestPath,_apiResponse.Created());
+        var createProductResult = await _mediator.Send(command);
+        if (createProductResult.IsSuccess)
+        {
+            return Created("",_apiResponse.Ok(message: createProductResult.Successes!.FirstOrDefault()!.Message,
+                data: createProductResult.ValueOrDefault));
+        }
+        
+        var errors = createProductResult.Errors.Select(error => error.Message);
+        
+        return BadRequest(_apiResponse.BadRequest(errors));
     }
 
     [HttpGet]
@@ -71,10 +80,8 @@ public class ProductController : ControllerBase
             return Ok(_apiResponse.Ok(data, message));
         }
         
-        var requestPath = HttpContext.Request.Path.Value;
-        var requestId = HttpContext.TraceIdentifier;
         var errors = result.Errors.Select(error => error.Message);
 
-        return BadRequest(_apiResponse.BadRequest(requestId, errors, requestPath));
+        return BadRequest(_apiResponse.BadRequest(errors));
     }
 }
