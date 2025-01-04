@@ -38,7 +38,12 @@ public class AuthController : ControllerBase
     [Route("Signup")]
     public async Task<IActionResult> Signup(SignupCommand command)
     {
-        return await HandleMediatorResult(_mediator.Send(command));
+        var createUserResult = await _mediator.Send(command);
+
+        if (createUserResult.IsSuccess)
+        {
+            
+        }
     }
     
     
@@ -97,10 +102,11 @@ public class AuthController : ControllerBase
     
         if (result.IsSuccess)
         {
-            var successMessage = result.Successes.FirstOrDefault()?.Message ?? "Operation successful";
+            var success = result.Successes.FirstOrDefault();
+            var message =  success?.Message ?? "Operation successful";
             var data = result.ValueOrDefault;
 
-            return Ok(_apiResponse.Success(message: successMessage, data: data));
+            return Ok(_apiResponse.Ok(data, message));
         }
 
         var requestId = HttpContext.TraceIdentifier;

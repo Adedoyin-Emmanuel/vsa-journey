@@ -43,7 +43,7 @@ public class ApiResponse : IApiResponse
 
     
     public object Created(object? data = null, string? message = "Resouce created successfully") => BaseResponse((int)StatusCodes.Status201Created, message, data);
-    public object Success(object? data = null, string message = "Operation successful") => BaseResponse((int)StatusCodes.Status200OK, message, data);
+    public object Ok(object? data = null, string message = "Operation successful") => BaseResponse((int)StatusCodes.Status200OK, message, data);
     public object BadRequest( string requestId, object? errors, string requestPath, string message = "Invalid request" ) =>  ValidationResponse((int)StatusCodes.Status400BadRequest, message, requestId, requestPath, errors);
     public object NotFound(string message = "Resource not found") => BaseResponse((int)StatusCodes.Status404NotFound, message);
     public object Unauthorized(string message = "Unauthorized. Please login") => BaseResponse((int)StatusCodes.Status401Unauthorized, message);

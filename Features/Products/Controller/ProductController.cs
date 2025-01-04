@@ -1,5 +1,6 @@
 using MediatR;
 using Asp.Versioning;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
 
@@ -55,5 +56,21 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
         return Ok(_apiResponse.Success());
+    }
+
+    private async Task<IActionResult> HandleMediatorResult<T>(Task<Result<T>> task)
+    {
+        var result = await task;
+
+        if (result.IsSuccess)
+        {
+            var successMessage = result.Successes.FirstOrDefault()?.Message ?? "Operation successful";
+            var data = result.ValueOrDefault;
+            
+         //   return Ok(_apiResponse.)
+
+        }
+
+        return Ok();
     }
 }

@@ -67,10 +67,16 @@ public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result
 
         var verificationCode = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
         
-        var eventBody = new SignupEvent(newUser.FirstName, newUser.LastName, newUser.Email, verificationCode);
+        var eventBody = new SignupEvent(newUser.FirstName, newUser.LastName, newUser!.Email, verificationCode);
         
         await _eventPublisher.PublishAsync(eventBody);
 
-        return Result.Ok().WithSuccess("Account created. Check your email for verification code.");
+        var success = new Success("Account created. Check your email for verification code.").WithMetadata(new Dictionary<string, object>
+        {
+            {"Location", $"/v1/user/{newUser.Id}"},
+            {"Code", StatusCodes.Status201Created}
+        });
+        
+        return Result.Ok().WithSuccess(success);
     }
 }
