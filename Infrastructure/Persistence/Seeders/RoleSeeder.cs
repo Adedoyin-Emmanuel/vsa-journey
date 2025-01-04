@@ -3,9 +3,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace vsa_journey.Infrastructure.Persistence.Seeders;
 
-public static class RoleSeeder
+public class RoleSeeder
 {
-    public static async Task SeedRolesAsync(RoleManager<IdentityRole<Guid>> roleManager)
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+
+    public RoleSeeder(RoleManager<IdentityRole<Guid>> roleManager)
+    {
+        _roleManager = roleManager;
+    }
+    public async Task SeedRolesAsync()
     {
         var roles = new List<string>
         {
@@ -17,11 +23,12 @@ public static class RoleSeeder
 
         foreach (var role in roles)
         {
-            var roleExist = await roleManager.RoleExistsAsync(role);
+            var roleExist = await _roleManager.RoleExistsAsync(role);
 
             if (roleExist) continue;
+            
             var newRole = new IdentityRole<Guid>(role);
-            await roleManager.CreateAsync(newRole);
+            await _roleManager.CreateAsync(newRole);
         }
     }
 }
