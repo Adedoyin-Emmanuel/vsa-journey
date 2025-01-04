@@ -13,11 +13,12 @@ using vsa_journey.Features.Users.Repository;
 using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Middlewares;
 using vsa_journey.Infrastructure.Repositories;
+using vsa_journey.Infrastructure.Services.Jwt;
+using vsa_journey.Features.Products.Repository;
+using vsa_journey.Features.Authentication.Tokens;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
-using vsa_journey.Features.Authentication.Tokens;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
-using vsa_journey.Infrastructure.Services.Jwt;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -31,6 +32,7 @@ public static class ServiceExtension
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IUserRespository, UserRepository>();
         services.AddScoped<ITokenRepository,TokenRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddScoped<IEventPublisher, EventPublisher>();
