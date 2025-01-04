@@ -22,7 +22,7 @@ public class DatabaseSeeder
 
     public async Task UseSeedingAsync()
     {
-        _dbContext.Database.EnsureCreatedAsync();
+        await _dbContext.Database.EnsureCreatedAsync();
         
         try
         {

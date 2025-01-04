@@ -23,8 +23,8 @@ var builder = WebApplication.CreateBuilder(args);
     var app = builder.Build();
 
     app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
-    
-    await app.UseSeedingAsync();
+
+    await app.SeedDatabaseAsync();
     
     if (app.Environment.IsDevelopment())
     {

@@ -18,6 +18,8 @@ using vsa_journey.Features.Products.Repository;
 using vsa_journey.Features.Authentication.Tokens;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
+using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
+using vsa_journey.Infrastructure.Persistence.Seeders;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
 
 
@@ -43,7 +45,7 @@ public static class ApplicationBuilderExtensions
             options.SuppressModelStateInvalidFilter = true;
         });
         services.AddSingleton<JwtTokenCache>(provider => new JwtTokenCache(EnvConfig.RedisConnectionString));
-
+        services.AddSeeders();
         return services;
     }
 
@@ -124,5 +126,23 @@ public static class ApplicationBuilderExtensions
     public static void AddCustomLogging(this IHostBuilder hostBuilder)
     {
         hostBuilder.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+    }
+
+    private static IServiceCollection AddSeeders(this IServiceCollection services)
+    {
+        services.AddScoped<DatabaseSeeder>();
+        services.AddScoped<RoleSeeder>();
+        services.AddScoped<CategorySeeder>();
+        
+        return services;
+    }
+
+    public static async Task SeedDatabaseAsync(this IApplicationBuilder app)
+    {
+        using (var scope = app.ApplicationServices.CreateScope())
+        {
+            var dbSeeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+            await dbSeeder.UseSeedingAsync();
+        }
     }
 }
