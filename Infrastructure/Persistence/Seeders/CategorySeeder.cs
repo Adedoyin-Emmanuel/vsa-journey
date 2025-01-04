@@ -1,13 +1,24 @@
+using vsa_journey.Domain.Entities.Category;
+
 namespace vsa_journey.Infrastructure.Persistence.Seeders;
 
-public static class CategorySeeder
+public  class CategorySeeder
 {
-    private readonly ILogger<CategorySeeder> _logger;
-    public static async Task SeedCategoriesAsync(AppDbContext context)
+
+    public CategorySeeder()
     {
-        if (!context.Categories.Any())
+        
+    }
+    public async Task SeedCategoriesAsync(AppDbContext context)
+    {
+        var categories  = new List<Category>
         {
+            new Category {Id  = new Guid(), Name = "Supplements and Vitamins" },
+            new Category {Id  = new Guid(), Name = "Medical Devices and Supplies" },
+            new Category {Id  = new Guid(), Name = "Personal Care and Hygiene" },
+            new Category{Id = new Guid(), Name = "First Aid and Emergency Care"},
             
         }
+        
     }
 }

@@ -2,7 +2,7 @@ namespace vsa_journey.Domain.Entities.Category;
 
 public class Category : IBase
 {
-    public Guid Id { get; private set; }
+    public Guid Id { get;  set; }
     
     public string Name { get; set; }
     

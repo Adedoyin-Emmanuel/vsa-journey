@@ -4,30 +4,45 @@ using vsa_journey.Infrastructure.Persistence.Seeders;
 
 namespace vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 
-public static class DatabaseSeeder
+public class DatabaseSeeder
 {
-    public static async Task UseSeedingAsync(this IApplicationBuilder app)
+    
+    private readonly RoleSeeder _roleSeeder;
+    private readonly AppDbContext _dbContext;
+    private readonly ILogger<DatabaseSeeder> _logger;
+
+    public DatabaseSeeder(RoleSeeder roleSeeder, AppDbContext dbContext, ILogger<DatabaseSeeder> logger)
     {
-        using var scope = app.ApplicationServices.CreateScope();
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-        var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-        var logger = loggerFactory.CreateLogger("Seeder");
-        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        _roleSeeder = roleSeeder;
+        _dbContext = dbContext;
+        _logger = logger;
+    }
 
-        await context.Database.EnsureCreatedAsync();
+    public async Task UseSeedingAsync()
+    {
+        _dbContext.Database.EnsureCreatedAsync();
         
-        
-        
-
         try
         {
-            logger.LogInformation("Starting Role Seeding");
-            await RoleSeeder.SeedRolesAsync(roleManager);
-            logger.LogInformation("Role Seeding Completed Successfully");
+            await SeedRolesAsync();
+            
+
         }
         catch (Exception e)
         {
-            logger.LogError($"An error occurred while seeding {nameof(RoleSeeder)} - {e}");
+            _logger.LogError($"An error occurred while seeding {e}");
         }
     }
+    
+    private async Task SeedRolesAsync()
+    {
+        if (!_dbContext.Roles.Any())
+        {
+            _logger.LogInformation("Starting Role Seeding");
+            await _roleSeeder.SeedRolesAsync();
+            _logger.LogInformation("Role Seeding Completed Successfully");
+        }
+    }
+    
+    
 }

@@ -13,6 +13,7 @@ public class RoleSeeder
     }
     public async Task SeedRolesAsync()
     {
+        
         var roles = new List<string>
         {
             Roles.SuperAdmin,
