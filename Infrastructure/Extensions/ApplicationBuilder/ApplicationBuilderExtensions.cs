@@ -18,6 +18,7 @@ using vsa_journey.Features.Products.Repository;
 using vsa_journey.Features.Authentication.Tokens;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
+using vsa_journey.Features.Category.GetAllCategories.Repository;
 using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 using vsa_journey.Infrastructure.Persistence.Seeders;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
@@ -35,6 +36,7 @@ public static class ApplicationBuilderExtensions
         services.AddScoped<IUserRespository, UserRepository>();
         services.AddScoped<ITokenRepository,TokenRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddScoped<IEventPublisher, EventPublisher>();
