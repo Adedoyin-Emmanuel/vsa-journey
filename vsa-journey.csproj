@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <Folder Include="Application\Common\" />
+    <Folder Include="Application\Data\Uploads\" />
     <Folder Include="Domain\Repositories\" />
     <Folder Include="Features\Orders\Controller\" />
     <Folder Include="Features\Orders\Repository\" />
