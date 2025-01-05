@@ -36,7 +36,6 @@
   <ItemGroup>
     <Folder Include="Application\Common\" />
     <Folder Include="Domain\Repositories\" />
-    <Folder Include="Features\Category\GetAllCategories\Query\" />
     <Folder Include="Features\Orders\Controller\" />
     <Folder Include="Features\Orders\Repository\" />
     <Folder Include="Tests\IETests\" />
