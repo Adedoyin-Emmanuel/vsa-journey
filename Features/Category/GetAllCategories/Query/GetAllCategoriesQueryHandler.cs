@@ -8,6 +8,7 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
 {
     
     private readonly IValidator<GetAllCategoriesQuery> validator;
+    
     public async Task<Result<object>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
