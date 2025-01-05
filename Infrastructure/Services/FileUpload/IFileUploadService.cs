@@ -1,8 +1,22 @@
+using FluentResults;
+
 namespace vsa_journey.Infrastructure.Services.FileUpload;
+
+public interface IUploadFileResult
+{
+    bool Success { get; set; }
+    string UploadUrl { get; set; }
+}
+
+public interface IUploadFilesResult
+{
+    bool Success { get; set; }
+    string UploadUrl { get; set; }
+}
 
 public interface IFileUploadService
 {
-    public (bool, string) UploadFile(IFormFile file);
+    public Result<IUploadFileResult> UploadFile(IFormFile file);
 
-    public (bool, string[]) UploadFiles(IFormFileCollection files);
+    public Result<IUploadFilesResult> UploadFiles(IFormFileCollection files);
 }
