@@ -29,7 +29,7 @@ public class CategoryController : ControllerBase
 
 
     [HttpGet]
-    public async Task<IActionResult> GetAllCategories(GetAllCategoriesQuery query)
+    public async Task<IActionResult> GetAllCategories([FromQuery] GetAllCategoriesQuery query)
     {
        return await HandleMediatorResult(_mediator.Send(query));
     }
