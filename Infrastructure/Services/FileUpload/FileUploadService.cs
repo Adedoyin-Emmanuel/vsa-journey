@@ -6,6 +6,9 @@ public class FileUploadService : IFileUploadService
 {
     private readonly ILogger<FileUploadService> _logger;
     private readonly List<string> _allowedExtensions = [".png", ".jpeg", ".gif", ".jpg", ".webp"];
+    private readonly int _maxFileSize = 5 * 1024 * 1024;
+    private readonly string _uploadRootPath = "/Application/Data/Uploads";
+    
 
     public FileUploadService(ILogger<FileUploadService> logger)
     {
@@ -27,10 +30,31 @@ public class FileUploadService : IFileUploadService
             return Result.Fail(failedMessage);
         }
 
+        long fileSize = file.Length;
+
+        if (fileSize > _maxFileSize)
+        {
+            return Result.Fail($"File size cannot be more than {_maxFileSize} bytes");
+        }
+        
 
         try
         {
-            var uploadPath = Path.Combine
+            string fileName = $"{Guid.NewGuid().ToString()}_{fileExtension}";
+            string fileDestination = Path.Combine(_uploadRootPath, fileName);
+
+            using (FileStream fileStream = new FileStream(fileDestination, FileMode.Create))
+            {
+                file.CopyTo(fileStream);
+            }
+            
+            _logger.LogInformation($"File {fileName} uploaded to {fileDestination}");
+            
+            var uploadedFileResult  = (IUploadFileResult) new
+            {
+                Success =  true,
+                UploadUrl = fileDestination
+            };
         }
         catch (Exception e)
         {
