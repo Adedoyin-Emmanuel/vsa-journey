@@ -72,6 +72,7 @@ public class FileUploadService : IFileUploadService
         }
 
         var uploadResults = new List<IUploadFileResult>();
+        var uploadedFilesPaths = new List<string>();
 
         foreach (var file in files)
         {
@@ -79,9 +80,15 @@ public class FileUploadService : IFileUploadService
             if (result.IsSuccess)
             {
                 uploadResults.Add(result.ValueOrDefault);
+
+                if (result.ValueOrDefault is IUploadFileResult uploadedFilesResult)
+                {
+                    uploadedFilesPaths.Add(uploadedFilesResult.UploadUrl);
+                }
             }
             else
             {
+                DeleteFiles(uploadedFilesPaths);
                 return Result.Fail(result.Errors);
             }
         }
@@ -97,5 +104,23 @@ public class FileUploadService : IFileUploadService
         }
         
         return Result.Ok();
+    }
+
+    private void DeleteFiles(IEnumerable<string> filePaths)
+    {
+        foreach (var path in filePaths)
+        {
+            try
+            {
+                if (!File.Exists(path)) continue;
+                File.Delete(path);
+                _logger.LogInformation($"File {path} deleted successfully");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An error occured while deleting files");
+            }
+            
+        }
     }
 }
