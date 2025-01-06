@@ -4,6 +4,7 @@ using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
 using vsa_journey.Features.Products.CreateProduct;
+using vsa_journey.Infrastructure.Services.FileUpload;
 
 namespace vsa_journey.Features.Products.Controller;
 
@@ -13,20 +14,25 @@ namespace vsa_journey.Features.Products.Controller;
 public class ProductController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly ILogger<ProductController> _logger;
     private readonly IApiResponse _apiResponse;
+    private readonly ILogger<ProductController> _logger;
+    private readonly IFileUploadService _fileUploadService;
 
 
-    public ProductController(IMediator mediator, ILogger<ProductController> logger, IApiResponse apiResponse)
+    public ProductController(IMediator mediator, ILogger<ProductController> logger, IApiResponse apiResponse, IFileUploadService fileUploadService)
     {
-        _mediator = mediator;
         _logger = logger;
+        _mediator = mediator;
         _apiResponse = apiResponse;
+        _fileUploadService = fileUploadService;
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateProduct(CreateProductCommand command)
+    public async Task<IActionResult> CreateProduct(CreateProductCommand command, IFormFileCollection files)
     {
+        var filesUploadResult = _fileUploadService.UploadFiles(files);
+        
+        
         var createProductResult = await _mediator.Send(command);
         if (createProductResult.IsSuccess)
         {

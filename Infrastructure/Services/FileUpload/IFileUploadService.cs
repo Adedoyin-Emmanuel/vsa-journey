@@ -5,7 +5,7 @@ namespace vsa_journey.Infrastructure.Services.FileUpload;
 
 public interface IFileUploadService
 {
-    public Result<IUploadFileResult> UploadFile(IFormFile file);
+    public Task<Result<IUploadFileResult>> UploadFileAsync(IFormFile file);
 
-    public Result<IUploadFilesResult> UploadFiles(IFormFileCollection files);
+    public Task<Result<IUploadFilesResult>> UploadFilesAsync(IFormFileCollection files);
 }

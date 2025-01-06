@@ -14,7 +14,7 @@ public class FileUploadService : IFileUploadService
     {
         _logger = logger;
     }
-    public Result<IUploadFileResult> UploadFile(IFormFile file)
+    public async Task<Result<IUploadFileResult>> UploadFileAsync(IFormFile file)
     {
         if (file == null || file.Length == 0)
         {
@@ -44,7 +44,7 @@ public class FileUploadService : IFileUploadService
 
             using (FileStream fileStream = new FileStream(fileDestination, FileMode.Create))
             {
-                file.CopyTo(fileStream);
+                await file.CopyToAsync(fileStream);
             }
             
             _logger.LogInformation($"File {fileName} uploaded to {fileDestination}");
@@ -64,7 +64,7 @@ public class FileUploadService : IFileUploadService
         }
     }
 
-    public Result<IUploadFilesResult> UploadFiles(IFormFileCollection files)
+    public async Task<Result<IUploadFilesResult>> UploadFilesAsync(IFormFileCollection files)
     {
         if (files == null || files.Count == 0)
         {
@@ -75,7 +75,7 @@ public class FileUploadService : IFileUploadService
 
         foreach (var file in files)
         {
-            var result = UploadFile(file);
+            var result = await UploadFileAsync(file);
             if (result.IsSuccess)
             {
                 uploadResults.Add(result.ValueOrDefault);
