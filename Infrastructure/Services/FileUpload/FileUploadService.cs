@@ -100,7 +100,7 @@ public class FileUploadService : IFileUploadService
     {
         if (!_allowedExtensions.Contains(extension))
         {
-            return Result.Fail($"Invalid file extension, {_allowedExtensions} are the valid file extensions");
+            return Result.Fail($"Invalid file extension. {string.Join(",", _allowedExtensions)} are the valid file extensions");
         }
         
         return Result.Ok();
