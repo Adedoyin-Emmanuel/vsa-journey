@@ -9,6 +9,5 @@ public interface IUploadFileResult
 
 public interface IUploadFilesResult
 {
-    bool Success { get; set; }
-    string UploadUrl { get; set; }
+   List<IUploadFileResult> UploadedFiles { get; }
 }

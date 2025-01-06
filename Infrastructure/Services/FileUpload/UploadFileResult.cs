@@ -8,6 +8,5 @@ public class UploadFileResult : IUploadFileResult
 
 public class UploadFilesResult : IUploadFilesResult
 {
-    public bool Success { get; set; }
-    public string UploadUrl { get; set; }
+    public List<IUploadFileResult> UploadedFiles { get; set; }
 }

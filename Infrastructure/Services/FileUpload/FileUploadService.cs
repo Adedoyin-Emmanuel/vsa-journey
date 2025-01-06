@@ -66,7 +66,27 @@ public class FileUploadService : IFileUploadService
 
     public Result<IUploadFilesResult> UploadFiles(IFormFileCollection files)
     {
-        throw new NotImplementedException();
+        if (files == null || files.Count == 0)
+        {
+            return Result.Fail<IUploadFilesResult>("File is null or empty");
+        }
+
+        var uploadResults = new List<IUploadFileResult>();
+
+        foreach (var file in files)
+        {
+            var result = UploadFile(file);
+            if (result.IsSuccess)
+            {
+                uploadResults.Add(result.ValueOrDefault);
+            }
+            else
+            {
+                return Result.Fail(result.Errors);
+            }
+        }
+
+        return Result.Ok<IUploadFilesResult>(new UploadFilesResult { UploadedFiles =  uploadResults});
     }
 
     private Result CheckExtension(string extension)
