@@ -36,7 +36,6 @@ public class FileUploadService : IFileUploadService
         {
             return Result.Fail($"File size cannot be more than {_maxFileSize} bytes");
         }
-        
 
         try
         {
@@ -49,20 +48,20 @@ public class FileUploadService : IFileUploadService
             }
             
             _logger.LogInformation($"File {fileName} uploaded to {fileDestination}");
-            
-            var uploadedFileResult  = (IUploadFileResult) new
+
+            var uploadedFileResult = new UploadFileResult
             {
-                Success =  true,
+                Success = true,
                 UploadUrl = fileDestination
             };
+
+            return Result.Ok<IUploadFileResult>(uploadedFileResult);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+           _logger.LogError(e, "An error occured while upload file");
+            return Result.Fail<IUploadFileResult>("An error occured while uploading file");
         }
-        
-
     }
 
     public Result<IUploadFilesResult> UploadFiles(IFormFileCollection files)
