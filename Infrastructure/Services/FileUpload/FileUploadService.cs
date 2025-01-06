@@ -7,7 +7,7 @@ public class FileUploadService : IFileUploadService
     private readonly ILogger<FileUploadService> _logger;
     private readonly List<string> _allowedExtensions = [".png", ".jpeg", ".gif", ".jpg", ".webp"];
     private readonly int _maxFileSize = 5 * 1024 * 1024;
-    private readonly string _uploadRootPath = "/Application/Data/Uploads";
+    private readonly string _uploadRootPath = "Application/Data/Uploads";
     
 
     public FileUploadService(ILogger<FileUploadService> logger)
@@ -68,7 +68,7 @@ public class FileUploadService : IFileUploadService
     {
         if (files == null || files.Count == 0)
         {
-            return Result.Fail<IUploadFilesResult>("File is null or empty");
+            return Result.Fail<IUploadFilesResult>("Files are null or empty");
         }
 
         var uploadResults = new List<IUploadFileResult>();

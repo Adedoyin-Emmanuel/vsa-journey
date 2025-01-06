@@ -8,4 +8,4 @@ public interface IFileUploadService
     public Task<Result<IUploadFileResult>> UploadFileAsync(IFormFile file);
 
     public Task<Result<IUploadFilesResult>> UploadFilesAsync(IFormFileCollection files);
-}
+} 
