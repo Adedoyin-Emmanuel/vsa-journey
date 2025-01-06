@@ -22,6 +22,7 @@ using vsa_journey.Features.Category.GetAllCategories.Repository;
 using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 using vsa_journey.Infrastructure.Persistence.Seeders;
 using vsa_journey.Infrastructure.Repositories.Shared.Token;
+using vsa_journey.Infrastructure.Services.FileUpload;
 
 
 namespace vsa_journey.Infrastructure.Extensions.Services;
@@ -37,6 +38,7 @@ public static class ApplicationBuilderExtensions
         services.AddScoped<ITokenRepository,TokenRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IFileUploadService, FileUploadService>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddScoped<IEventPublisher, EventPublisher>();
