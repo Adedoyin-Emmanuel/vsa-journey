@@ -1,12 +1,12 @@
-using MediatR;
 using AutoMapper;
 using FluentResults;
 using FluentValidation;
+using MediatR;
+using vsa_journey.Features.Products.Repository;
 using vsa_journey.Infrastructure.Events;
 using vsa_journey.Infrastructure.Repositories;
-using vsa_journey.Features.Products.Repository;
 
-namespace vsa_journey.Features.Products.CreateProduct;
+namespace vsa_journey.Features.Products.CreateProduct.Command;
 
 public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<object>>
 {

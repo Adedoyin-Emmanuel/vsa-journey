@@ -37,8 +37,6 @@ public class ProductController : ControllerBase
             var fileUploadResultErrors = filesUploadResult.Errors.Select(error => error.Message);
             return BadRequest(_apiResponse.BadRequest(fileUploadResultErrors));
         }
-
-        Console.WriteLine(filesUploadResult.Value);
         
         var createProductResult = await _mediator.Send(command);
         if (createProductResult.IsSuccess)
