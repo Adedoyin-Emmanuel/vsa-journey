@@ -1,9 +1,10 @@
 using FluentResults;
 using MediatR;
+using vsa_journey.Features.Products.CreateProduct.Command;
 
 namespace vsa_journey.Features.Products.CreateProduct;
 
-public sealed record CreateProductCommand : IRequest<Result<object>>
+public sealed record CreateProductCommand : IRequest<Result<CreateProductResponse>>
 {
     public string Name { get; set; }
     public string Description { get; set; }

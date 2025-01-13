@@ -1,17 +1,17 @@
-using AutoMapper;
-using FluentEmail.Core;
-using FluentResults;
-using FluentValidation;
 using MediatR;
-using vsa_journey.Domain.Entities.Product;
-using vsa_journey.Features.Products.Repository;
+using AutoMapper;
+using FluentResults;
+using FluentEmail.Core;
+using FluentValidation;
 using vsa_journey.Infrastructure.Events;
+using vsa_journey.Domain.Entities.Product;
 using vsa_journey.Infrastructure.Repositories;
+using vsa_journey.Features.Products.Repository;
 using vsa_journey.Infrastructure.Services.FileUpload;
 
 namespace vsa_journey.Features.Products.CreateProduct.Command;
 
-public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<object>>
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<CreateProductResponse>>
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
@@ -35,7 +35,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
     
 
-    public async Task<Result<object>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CreateProductResponse>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
@@ -57,11 +57,9 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         
         product.BaseImageUrl = baseImageUrl;
         product.Images = otherImagesUrl;
-
-
-        Console.WriteLine(product);
         
+        var createProductResponse = _mapper.Map<Product, CreateProductResponse>(product);
         
-        return Result.Ok(product).WithSuccess("Product created successfully");
+        return Result.Ok(createProductResponse).WithSuccess("Product created successfully");
     }
 }
