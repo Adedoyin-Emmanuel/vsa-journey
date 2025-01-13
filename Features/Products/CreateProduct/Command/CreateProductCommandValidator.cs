@@ -12,5 +12,6 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
         RuleFor(command => command.Tags).NotEmpty();
         RuleFor(command => command.Quantity).NotEmpty().GreaterThan(0);
         RuleFor(command => command.CategoryId).NotEmpty();
+        RuleFor(command => command.Files).NotEmpty();
     }
 }

@@ -13,4 +13,6 @@ public sealed record CreateProductCommand : IRequest<Result<object>>
     public ICollection<string> Tags { get; set; }
     public int Quantity { get; set; }
     public Guid CategoryId { get; set; }
+    
+    public IFormFileCollection Files { get; set; }
 }

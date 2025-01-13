@@ -28,20 +28,13 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateProduct([FromForm] CreateProductCommand command, IFormFileCollection files)
+    public async Task<IActionResult> CreateProduct([FromForm] CreateProductCommand command)
     {
-        var filesUploadResult = await _fileUploadService.UploadFilesAsync(files);
-
-        if (filesUploadResult.IsFailed)
-        {
-            var fileUploadResultErrors = filesUploadResult.Errors.Select(error => error.Message);
-            return BadRequest(_apiResponse.BadRequest(fileUploadResultErrors));
-        }
         
         var createProductResult = await _mediator.Send(command);
         if (createProductResult.IsSuccess)
         {
-            return Created("",_apiResponse.Ok(message: createProductResult.Successes!.FirstOrDefault()!.Message,
+            return Created("",_apiResponse.Created(message: createProductResult.Successes!.FirstOrDefault()!.Message,
                 data: createProductResult.ValueOrDefault));
         }
         

@@ -66,10 +66,10 @@ public class FileUploadService : IFileUploadService
 
     public async Task<Result<IUploadFilesResult>> UploadFilesAsync(IFormFileCollection files)
     {
-        if (files == null || files.Count == 0)
-        {
-            return Result.Fail<IUploadFilesResult>("Files are null or empty");
-        }
+        // if (files == null || files.Count == 0)
+        // {
+        //     return Result.Fail<IUploadFilesResult>("Files are null or empty");
+        // }
 
         var uploadResults = new List<IUploadFileResult>();
         var uploadedFilesPaths = new List<string>();
