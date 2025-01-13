@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentEmail.Core;
 using FluentResults;
 using FluentValidation;
 using MediatR;
@@ -44,6 +45,17 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             var fileUploadResultErrors = filesUploadResult.Errors.Select(error => error.Message);
             return Result.Fail(fileUploadResultErrors);
         }
+
+        var uploadedImagesUrl = filesUploadResult.ValueOrDefault.UploadedFiles;
+        var baseImageUrl = uploadedImagesUrl.First().UploadUrl;
+        var otherImagesUrl = uploadedImagesUrl.Skip(1).Select(images => images.UploadUrl)
+            .ToArray();
+
+
+        
+        
+        
+        
         
         
         return Result.Ok().WithSuccess("Product created successfully");
