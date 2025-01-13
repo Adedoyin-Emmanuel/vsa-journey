@@ -5,7 +5,7 @@ namespace vsa_journey.Domain.Entities.Product;
 public class Product : IBase
 {
     public Guid Id { get; private init; }
-    public string Name { get; private init; }
+    public string Name { get;  set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
 
