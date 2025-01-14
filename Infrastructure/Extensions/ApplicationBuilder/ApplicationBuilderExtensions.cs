@@ -1,31 +1,30 @@
-using MediatR;
 using Serilog;
+using MediatR;
 using FluentValidation;
 using vsa_journey.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using vsa_journey.Domain.Entities.User;
-using vsa_journey.Infrastructure.Events;
 using vsa_journey.Application.Responses;
+using vsa_journey.Infrastructure.Events;
 using vsa_journey.Application.Behaviours;
 using vsa_journey.Features.Users.Repository;
-using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Middlewares;
+using vsa_journey.Infrastructure.Persistence;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Infrastructure.Services.Jwt;
 using vsa_journey.Features.Products.Repository;
 using vsa_journey.Features.Authentication.Tokens;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Authentication.Extensions;
-using vsa_journey.Features.Category.GetAllCategories.Repository;
-using vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
+using vsa_journey.Infrastructure.Extensions.Services;
 using vsa_journey.Infrastructure.Persistence.Seeders;
-using vsa_journey.Infrastructure.Repositories.Shared.Token;
 using vsa_journey.Infrastructure.Services.FileUpload;
+using vsa_journey.Infrastructure.Repositories.Shared.Token;
+using vsa_journey.Features.Category.GetAllCategories.Repository;
 
-
-namespace vsa_journey.Infrastructure.Extensions.Services;
+namespace vsa_journey.Infrastructure.Extensions.ApplicationBuilder;
 
 public static class ApplicationBuilderExtensions
 {

@@ -1,8 +1,11 @@
 using MediatR;
 using Asp.Versioning;
 using FluentResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
+using vsa_journey.Domain.Constants;
+using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Products.CreateProduct;
 using vsa_journey.Infrastructure.Services.FileUpload;
 
@@ -27,6 +30,7 @@ public class ProductController : ControllerBase
         _fileUploadService = fileUploadService;
     }
 
+    [Authorize(Policy=PolicyNames.SuperAdminOrAdmin)]
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromForm] CreateProductCommand command)
     {

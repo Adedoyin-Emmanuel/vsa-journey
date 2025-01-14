@@ -1,7 +1,6 @@
 using MediatR;
 using AutoMapper;
 using FluentResults;
-using FluentEmail.Core;
 using FluentValidation;
 using vsa_journey.Infrastructure.Events;
 using vsa_journey.Domain.Entities.Product;
@@ -52,13 +51,16 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         var otherImagesUrl = uploadedImagesUrl.Skip(1).Select(images => images.UploadUrl)
             .ToArray();
 
-
         var product = _mapper.Map<CreateProductCommand, Product>(request);
         
         product.BaseImageUrl = baseImageUrl;
         product.Images = otherImagesUrl;
+
+        var createdProduct = await _productRepository.AddAsync(product);
+
+        await _unitOfWork.SaveChangesAsync();
         
-        var createProductResponse = _mapper.Map<Product, CreateProductResponse>(product);
+        var createProductResponse = _mapper.Map<Product, CreateProductResponse>(createdProduct);
         
         return Result.Ok(createProductResponse).WithSuccess("Product created successfully");
     }

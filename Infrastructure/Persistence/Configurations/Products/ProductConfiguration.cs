@@ -24,6 +24,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(product => product.BaseImageUrl).
             IsRequired();
+
+        builder.Property(product => product.Tags).IsRequired();
         
         builder.Property(product => product.Quantity)
             .IsRequired();

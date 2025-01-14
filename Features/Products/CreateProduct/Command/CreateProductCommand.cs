@@ -11,7 +11,7 @@ public sealed record CreateProductCommand : IRequest<Result<CreateProductRespons
     public decimal Price { get; set; }
     
     public bool ?IsPublished { get; set; } = true;
-    public ICollection<string> Tags { get; set; }
+    public List<string> Tags { get; set; }
     public int Quantity { get; set; }
     public Guid CategoryId { get; set; }
     

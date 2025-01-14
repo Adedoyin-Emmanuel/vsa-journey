@@ -1,10 +1,10 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using vsa_journey.Utils;
+using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
 using vsa_journey.Application.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace vsa_journey.Features.Authentication.Extensions;
 

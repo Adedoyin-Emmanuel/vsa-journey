@@ -16,7 +16,7 @@ public class Product : IBase
     
     public ICollection<string> Images { get; set; }
     
-    public ICollection<string> Tags { get; set; }
+    public List<string> Tags { get; set; }
     public Category.Category Category { get; set; }
     public Guid CategoryId { get; set; }
     public int Quantity { get; set; }
