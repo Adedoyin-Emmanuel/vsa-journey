@@ -1,6 +1,6 @@
+using MediatR;
 using FluentResults;
 using FluentValidation;
-using MediatR;
 using vsa_journey.Application.Common.PaginatedResult;
 using vsa_journey.Features.Category.GetAllCategories.Repository;
 

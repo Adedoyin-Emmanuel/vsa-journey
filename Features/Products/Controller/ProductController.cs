@@ -6,6 +6,7 @@ using vsa_journey.Application.Responses;
 using Microsoft.AspNetCore.Authorization;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Products.CreateProduct.Command;
+using vsa_journey.Features.Products.GetAllProducts.Query;
 
 namespace vsa_journey.Features.Products.Controller;
 
@@ -44,9 +45,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts([FromQuery] GetAllProductsQuery query)
     {
-        return Ok(_apiResponse.Ok());
+        return await HandleMediatorResult(_mediator.Send(query));
     }
 
 

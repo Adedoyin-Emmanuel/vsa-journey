@@ -6,6 +6,6 @@ public class GetAllCategoriesQueryValidator : AbstractValidator<GetAllCategories
 {
     public GetAllCategoriesQueryValidator()
     {
-        RuleFor(query => query.Take).GreaterThan(0).LessThanOrEqualTo(10);
+        RuleFor(query => query.Take).GreaterThan(0).LessThanOrEqualTo(100);
     }
 }
