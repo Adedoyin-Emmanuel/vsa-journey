@@ -1,14 +1,11 @@
 using MediatR;
 using Asp.Versioning;
 using FluentResults;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
-using vsa_journey.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
 using vsa_journey.Features.Authentication.Policies;
-using vsa_journey.Features.Products.CreateProduct;
 using vsa_journey.Features.Products.CreateProduct.Command;
-using vsa_journey.Infrastructure.Services.FileUpload;
 
 namespace vsa_journey.Features.Products.Controller;
 
@@ -20,15 +17,13 @@ public class ProductController : ControllerBase
     private readonly IMediator _mediator;
     private readonly IApiResponse _apiResponse;
     private readonly ILogger<ProductController> _logger;
-    private readonly IFileUploadService _fileUploadService;
 
 
-    public ProductController(IMediator mediator, ILogger<ProductController> logger, IApiResponse apiResponse, IFileUploadService fileUploadService)
+    public ProductController(IMediator mediator, ILogger<ProductController> logger, IApiResponse apiResponse)
     {
         _logger = logger;
         _mediator = mediator;
         _apiResponse = apiResponse;
-        _fileUploadService = fileUploadService;
     }
 
     [Authorize(Policy=PolicyNames.SuperAdminOrAdmin)]
