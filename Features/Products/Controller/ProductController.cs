@@ -7,6 +7,7 @@ using vsa_journey.Application.Responses;
 using vsa_journey.Domain.Constants;
 using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Products.CreateProduct;
+using vsa_journey.Features.Products.CreateProduct.Command;
 using vsa_journey.Infrastructure.Services.FileUpload;
 
 namespace vsa_journey.Features.Products.Controller;

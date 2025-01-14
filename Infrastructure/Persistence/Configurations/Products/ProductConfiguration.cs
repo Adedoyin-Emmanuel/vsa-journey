@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using vsa_journey.Domain.Entities.Product;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using vsa_journey.Domain.Entities.Category;
 
 namespace vsa_journey.Infrastructure.Persistence.Configurations.Products;
 

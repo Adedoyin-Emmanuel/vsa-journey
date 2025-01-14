@@ -180,7 +180,7 @@ namespace vsa_journey.Infrastructure.Persistence.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("vsa_journey.Domain.Entities.Order.Order", b =>
@@ -238,7 +238,7 @@ namespace vsa_journey.Infrastructure.Persistence.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("vsa_journey.Domain.Entities.Product.Product", b =>
@@ -300,7 +300,7 @@ namespace vsa_journey.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("vsa_journey.Domain.Entities.Token.Token", b =>
@@ -341,7 +341,7 @@ namespace vsa_journey.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Token");
+                    b.ToTable("Token", (string)null);
                 });
 
             modelBuilder.Entity("vsa_journey.Domain.Entities.User.User", b =>

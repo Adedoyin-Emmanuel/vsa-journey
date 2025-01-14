@@ -1,8 +1,7 @@
-using FluentResults;
 using MediatR;
-using vsa_journey.Features.Products.CreateProduct.Command;
+using FluentResults;
 
-namespace vsa_journey.Features.Products.CreateProduct;
+namespace vsa_journey.Features.Products.CreateProduct.Command;
 
 public sealed record CreateProductCommand : IRequest<Result<CreateProductResponse>>
 {
@@ -14,6 +13,5 @@ public sealed record CreateProductCommand : IRequest<Result<CreateProductRespons
     public List<string> Tags { get; set; }
     public int Quantity { get; set; }
     public Guid CategoryId { get; set; }
-    
     public IFormFileCollection Files { get; set; }
 }

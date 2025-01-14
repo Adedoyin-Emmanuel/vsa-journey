@@ -1,4 +1,5 @@
 using FluentValidation;
+using vsa_journey.Features.Products.CreateProduct.Command;
 
 namespace vsa_journey.Features.Products.CreateProduct;
 
