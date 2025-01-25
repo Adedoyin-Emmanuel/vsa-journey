@@ -10,7 +10,6 @@ public class Product : IBase
     public float Price { get; set; }
 
     public bool IsPublished { get; set; } = true;
-
     public ProductStatus Status { get; set; } = ProductStatus.Available;
     public string BaseImageUrl { get; set; }
     public List<string> Images { get; set; }
