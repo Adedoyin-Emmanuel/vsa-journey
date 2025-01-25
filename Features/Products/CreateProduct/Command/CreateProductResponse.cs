@@ -1,5 +1,3 @@
-using vsa_journey.Domain.Entities.Product;
-
 namespace vsa_journey.Features.Products.CreateProduct.Command;
 
 public record CreateProductResponse
