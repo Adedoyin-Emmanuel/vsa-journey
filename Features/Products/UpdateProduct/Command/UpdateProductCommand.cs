@@ -5,6 +5,7 @@ namespace vsa_journey.Features.Products.UpdateProduct.Command;
 
 public sealed record UpdateProductCommand : IRequest<Result<UpdateProductResponse>>
 {
+    public Guid Id { get; init; }
     public string? Name { get; init; }
     public string? Description { get; init; }
     public decimal? Price { get; init; }

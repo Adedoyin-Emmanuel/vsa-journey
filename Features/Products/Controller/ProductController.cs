@@ -8,6 +8,7 @@ using vsa_journey.Features.Authentication.Policies;
 using vsa_journey.Features.Products.CreateProduct.Command;
 using vsa_journey.Features.Products.GetAllProducts.Query;
 using vsa_journey.Features.Products.GetProductById.Query;
+using vsa_journey.Features.Products.UpdateProduct.Command;
 
 namespace vsa_journey.Features.Products.Controller;
 
@@ -75,9 +76,19 @@ public class ProductController : ControllerBase
 
     [HttpPut]
     [Route("{id:guid}")]
-    public async Task<IActionResult> UpdateProduct(Guid id)
+    public async Task<IActionResult> UpdateProduct([FromForm] UpdateProductCommand updateProductCommand, [FromRoute] Guid id)
     {
-        return Ok(_apiResponse.Ok());
+        var command = updateProductCommand with { Id = id };
+        
+        var updateProductResult = await _mediator.Send(command);
+
+        if (updateProductResult.IsFailed)
+        {
+            var errors = updateProductResult.Errors.Select(error => error.Message);
+            return NotFound(_apiResponse.NotFound(errors!.FirstOrDefault()));
+        }
+        
+        return Ok(_apiResponse.Ok(updateProductResult.ValueOrDefault));
     }
 
     [HttpDelete]

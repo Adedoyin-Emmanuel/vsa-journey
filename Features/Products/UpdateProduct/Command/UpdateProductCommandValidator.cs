@@ -6,11 +6,14 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 {
     public UpdateProductCommandValidator()
     {
-        RuleFor(command => command.Name).NotEmpty().MaximumLength(20);
-        RuleFor(command => command.Description).NotEmpty().MaximumLength(1500);
-        RuleFor(command => command.Price).NotEmpty();
-        RuleFor(command => command.Tags).NotEmpty();
-        RuleFor(command => command.Quantity).NotEmpty();
-        RuleFor(command => command.Files).NotEmpty();
+        RuleFor(command => command.Name).MaximumLength(20);
+        RuleFor(command => command.Description).MaximumLength(1500);
+        RuleFor(command => command.Price).GreaterThanOrEqualTo(0).When(command => command.Price.HasValue);
+        RuleFor(command => command.Tags)
+            .Must(tags => tags == null || tags.Any()).WithMessage("Tags must not be empty if provided."); 
+        RuleFor(command => command.Quantity)
+            .GreaterThanOrEqualTo(0).When(command => command.Quantity.HasValue);
+        RuleFor(command => command.Files)
+            .Must(files => files == null || files.Any()).WithMessage("Files must not be empty if provided.");
     }
 }

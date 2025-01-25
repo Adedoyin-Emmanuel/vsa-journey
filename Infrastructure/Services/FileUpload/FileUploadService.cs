@@ -88,7 +88,7 @@ public class FileUploadService : IFileUploadService
             }
             else
             {
-                DeleteFiles(uploadedFilesPaths);
+                CustomDeleteFiles(uploadedFilesPaths);
                 return Result.Fail(result.Errors);
             }
         }
@@ -106,21 +106,31 @@ public class FileUploadService : IFileUploadService
         return Result.Ok();
     }
 
-    private void DeleteFiles(IEnumerable<string> filePaths)
+
+    public Result DeleteFiles(IEnumerable<string> files)
+    {
+        try
+        {
+            CustomDeleteFiles(files);
+            return Result.Ok();
+        }
+        catch (Exception e)
+        {
+           _logger.LogError("An error occured while deleting file", e);
+           
+           return Result.Fail("An error occured while deleting files");
+        }
+    }
+    
+
+    private void CustomDeleteFiles(IEnumerable<string> filePaths)
     {
         foreach (var path in filePaths)
         {
-            try
-            {
-                if (!File.Exists(path)) continue;
-                File.Delete(path);
-                _logger.LogInformation($"File {path} deleted successfully");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "An error occured while deleting files");
-            }
+            if (!File.Exists(path)) continue;
             
+            File.Delete(path);
+            _logger.LogInformation($"File {path} deleted successfully");
         }
     }
 }
