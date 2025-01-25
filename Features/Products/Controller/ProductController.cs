@@ -70,7 +70,7 @@ public class ProductController : ControllerBase
             return NotFound(_apiResponse.NotFound(getProductByIdResult.Errors.FirstOrDefault()!.Message));
         }
         
-        return Ok(_apiResponse.Ok(getProductByIdResult));
+        return Ok(_apiResponse.Ok(getProductByIdResult.ValueOrDefault));
     }
 
     [HttpPut]

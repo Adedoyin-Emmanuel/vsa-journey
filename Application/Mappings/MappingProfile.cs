@@ -15,6 +15,7 @@ public class MappingProfile : Profile
         CreateMap<CreateProductCommand, Product>();
         CreateMap<Product, CreateProductResponse>().ForMember(dest => dest.Status,
             opt => opt.MapFrom(src => src.Status.ToString().ToLower()));
-        CreateMap<Product, GetProductByIdResponse>();
+        CreateMap<Product, GetProductByIdResponse>().ForMember(dest => dest.Status,
+            opt => opt.MapFrom(src => src.Status.ToString().ToLower()));
     }
 }

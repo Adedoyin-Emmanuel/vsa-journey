@@ -26,7 +26,6 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, R
 
         var allProducts = await _productRepository.GetAllAsync(request.Skip, request.Take);
 
-
         return Result.Ok(allProducts).WithSuccess("Products fetched successfully");
     }
 }
