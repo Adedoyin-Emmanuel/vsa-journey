@@ -1,12 +1,13 @@
+using MediatR;
 using FluentResults;
 using FluentValidation;
-using MediatR;
-using vsa_journey.Application.Common.PaginatedResult;
+using vsa_journey.Domain.Entities.Product;
 using vsa_journey.Features.Products.Repository;
+using vsa_journey.Application.Common.PaginatedResult;
 
 namespace vsa_journey.Features.Products.GetAllProducts.Query;
 
-public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, Result<PaginatedResult<object>>>
+public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, Result<PaginatedResult<Product>>>
 {
 
     private readonly IValidator<GetAllProductsQuery> _validator;
@@ -19,10 +20,13 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, R
         _productRepository = productRepository;
         _logger = logger;
     }
-    public async Task<Result<PaginatedResult<object>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedResult<Product>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        return Result.Ok();
+        var allProducts = await _productRepository.GetAllAsync(request.Skip, request.Take);
+
+
+        return Result.Ok(allProducts).WithSuccess("Products fetched successfully");
     }
 }

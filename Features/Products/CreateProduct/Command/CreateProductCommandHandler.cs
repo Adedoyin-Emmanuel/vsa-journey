@@ -54,7 +54,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         var product = _mapper.Map<CreateProductCommand, Product>(request);
         
         product.BaseImageUrl = baseImageUrl;
-        product.Images = otherImagesUrl;
+        product.Images = otherImagesUrl.ToList();
 
         var createdProduct = await _productRepository.AddAsync(product);
 

@@ -7,15 +7,13 @@ public class Product : IBase
     public Guid Id { get; private init; }
     public string Name { get;  set; }
     public string Description { get; set; }
-    public decimal Price { get; set; }
+    public float Price { get; set; }
 
     public bool IsPublished { get; set; } = true;
 
     public ProductStatus Status { get; set; } = ProductStatus.Available;
     public string BaseImageUrl { get; set; }
-    
-    public ICollection<string> Images { get; set; }
-    
+    public List<string> Images { get; set; }
     public List<string> Tags { get; set; }
     public Category.Category Category { get; set; }
     public Guid CategoryId { get; set; }
