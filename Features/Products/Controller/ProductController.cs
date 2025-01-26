@@ -1,13 +1,14 @@
 using MediatR;
-using Asp.Versioning;
 using FluentResults;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using vsa_journey.Application.Responses;
 using Microsoft.AspNetCore.Authorization;
 using vsa_journey.Features.Authentication.Policies;
-using vsa_journey.Features.Products.CreateProduct.Command;
 using vsa_journey.Features.Products.GetAllProducts.Query;
 using vsa_journey.Features.Products.GetProductById.Query;
+using vsa_journey.Features.Products.CreateProduct.Command;
+using vsa_journey.Features.Products.DeleteProduct.Command;
 using vsa_journey.Features.Products.UpdateProduct.Command;
 
 namespace vsa_journey.Features.Products.Controller;
@@ -88,14 +89,22 @@ public class ProductController : ControllerBase
             return NotFound(_apiResponse.NotFound(errors!.FirstOrDefault()));
         }
         
-        return Ok(_apiResponse.Ok(updateProductResult.ValueOrDefault));
+        return Ok(_apiResponse.Ok(message: updateProductResult?.Successes?.FirstOrDefault()!.Message));
     }
 
     [HttpDelete]
     [Route("{id:guid}")]
-    public async Task<IActionResult> DeleteProduct(Guid id)
+    public async Task<IActionResult> DeleteProduct([FromRoute] Guid id)
     {
-        return Ok(_apiResponse.Ok());
+        var deleteCommand = new DeleteProductCommand { Id = id };
+        var deleteProductResult = await _mediator.Send(deleteCommand);
+
+        if (!deleteProductResult.IsFailed) return Ok(_apiResponse.Ok(deleteProductResult?.Successes?.FirstOrDefault()!.Message));
+        
+        var errors = deleteProductResult.Errors.Select(errors => errors.Message);
+            
+        return NotFound(_apiResponse.NotFound(errors!.FirstOrDefault()));
+
     }
     
     

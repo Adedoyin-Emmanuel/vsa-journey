@@ -7,17 +7,17 @@ using vsa_journey.Features.Products.DeleteProduct.Event;
 
 namespace vsa_journey.Features.Products.DeleteProduct.Command;
 
-public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Result<object>>
+public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Result>
 {
 
     private readonly IUnitOfWork _unitOfWork;
     private readonly IEventPublisher _eventPublisher;
     private readonly IProductRepository _productRepository;
-    private readonly Logger<DeleteProductCommandHandler> _logger;
+    private readonly ILogger<DeleteProductCommandHandler> _logger;
     
 
 
-    public DeleteProductCommandHandler(IUnitOfWork unitOfWork, IProductRepository productRepository, Logger<DeleteProductCommandHandler> logger, IEventPublisher eventPublisher)
+    public DeleteProductCommandHandler(IUnitOfWork unitOfWork, IProductRepository productRepository, ILogger<DeleteProductCommandHandler> logger, IEventPublisher eventPublisher)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -25,7 +25,7 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand,
         _productRepository = productRepository;
     }
 
-    public async Task<Result<object>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
         var existingProduct = await _productRepository.GetByIdAsync(request.Id);
 
@@ -50,6 +50,6 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand,
 
        await _unitOfWork.SaveChangesAsync();
 
-       return Result.Ok("Product deleted successfully");
+       return Result.Ok().WithSuccess("Product deleted successfully");
     }
 }

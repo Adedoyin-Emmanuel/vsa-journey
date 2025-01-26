@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using vsa_journey.Domain.Entities.User;
 using vsa_journey.Infrastructure.Events;
 using vsa_journey.Features.Authentication.Signup.Events;
+using vsa_journey.Features.Authentication.Signup.Commands;
 
-namespace vsa_journey.Features.Authentication.Signup.Commands;
+namespace vsa_journey.Features.Authentication.Signup.Command;
 
 public sealed class SignupCommandHandler : IRequestHandler<SignupCommand, Result<SignupResponse>>
 {
