@@ -1,6 +1,5 @@
 using MediatR;
 using FluentResults;
-using Microsoft.AspNetCore.Http.HttpResults;
 using vsa_journey.Infrastructure.Events;
 using vsa_journey.Infrastructure.Repositories;
 using vsa_journey.Features.Products.Repository;
