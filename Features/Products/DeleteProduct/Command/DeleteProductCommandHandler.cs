@@ -1,7 +1,10 @@
-using FluentResults;
 using MediatR;
-using vsa_journey.Features.Products.Repository;
+using FluentResults;
+using Microsoft.AspNetCore.Http.HttpResults;
+using vsa_journey.Infrastructure.Events;
 using vsa_journey.Infrastructure.Repositories;
+using vsa_journey.Features.Products.Repository;
+using vsa_journey.Features.Products.DeleteProduct.Event;
 
 namespace vsa_journey.Features.Products.DeleteProduct.Command;
 
@@ -9,15 +12,18 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand,
 {
 
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IEventPublisher _eventPublisher;
     private readonly IProductRepository _productRepository;
     private readonly Logger<DeleteProductCommandHandler> _logger;
+    
 
 
-    public DeleteProductCommandHandler(IUnitOfWork unitOfWork, IProductRepository productRepository, Logger<DeleteProductCommandHandler> logger)
+    public DeleteProductCommandHandler(IUnitOfWork unitOfWork, IProductRepository productRepository, Logger<DeleteProductCommandHandler> logger, IEventPublisher eventPublisher)
     {
-        _unitOfWork = unitOfWork;
-        _productRepository = productRepository;
         _logger = logger;
+        _unitOfWork = unitOfWork;
+        _eventPublisher = eventPublisher;
+        _productRepository = productRepository;
     }
 
     public async Task<Result<object>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -33,7 +39,18 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand,
         var productImagesUrl = existingProduct.Images;
         
         productImagesUrl.Add(productBaseImageUrl);
-        
-        
+
+        var deleteProductEvent = new DeleteProductEvent
+        {
+            FilePaths = productImagesUrl
+        };
+
+       await _eventPublisher.PublishAsync(deleteProductEvent);
+
+       await _productRepository.DeleteAsync(existingProduct.Id);
+
+       await _unitOfWork.SaveChangesAsync();
+
+       return Result.Ok("Product deleted successfully");
     }
 }
